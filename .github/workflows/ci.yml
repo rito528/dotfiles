@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck
+        run: |
+          find . -name "*.sh" -type f | xargs shellcheck
+
+  test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)"
+
+      - name: Test chezmoi apply (dry-run)
+        env:
+          CI: true
+        run: |
+          chezmoi init --source="$GITHUB_WORKSPACE"
+          chezmoi apply --dry-run --verbose
+
+  docker-test:
+    name: Docker Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build and test in Docker
+        run: |
+          docker build -t dotfiles-test -f tests/Dockerfile .
