@@ -20,22 +20,6 @@ jobs:
         run: |
           find . -name "*.sh" -type f | xargs shellcheck
 
-  test:
-    name: Integration Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install chezmoi
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-
-      - name: Test chezmoi apply (dry-run)
-        env:
-          CI: true
-        run: |
-          chezmoi init --source="$GITHUB_WORKSPACE"
-          chezmoi apply --dry-run --verbose
-
   docker-test:
     name: Docker Integration Test
     runs-on: ubuntu-latest
