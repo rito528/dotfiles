@@ -26,5 +26,6 @@ ENV PATH="/home/testuser/bin:${PATH}"
 COPY --chown=testuser:testuser . /home/testuser/dotfiles
 
 # Run chezmoi
-RUN chezmoi init --source=/home/testuser/dotfiles && \
+RUN mkdir -p /home/testuser/.local/share && \
+    ln -s /home/testuser/dotfiles /home/testuser/.local/share/chezmoi && \
     chezmoi apply --dry-run --verbose
