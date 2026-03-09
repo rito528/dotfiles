@@ -1,5 +1,8 @@
 #!/bin/bash
 # Windows Toast Notification for Claude Code
+# WSL 環境でのみ動作する
+
+grep -qi microsoft /proc/version 2>/dev/null || exit 0
 
 powershell.exe -Command "
 [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null;
