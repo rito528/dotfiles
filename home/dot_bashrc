@@ -144,3 +144,8 @@ esac
 
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:$HOME/chezmoi/bin/"
+
+# opencode
+export PATH=/home/rito528/.opencode/bin:$PATH
+
+eval "$(starship init bash)"
