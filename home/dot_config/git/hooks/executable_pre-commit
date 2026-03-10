@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v secretlint &>/dev/null; then
+  echo "secretlint is not installed. Skipping secret check."
+  exit 0
+fi
+
+# ステージングされたファイルに対してスキャン
+git diff --cached --name-only --diff-filter=ACM | xargs secretlint --secretlintrc ~/.secretlintrc.json

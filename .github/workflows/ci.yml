@@ -20,6 +20,12 @@ jobs:
         run: |
           find . -name "*.sh" -type f | xargs shellcheck
 
+      - name: Install secretlint
+        run: npm install -g secretlint @secretlint/secretlint-rule-preset-recommend
+
+      - name: Run secretlint
+        run: secretlint --secretlintrc home/dot_secretlintrc.json "**/*"
+
   docker-test:
     name: Docker Integration Test
     runs-on: ubuntu-latest
