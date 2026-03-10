@@ -14,6 +14,9 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "==> Installing packages..."
 "$REPO_DIR/install/ubuntu/packages.sh"
 
+echo "==> Installing Nix..."
+"$REPO_DIR/install/common/nix.sh"
+
 echo "==> Installing chezmoi..."
 "$REPO_DIR/install/common/chezmoi.sh"
 
