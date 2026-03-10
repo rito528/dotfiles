@@ -129,8 +129,6 @@ command -v direnv &>/dev/null && eval "$(direnv hook bash)"
 alias delete-branches="git fetch -p && git branch --merged | grep -v '*' | xargs git branch -d"
 export GPG_TTY=$(tty)
 . "$HOME/.cargo/env"
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/home/rito528/.local/share/pnpm"
@@ -142,7 +140,6 @@ esac
 
 . "$HOME/.local/bin/env"
 
-export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:$HOME/chezmoi/bin/"
 
 # opencode
