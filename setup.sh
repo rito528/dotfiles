@@ -2,6 +2,11 @@
 # Dotfiles setup script
 # Usage: ./setup.sh
 
+# sh で実行された場合は bash で再実行する
+if [ -z "${BASH_VERSION:-}" ]; then
+    exec bash "$0" "$@"
+fi
+
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
