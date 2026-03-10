@@ -8,7 +8,6 @@ PACKAGES=(
     git
     curl
     wget
-    gpg
     build-essential
 )
 
