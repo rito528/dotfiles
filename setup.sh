@@ -27,4 +27,13 @@ chezmoi apply
 echo "==> Applying home-manager configuration..."
 "$REPO_DIR/install/common/home-manager.sh"
 
+echo "==> Importing GPG keys..."
+"$REPO_DIR/install/common/import_gpg.sh"
+
+echo "==> Importing SSH keys..."
+"$REPO_DIR/install/common/import_ssh_key.sh"
+
+echo "Start Nix store gc to remove old keys..."
+nix store gc
+
 echo "Setup complete."
