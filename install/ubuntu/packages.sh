@@ -9,8 +9,6 @@ PACKAGES=(
     curl
     wget
     gpg
-    jq
-    direnv
     build-essential
 )
 

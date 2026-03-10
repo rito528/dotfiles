@@ -125,7 +125,7 @@ switch-branch-with-refresh() {
 }
 
 export GPG_TTY=$(tty)
-eval "$(direnv hook bash)"
+command -v direnv &>/dev/null && eval "$(direnv hook bash)"
 alias delete-branches="git fetch -p && git branch --merged | grep -v '*' | xargs git branch -d"
 export GPG_TTY=$(tty)
 . "$HOME/.cargo/env"
@@ -153,4 +153,4 @@ if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-eval "$(starship init bash)"
+command -v starship &>/dev/null && eval "$(starship init bash)"
