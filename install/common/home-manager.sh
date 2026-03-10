@@ -13,7 +13,7 @@ fi
 FLAKE_PATH="$HOME/.config/home-manager"
 
 if command -v home-manager &>/dev/null; then
-    home-manager switch --flake "$FLAKE_PATH"
+    home-manager switch --flake "$FLAKE_PATH" --impure
 else
     nix run nixpkgs#home-manager -- switch --flake "$FLAKE_PATH" --impure
 fi
