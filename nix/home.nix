@@ -10,6 +10,8 @@
     starship
     nixfmt-rfc-style
     doppler
+    gh
+    ripgrep
   ];
 
   programs.gpg.enable = true;
