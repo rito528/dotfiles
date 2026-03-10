@@ -148,4 +148,9 @@ export PATH="$PATH:$HOME/chezmoi/bin/"
 # opencode
 export PATH=/home/rito528/.opencode/bin:$PATH
 
+# Nix
+if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
 eval "$(starship init bash)"
