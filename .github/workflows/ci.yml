@@ -32,6 +32,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: DeterminateSystems/nix-installer-action@v16
+      - name: Check nixfmt formatting
+        run: |
+          find home/dot_config/home-manager -name "*.nix" -type f | \
+            xargs nix run nixpkgs#nixfmt-rfc-style -- --check
       - run: nix flake check --impure ./home/dot_config/home-manager
 
   docker-test:
