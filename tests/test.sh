@@ -10,4 +10,4 @@ REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 echo "Building test Docker image..."
 docker build -t dotfiles-test -f "$SCRIPT_DIR/Dockerfile" "$REPO_ROOT"
 
-echo "Test passed: chezmoi apply --dry-run succeeded"
+echo "Test passed: home-manager build succeeded"

@@ -140,8 +140,6 @@ esac
 
 . "$HOME/.local/bin/env"
 
-export PATH="$PATH:$HOME/chezmoi/bin/"
-
 # opencode
 export PATH=/home/rito528/.opencode/bin:$PATH
 
