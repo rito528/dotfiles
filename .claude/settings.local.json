@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x /home/rito528/programming/dotfiles/install/common/nix.sh)"
+    ]
+  }
+}
