@@ -55,7 +55,10 @@
     };
   };
 
-  home.file.".bashrc".source = ../config/bashrc;
+  home.file.".bashrc" = {
+    source = ../config/bashrc;
+    force = true;
+  };
   home.file.".bash_profile".source = ../config/bash_profile;
 
   home.file.".config/Code/User/settings.json".source = ../config/vscode/settings.json;
@@ -71,6 +74,8 @@
     source = ../config/claude;
     recursive = true;
   };
+
+  xdg.configFile."git/ignore".force = true;
 
   programs.home-manager.enable = true;
 }
