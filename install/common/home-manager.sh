@@ -10,7 +10,8 @@ if [ -e "$NIX_PROFILE" ] && ! command -v nix &>/dev/null; then
     . "$NIX_PROFILE"
 fi
 
-FLAKE_PATH="$HOME/.config/home-manager"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+FLAKE_PATH="$REPO_DIR/nix"
 
 if command -v home-manager &>/dev/null; then
     home-manager switch --flake "$FLAKE_PATH" --impure

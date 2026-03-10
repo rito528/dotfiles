@@ -17,15 +17,14 @@ echo "==> Installing packages..."
 echo "==> Installing Nix..."
 "$REPO_DIR/install/common/nix.sh"
 
-echo "==> Installing chezmoi..."
-"$REPO_DIR/install/common/chezmoi.sh"
-
-echo "==> Applying dotfiles..."
-chezmoi init --source="$REPO_DIR"
-chezmoi apply
-
 echo "==> Applying home-manager configuration..."
 "$REPO_DIR/install/common/home-manager.sh"
+
+echo "==> Check Doppler login..."
+if ! doppler whoami &> /dev/null; then
+    echo "Wait for Doppler login..."
+    doppler login
+fi
 
 echo "==> Importing GPG keys..."
 "$REPO_DIR/install/common/import_gpg.sh"

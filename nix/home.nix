@@ -1,0 +1,76 @@
+{ pkgs, ... }:
+{
+  home.username = builtins.getEnv "USER";
+  home.homeDirectory = builtins.getEnv "HOME";
+  home.stateVersion = "24.11";
+
+  home.packages = with pkgs; [
+    jq
+    direnv
+    starship
+    nixfmt-rfc-style
+    doppler
+  ];
+
+  programs.gpg.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    pinentry.package = pkgs.pinentry-curses;
+    extraConfig = "allow-loopback-pinentry";
+  };
+
+  programs.git = {
+    enable = true;
+    signing = {
+      key = "F4022307254812F8";
+      signByDefault = true;
+    };
+    ignores = [
+      ".idea/"
+      ".vscode/"
+      ".env"
+      ".env.local"
+    ];
+    settings = {
+      user = {
+        name = "rito528";
+        email = "39003544+rito528@users.noreply.github.com";
+      };
+      gpg.program = "gpg";
+      init.defaultBranch = "main";
+      core = {
+        editor = "vim";
+        hooksPath = "~/.config/git/hooks";
+      };
+      "credential \"https://github.com\"".helper = [
+        ""
+        "!/usr/bin/gh auth git-credential"
+      ];
+      "credential \"https://gist.github.com\"".helper = [
+        ""
+        "!/usr/bin/gh auth git-credential"
+      ];
+      push.autoSetupRemote = true;
+    };
+  };
+
+  home.file.".bashrc".source = ../config/bashrc;
+  home.file.".bash_profile".source = ../config/bash_profile;
+
+  home.file.".config/Code/User/settings.json".source = ../config/vscode/settings.json;
+
+  home.file.".config/git/hooks/pre-commit" = {
+    source = ../config/git/hooks/pre-commit;
+    executable = true;
+  };
+
+  home.file.".secretlintrc.json".source = ../config/secretlintrc.json;
+
+  home.file.".claude" = {
+    source = ../config/claude;
+    recursive = true;
+  };
+
+  programs.home-manager.enable = true;
+}
