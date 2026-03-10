@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chmod +x /home/rito528/programming/dotfiles/install/common/nix.sh)"
+      "Bash(chmod +x /home/rito528/programming/dotfiles/install/common/nix.sh)",
+      "Bash(bash tests/test.sh 2>&1)",
+      "Bash(docker build:*)"
     ]
   }
 }

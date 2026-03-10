@@ -22,8 +22,6 @@
 
   programs.git = {
     enable = true;
-    userName = "rito528";
-    userEmail = "39003544+rito528@users.noreply.github.com";
     signing = {
       key = "F4022307254812F8";
       signByDefault = true;
@@ -34,7 +32,11 @@
       ".env"
       ".env.local"
     ];
-    extraConfig = {
+    settings = {
+      user = {
+        name = "rito528";
+        email = "39003544+rito528@users.noreply.github.com";
+      };
       gpg.program = "gpg";
       init.defaultBranch = "main";
       core = {
