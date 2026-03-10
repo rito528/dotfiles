@@ -20,11 +20,11 @@ echo "==> Installing Nix..."
 echo "==> Installing chezmoi..."
 "$REPO_DIR/install/common/chezmoi.sh"
 
-echo "==> Installing secretlint..."
-bash "$(dirname "$0")/install/common/secretlint.sh"
-
 echo "==> Applying dotfiles..."
 chezmoi init --source="$REPO_DIR"
 chezmoi apply
+
+echo "==> Applying home-manager configuration..."
+"$REPO_DIR/install/common/home-manager.sh"
 
 echo "Setup complete."
