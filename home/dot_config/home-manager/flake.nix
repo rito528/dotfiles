@@ -9,15 +9,22 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs =
+    { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       username = builtins.getEnv "USER";
-    in {
+      homeDirectory = builtins.getEnv "HOME";
+    in
+    {
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
+        extraSpecialArgs = {
+          username = username;
+          homeDirectory = homeDirectory;
+        };
       };
     };
 }
