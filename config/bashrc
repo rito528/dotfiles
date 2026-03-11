@@ -127,7 +127,6 @@ switch-branch-with-refresh() {
 export GPG_TTY=$(tty)
 command -v direnv &>/dev/null && eval "$(direnv hook bash)"
 alias delete-branches="git fetch -p && git branch --merged | grep -v '*' | xargs git branch -d"
-export GPG_TTY=$(tty)
 . "$HOME/.cargo/env"
 
 # pnpm
