@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
@@ -12,8 +12,19 @@
     doppler
     gh
     ripgrep
-    nodePackages.secretlint
+    nodejs_22
   ];
+
+  home.sessionPath = [ "$HOME/.npm-global/bin" ];
+
+  home.activation.installSecretlint = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if ! test -f "$HOME/.npm-global/bin/secretlint"; then
+      $DRY_RUN_CMD ${pkgs.nodejs_22}/bin/npm install \
+        --prefix "$HOME/.npm-global" \
+        secretlint \
+        @secretlint/secretlint-rule-preset-recommend
+    fi
+  '';
 
   programs.gpg.enable = true;
 

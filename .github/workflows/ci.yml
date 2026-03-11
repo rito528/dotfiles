@@ -23,7 +23,11 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v16
 
       - name: Run secretlint
-        run: nix run nixpkgs#nodePackages.secretlint -- --secretlintrc config/secretlintrc.json "**/*"
+        run: |
+          nix shell nixpkgs#nodejs_22 -- sh -c '
+            npm install --prefix /tmp/secretlint secretlint @secretlint/secretlint-rule-preset-recommend
+            /tmp/secretlint/node_modules/.bin/secretlint --secretlintrc config/secretlintrc.json "**/*"
+          '
 
   nix-flake-check:
     name: Nix Flake Check
