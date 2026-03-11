@@ -10,8 +10,13 @@ if command -v nix &>/dev/null; then
 fi
 
 echo "Installing Nix (Determinate Systems installer)..."
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
-    | sh -s -- install --no-confirm
+if [ "${CI:-}" = "true" ]; then
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
+        | sh -s -- install linux --no-confirm --init none
+else
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
+        | sh -s -- install --no-confirm
+fi
 
 echo "Nix installation complete."
 echo "Please restart your shell or run: . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
