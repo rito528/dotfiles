@@ -14,7 +14,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 FLAKE_PATH="$REPO_DIR/nix"
 
 if command -v home-manager &>/dev/null; then
-    home-manager switch --flake "$FLAKE_PATH" --impure
+    home-manager switch --flake "$FLAKE_PATH" --impure -b backup
 else
-    nix run nixpkgs#home-manager -- switch --flake "$FLAKE_PATH" --impure
+    nix run nixpkgs#home-manager -- switch --flake "$FLAKE_PATH" --impure -b backup
 fi
