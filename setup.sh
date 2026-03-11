@@ -20,19 +20,4 @@ echo "==> Installing Nix..."
 echo "==> Applying home-manager configuration..."
 "$REPO_DIR/install/common/home-manager.sh"
 
-echo "==> Check Doppler login..."
-if ! doppler whoami &> /dev/null; then
-    echo "Wait for Doppler login..."
-    doppler login
-fi
-
-echo "==> Importing GPG keys..."
-"$REPO_DIR/install/common/import_gpg.sh"
-
-echo "==> Importing SSH keys..."
-"$REPO_DIR/install/common/import_ssh_key.sh"
-
-echo "Start Nix store gc to remove old keys..."
-nix store gc
-
 echo "Setup complete."
