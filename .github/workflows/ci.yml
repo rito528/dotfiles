@@ -24,7 +24,7 @@ jobs:
         run: npm install -g secretlint @secretlint/secretlint-rule-preset-recommend
 
       - name: Run secretlint
-        run: secretlint --secretlintrc config/secretlintrc.json "**/*"
+        run: secretlint "**/*"
 
   nix-flake-check:
     name: Nix Flake Check
