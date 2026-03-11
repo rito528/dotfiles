@@ -127,20 +127,20 @@ switch-branch-with-refresh() {
 export GPG_TTY=$(tty)
 command -v direnv &>/dev/null && eval "$(direnv hook bash)"
 alias delete-branches="git fetch -p && git branch --merged | grep -v '*' | xargs git branch -d"
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # pnpm
-export PNPM_HOME="/home/rito528/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
-. "$HOME/.local/bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # opencode
-export PATH=/home/rito528/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # Nix
 if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
