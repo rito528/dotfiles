@@ -5,7 +5,6 @@
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/shell.nix
-    ./modules/vscode.nix
     ./modules/claude.nix
     ./modules/secretlint.nix
   ];
