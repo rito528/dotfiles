@@ -79,12 +79,12 @@
 
   xdg.configFile."git/ignore".force = true;
 
-  home.activation.setupSshDirectory = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.setupSshDirectory = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     $DRY_RUN_CMD mkdir -p "$HOME/.ssh"
     $DRY_RUN_CMD chmod 700 "$HOME/.ssh"
   '';
 
-  home.activation.importGpgKeys = lib.hm.dag.entryAfter ["setupSshDirectory"] ''
+  home.activation.importGpgKeys = lib.hm.dag.entryAfter [ "setupSshDirectory" ] ''
     if [ "''${CI:-}" = "true" ]; then
       $VERBOSE_ECHO "CI: GPG key import skipped"
     elif ! ${pkgs.doppler}/bin/doppler whoami &>/dev/null; then
@@ -99,7 +99,7 @@
     fi
   '';
 
-  home.activation.importSshKeys = lib.hm.dag.entryAfter ["setupSshDirectory"] ''
+  home.activation.importSshKeys = lib.hm.dag.entryAfter [ "setupSshDirectory" ] ''
     if [ "''${CI:-}" = "true" ]; then
       $VERBOSE_ECHO "CI: SSH key import skipped"
     elif ! ${pkgs.doppler}/bin/doppler whoami &>/dev/null; then
