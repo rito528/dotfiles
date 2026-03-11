@@ -20,11 +20,10 @@ jobs:
         run: |
           find . -name "*.sh" -type f | xargs shellcheck
 
-      - name: Install secretlint
-        run: npm install -g secretlint @secretlint/secretlint-rule-preset-recommend
+      - uses: DeterminateSystems/nix-installer-action@v16
 
       - name: Run secretlint
-        run: secretlint --secretlintrc config/secretlintrc.json "**/*"
+        run: nix run nixpkgs#nodePackages.secretlint -- --secretlintrc config/secretlintrc.json "**/*"
 
   nix-flake-check:
     name: Nix Flake Check

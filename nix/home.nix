@@ -12,6 +12,7 @@
     doppler
     gh
     ripgrep
+    nodePackages.secretlint
   ];
 
   programs.gpg.enable = true;
