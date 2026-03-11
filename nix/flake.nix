@@ -13,7 +13,14 @@
     { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfreePredicate =
+          pkg:
+          builtins.elem (nixpkgs.lib.getName pkg) [
+            "claude-code"
+          ];
+      };
       username = builtins.getEnv "USER";
       homeDirectory = builtins.getEnv "HOME";
     in

@@ -12,6 +12,7 @@
     doppler
     gh
     ripgrep
+    claude-code
   ];
 
   programs.gpg.enable = true;
