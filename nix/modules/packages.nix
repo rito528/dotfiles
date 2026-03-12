@@ -4,7 +4,7 @@
     jq
     direnv
     starship
-    nixfmt-rfc-style
+    nixfmt
     doppler
     gh
     ripgrep
