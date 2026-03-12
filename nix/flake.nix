@@ -21,17 +21,20 @@
             "claude-code"
           ];
       };
-      username = builtins.getEnv "USER";
-      homeDirectory = builtins.getEnv "HOME";
+      mkHomeConfig =
+        username: homeDirectory:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = {
+            inherit username homeDirectory;
+          };
+        };
     in
     {
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-        extraSpecialArgs = {
-          username = username;
-          homeDirectory = homeDirectory;
-        };
+      homeConfigurations = {
+        "rito528" = mkHomeConfig "rito528" "/home/rito528";
+        "testuser" = mkHomeConfig "testuser" "/home/testuser";
       };
     };
 }
