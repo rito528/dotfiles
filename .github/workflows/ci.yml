@@ -3,8 +3,20 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'nix/**'
+      - 'config/**'
+      - 'install/**'
+      - 'tests/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'nix/**'
+      - 'config/**'
+      - 'install/**'
+      - 'tests/**'
+      - '.github/workflows/**'
 
 jobs:
   lint:
