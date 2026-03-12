@@ -35,7 +35,7 @@ jobs:
       - name: Check nixfmt formatting
         run: |
           find nix -name "*.nix" -type f | \
-            xargs nix run nixpkgs#nixfmt-rfc-style -- --check
+            xargs nix run nixpkgs#nixfmt -- --check
       - run: nix flake check ./nix
 
   docker-test:
