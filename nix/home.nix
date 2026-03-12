@@ -1,4 +1,8 @@
-{ ... }:
+{
+  username,
+  homeDirectory,
+  ...
+}:
 {
   imports = [
     ./modules/packages.nix
@@ -9,8 +13,8 @@
     ./modules/secretlint.nix
   ];
 
-  home.username = builtins.getEnv "USER";
-  home.homeDirectory = builtins.getEnv "HOME";
+  home.username = username;
+  home.homeDirectory = homeDirectory;
   home.stateVersion = "24.11";
 
   programs.home-manager.enable = true;
