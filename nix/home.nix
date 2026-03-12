@@ -10,7 +10,7 @@
     ./modules/gpg.nix
     ./modules/shell.nix
     ./modules/claude.nix
-    ./modules/secretlint.nix
+    ./modules/gitleaks.nix
   ];
 
   home.username = username;
