@@ -28,5 +28,8 @@ ENV PATH="/nix/var/nix/profiles/default/bin:${PATH}"
 # 3. Run home-manager switch via actual script
 RUN . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
     sudo /nix/var/nix/profiles/default/bin/nix-daemon & \
-    sleep 3 && \
+    for i in $(seq 1 30); do \
+        nix store ping --store daemon 2>/dev/null && break; \
+        sleep 1; \
+    done && \
     bash /home/testuser/dotfiles/install/common/home-manager.sh
