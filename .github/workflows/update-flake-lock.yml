@@ -20,3 +20,4 @@ jobs:
           pr-title: 'chore: update flake.lock'
           pr-labels: |
             dependencies
+          flake-lock-file-path: nix/flake.lock
