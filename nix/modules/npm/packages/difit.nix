@@ -6,13 +6,13 @@ let
     owner = "yoshiko-pg";
     repo = "difit";
     rev = "v${version}";
-    hash = "sha256-Ut7/fkQPGwjFqb4Opw86EJs/+rUG5X9tn4JxcLFKfp0=";
+    hash = "sha256-DYph9G+JKXE5dtTx1NcGxwiZhPAmnBNynH49k88sLeg=";
   };
   pnpmDeps = pkgs.pnpm.fetchDeps {
     pname = "difit";
     inherit version src;
     fetcherVersion = 2;
-    hash = "sha256-Ft3v+2fLPv9AADhBJtT+sKVlOgN08A6JjpEQ02R6+fc=";
+    hash = "sha256-kcl2m/TNVyPDsoNquzalah+BdYIxb39It0B3I8/59yc=";
   };
 in
 pkgs.stdenv.mkDerivation {
