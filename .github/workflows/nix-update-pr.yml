@@ -28,9 +28,8 @@ jobs:
           cd nix
           for f in $changed; do
             pkg=$(basename "$f" .nix)
-            version=$(grep 'version = ' "modules/npm/packages/${pkg}.nix" | head -1 | sed 's/.*version = "\(.*\)".*/\1/')
-            echo "Updating hashes for ${pkg} @ ${version}..."
-            nix run nixpkgs#nix-update -- --version="${version}" --flake "${pkg}"
+            echo "Updating hashes for ${pkg}..."
+            nix run nixpkgs#nix-update -- --version=skip --flake "${pkg}"
           done
 
       - name: Commit updated hashes
