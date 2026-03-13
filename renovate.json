@@ -13,10 +13,8 @@
     {
       "fileMatch": ["^nix/modules/npm/packages/.+\\.nix$"],
       "matchStrings": [
-        "version = \"(?<currentValue>[^\"]+)\";[\\s\\S]*?owner = \"(?<packageOwner>[^\"]+)\";\\s+repo = \"(?<packageName>[^\"]+)\";"
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+version = \"(?<currentValue>[^\"]+)\";"
       ],
-      "depNameTemplate": "{{{packageOwner}}}/{{{packageName}}}",
-      "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver",
       "extractVersionTemplate": "^v?(?<version>.*)$"
     }

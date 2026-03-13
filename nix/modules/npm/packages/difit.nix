@@ -1,5 +1,6 @@
 { pkgs }:
 let
+  # renovate: datasource=github-releases depName=yoshiko-pg/difit
   version = "3.1.15";
   src = pkgs.fetchFromGitHub {
     owner = "yoshiko-pg";
