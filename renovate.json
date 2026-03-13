@@ -8,5 +8,17 @@
       "matchDepTypes": ["action"],
       "pinDigests": true
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^nix/modules/npm/packages/.+\\.nix$"],
+      "matchStrings": [
+        "version = \"(?<currentValue>[^\"]+)\";[\\s\\S]*?owner = \"(?<packageOwner>[^\"]+)\";\\s+repo = \"(?<packageName>[^\"]+)\";"
+      ],
+      "depNameTemplate": "{{{packageOwner}}}/{{{packageName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v?(?<version>.*)$"
+    }
   ]
 }
