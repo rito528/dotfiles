@@ -10,8 +10,8 @@ let
   pnpmDeps = pkgs.pnpm.fetchDeps {
     pname = "difit";
     inherit version src;
-    fetcherVersion = 1;
-    hash = "sha256-XoOgF/yHDEA7qffSbQiN106QsYyrAXFIbFf2Z0tZjts=";
+    fetcherVersion = 2;
+    hash = "sha256-Ft3v+2fLPv9AADhBJtT+sKVlOgN08A6JjpEQ02R6+fc=";
   };
 in
 pkgs.stdenv.mkDerivation {
