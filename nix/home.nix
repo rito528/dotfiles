@@ -11,6 +11,7 @@
     ./modules/shell.nix
     ./modules/claude.nix
     ./modules/gitleaks.nix
+    ./modules/npm
   ];
 
   home.username = username;
