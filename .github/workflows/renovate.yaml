@@ -1,0 +1,25 @@
+name: Renovate Config Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'renovate.json'
+      - '.github/workflows/renovate.yaml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'renovate.json'
+      - '.github/workflows/renovate.yaml'
+
+jobs:
+  renovate-config-check:
+    name: Renovate Config Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Dry-run Renovate with local platform
+        run: npx --yes renovate --platform=local --dry-run=full
+        env:
+          LOG_LEVEL: debug
