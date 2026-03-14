@@ -8,7 +8,7 @@ on:
       - 'config/**'
       - 'install/**'
       - 'tests/**'
-      - '.github/workflows/**'
+      - '.github/workflows/docker-test.yaml'
   pull_request:
     branches: [main]
     paths:
@@ -16,7 +16,7 @@ on:
       - 'config/**'
       - 'install/**'
       - 'tests/**'
-      - '.github/workflows/**'
+      - '.github/workflows/docker-test.yaml'
 
 jobs:
   docker-test:

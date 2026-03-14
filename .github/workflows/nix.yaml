@@ -5,12 +5,12 @@ on:
     branches: [main]
     paths:
       - 'nix/**'
-      - '.github/workflows/**'
+      - '.github/workflows/nix.yaml'
   pull_request:
     branches: [main]
     paths:
       - 'nix/**'
-      - '.github/workflows/**'
+      - '.github/workflows/nix.yaml'
 
 jobs:
   nix-flake-check:
