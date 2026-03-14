@@ -17,7 +17,9 @@
 ```
 dotfiles/
 ├── .github/workflows/        # GitHub Actions CI 定義
-│   ├── ci.yml                # Lint・ビルド・Docker テスト
+│   ├── lint.yaml             # shellcheck・nixfmt Lint
+│   ├── integration-test.yaml # Cachix を使った home-manager ビルド検証
+│   ├── nix.yaml              # Nix flake check
 │   ├── nix-update-pr.yml     # Renovate 時のハッシュ自動更新
 │   └── update-flake-lock.yml # 週次 flake.lock 更新
 ├── config/                   # home-manager が配置する設定ファイル群
@@ -49,9 +51,6 @@ dotfiles/
 ├── install/                  # セットアップスクリプト
 │   ├── common/               # OS 共通スクリプト
 │   └── ubuntu/               # Ubuntu / Debian 系固有スクリプト
-├── tests/                    # テスト用 Dockerfile・スクリプト
-│   ├── Dockerfile
-│   └── test.sh
 └── setup.sh                  # セットアップエントリポイント
 ```
 
