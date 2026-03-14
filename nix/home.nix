@@ -8,6 +8,7 @@
     ./modules/packages.nix
     ./modules/git.nix
     ./modules/gpg.nix
+    ./modules/ssh.nix
     ./modules/shell.nix
     ./modules/scripts
     ./modules/claude.nix
