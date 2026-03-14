@@ -34,12 +34,7 @@
           debian_chroot=$(cat /etc/debian_chroot)
       fi
 
-      # dircolors
-      if [ -x /usr/bin/dircolors ]; then
-          test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-      fi
-
-      # bash completion
+      # bash completion (system-provided)
       if ! shopt -oq posix; then
         if [ -f /usr/share/bash-completion/bash_completion ]; then
           . /usr/share/bash-completion/bash_completion
@@ -51,27 +46,25 @@
       # GPG
       export GPG_TTY=$(tty)
 
-      # PATH additions
-      case ":$PATH:" in
-        *":$PNPM_HOME:"*) ;;
-        *) export PATH="$PNPM_HOME:$PATH" ;;
-      esac
-      export PATH="$HOME/.opencode/bin:$PATH"
-
-      # direnv
-      command -v direnv &>/dev/null && eval "$(direnv hook bash)"
-
-      # cargo
-      [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-      [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
-
       # Nix daemon
       if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
           . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
       fi
-
-      # starship
-      command -v starship &>/dev/null && eval "$(starship init bash)"
     '';
+  };
+
+  programs.dircolors = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
   };
 }
