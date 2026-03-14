@@ -9,6 +9,7 @@ on:
       - 'install/**'
       - 'tests/**'
       - '.github/workflows/**'
+      - 'renovate.json'
   pull_request:
     branches: [main]
     paths:
@@ -17,6 +18,7 @@ on:
       - 'install/**'
       - 'tests/**'
       - '.github/workflows/**'
+      - 'renovate.json'
 
 jobs:
   lint:
@@ -60,3 +62,14 @@ jobs:
       - name: Build and test in Docker
         run: |
           docker build -t dotfiles-test -f tests/Dockerfile .
+
+  renovate-config-check:
+    name: Renovate Config Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Dry-run Renovate with local platform
+        run: npx --yes renovate --platform=local --dry-run=full
+        env:
+          LOG_LEVEL: debug
