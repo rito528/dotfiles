@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'renovate.json'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
     paths:
       - 'renovate.json'
+      - '.github/workflows/**'
 
 jobs:
   renovate-config-check:
