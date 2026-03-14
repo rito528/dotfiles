@@ -1,0 +1,24 @@
+name: Nix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'nix/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'nix/**'
+
+jobs:
+  nix-flake-check:
+    name: Nix Flake Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
+      - name: Check nixfmt formatting
+        run: |
+          find nix -name "*.nix" -type f | \
+            xargs nix run nixpkgs#nixfmt -- --check
+      - run: nix flake check ./nix
