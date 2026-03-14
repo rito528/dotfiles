@@ -24,10 +24,6 @@
       delete-branches = "git fetch -p && git branch --merged | grep -v '*' | xargs git branch -d";
     };
 
-    sessionVariables = {
-      PNPM_HOME = "$HOME/.local/share/pnpm";
-    };
-
     initExtra = ''
       # debian chroot
       if [ -z "''${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
