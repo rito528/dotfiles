@@ -127,7 +127,7 @@ pkgs.stdenv.mkDerivation {
 ```bash
 nixfmt nix/modules/npm/packages/<pname>.nix
 git add nix/modules/npm/
-home-manager build --flake ./nix --impure
+home-manager build --flake ./nix
 ```
 
 ### 8. 動作確認と反映
