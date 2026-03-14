@@ -9,6 +9,7 @@
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/shell.nix
+    ./modules/scripts
     ./modules/claude.nix
     ./modules/gitleaks.nix
     ./modules/npm
