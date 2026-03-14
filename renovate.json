@@ -5,13 +5,18 @@
   ],
   "packageRules": [
     {
-      "matchDepTypes": ["action"],
+      "matchDepTypes": [
+        "action"
+      ],
       "pinDigests": true
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^nix/modules/npm/packages/.+\\.nix$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^nix/modules/npm/packages/.+\\.nix$/"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+version = \"(?<currentValue>[^\"]+)\";"
       ],
