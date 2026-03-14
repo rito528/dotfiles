@@ -69,12 +69,44 @@
         fi
       fi
 
-      # switch-branch-with-refresh function
+      # switch-branch-with-refresh: 誤って現在のブランチにコミットした際、
+      # そのコミットを新しいブランチに移動し、元のブランチをリモートの状態にリセットする
+      # 使い方: switch-branch-with-refresh <新ブランチ名>
       switch-branch-with-refresh() {
-        current_branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
-        git switch -c $1
-        git branch -D $current_branch
-        git fetch
+        if [ -z "$1" ]; then
+          echo "Usage: switch-branch-with-refresh <new-branch-name>" >&2
+          return 1
+        fi
+
+        local current_branch
+        current_branch=$(git branch --show-current)
+
+        if [ -z "$current_branch" ]; then
+          echo "Error: Not on a branch (detached HEAD?)" >&2
+          return 1
+        fi
+
+        # 新ブランチを作成（現在のコミットをそのまま引き継ぐ）
+        if ! git switch -c "$1"; then
+          echo "Error: Failed to create branch '$1'." >&2
+          return 1
+        fi
+
+        # 元ブランチをリモートの状態にリセット
+        git fetch origin
+        git switch "$current_branch"
+        echo "Warning: This will reset '$current_branch' to origin/$current_branch with --hard."
+        read -r -p "Continue? [y/N] " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Aborted. Switching back to '$1'."
+          git switch "$1"
+          return 1
+        fi
+        git reset --hard "origin/$current_branch"
+
+        # 新ブランチに移動して完了
+        git switch "$1"
+        echo "Done. Commits are on '$1'. '$current_branch' reset to origin/$current_branch."
       }
 
       # GPG
