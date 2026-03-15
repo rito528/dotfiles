@@ -20,6 +20,7 @@ pkgs.stdenv.mkDerivation {
   inherit version src;
   nativeBuildInputs = [
     pkgs.nodejs_22
+    pkgs.pnpm
     pkgs.pnpmConfigHook
     pkgs.makeWrapper
   ];
