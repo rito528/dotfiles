@@ -33,6 +33,7 @@
         "!/usr/bin/gh auth git-credential"
       ];
       push.autoSetupRemote = true;
+      "url \"git@github.com:\"".insteadOf = "https://github.com/";
     };
   };
 
