@@ -12,7 +12,6 @@
     claude-code
     github-copilot-cli
     shellcheck
-    docker
     ghq
   ];
 }
