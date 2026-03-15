@@ -14,6 +14,7 @@
         buildInputs = [
           pkgs.jdk17
           pkgs.sbt
+          pkgs.bloop
           pkgs.metals
           pkgs.scalafmt
         ];
