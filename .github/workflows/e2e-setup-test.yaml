@@ -1,0 +1,44 @@
+name: E2E Setup Test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  e2e-setup-test:
+    name: E2E Setup Test
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      HM_FLAKE_USER: testuser
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: cachix/install-nix-action@1ca7d21a94afc7c957383a2d217460d980de4934 # v31
+
+      - uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1 # v16
+        with:
+          name: rito528-dotfiles
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - name: Create testuser home directory
+        run: sudo mkdir -p /home/testuser && sudo chown runner:runner /home/testuser
+
+      - name: Run setup.sh
+        run: ./setup.sh
+
+      - name: Verify managed packages
+        run: |
+          /home/testuser/.nix-profile/bin/jq --version
+          /home/testuser/.nix-profile/bin/rg --version
+          /home/testuser/.nix-profile/bin/gh --version
+          /home/testuser/.nix-profile/bin/starship --version
+
+      - name: Verify managed config files
+        run: |
+          test -f /home/testuser/.bashrc
+          test -f /home/testuser/.bash_profile
+          test -f /home/testuser/.gitconfig
+          test -f /home/testuser/.config/git/hooks/pre-commit
