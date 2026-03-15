@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI: true
-      HM_FLAKE_USER: testuser
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -23,18 +22,29 @@ jobs:
           name: rito528-dotfiles
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-      - name: Create testuser home directory
-        run: sudo mkdir -p /home/testuser && sudo chown runner:runner /home/testuser
+      - name: Create testuser
+        run: |
+          sudo useradd -m -s /bin/bash testuser
+          sudo mkdir -p /nix/var/nix/profiles/per-user/testuser
+          sudo chown testuser:testuser /nix/var/nix/profiles/per-user/testuser
+          # Allow testuser to use nix
+          echo "trusted-users = root runner testuser" | sudo tee -a /etc/nix/nix.conf
+          sudo systemctl restart nix-daemon || true
 
-      - name: Run setup.sh
-        run: ./setup.sh
+      - name: Copy repo to testuser home
+        run: |
+          sudo cp -r "$GITHUB_WORKSPACE" /home/testuser/dotfiles
+          sudo chown -R testuser:testuser /home/testuser/dotfiles
+
+      - name: Run setup.sh as testuser
+        run: sudo -u testuser -i bash -c "cd /home/testuser/dotfiles && CI=true ./setup.sh"
 
       - name: Verify managed packages
         run: |
-          /home/testuser/.nix-profile/bin/jq --version
-          /home/testuser/.nix-profile/bin/rg --version
-          /home/testuser/.nix-profile/bin/gh --version
-          /home/testuser/.nix-profile/bin/starship --version
+          sudo -u testuser /home/testuser/.nix-profile/bin/jq --version
+          sudo -u testuser /home/testuser/.nix-profile/bin/rg --version
+          sudo -u testuser /home/testuser/.nix-profile/bin/gh --version
+          sudo -u testuser /home/testuser/.nix-profile/bin/starship --version
 
       - name: Verify managed config files
         run: |
