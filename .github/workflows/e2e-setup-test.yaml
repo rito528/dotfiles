@@ -38,7 +38,7 @@ jobs:
           sudo chown -R testuser:testuser /home/testuser/dotfiles
 
       - name: Run setup.sh as testuser
-        run: sudo -u testuser -i bash -c "cd /home/testuser/dotfiles && CI=true ./setup.sh"
+        run: sudo -u testuser env HOME=/home/testuser bash -c "cd /home/testuser/dotfiles && CI=true ./setup.sh"
 
       - name: Verify managed packages
         run: |
