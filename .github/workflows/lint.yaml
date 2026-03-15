@@ -33,4 +33,6 @@ jobs:
 
       - name: Run shellcheck
         run: |
-          find . -name "*.sh" -type f | xargs shellcheck
+          find . -type f \( -name "*.sh" -o ! -name "*.*" \) \
+            | xargs grep -lE '^#!.*\b(bash|sh)\b' \
+            | xargs shellcheck
