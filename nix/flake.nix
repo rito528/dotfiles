@@ -19,6 +19,7 @@
           pkg:
           builtins.elem (nixpkgs.lib.getName pkg) [
             "claude-code"
+            "github-copilot-cli"
           ];
       };
       mkHomeConfig =
