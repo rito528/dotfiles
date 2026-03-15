@@ -8,7 +8,7 @@ let
     rev = "v${version}";
     hash = "sha256-DYph9G+JKXE5dtTx1NcGxwiZhPAmnBNynH49k88sLeg=";
   };
-  pnpmDeps = pkgs.pnpm.fetchDeps {
+  pnpmDeps = pkgs.fetchPnpmDeps {
     pname = "difit";
     inherit version src;
     fetcherVersion = 2;
@@ -20,7 +20,7 @@ pkgs.stdenv.mkDerivation {
   inherit version src;
   nativeBuildInputs = [
     pkgs.nodejs_22
-    pkgs.pnpm.configHook
+    pkgs.pnpmConfigHook
     pkgs.makeWrapper
   ];
   inherit pnpmDeps;
