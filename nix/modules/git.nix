@@ -11,6 +11,7 @@
       ".vscode/"
       ".env"
       ".env.local"
+      ".claude/settings.local.json"
     ];
     settings = {
       user = {
