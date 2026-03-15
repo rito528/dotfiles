@@ -22,6 +22,9 @@
       egrep = "egrep --color=auto";
       alert = ''notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"'';
       delete-branches = "git fetch -p && git branch --merged | grep -v '*' | xargs -r git branch -d";
+      dev-rust = "nix develop github:rito528/dotfiles?dir=nix#rust";
+      dev-scala = "nix develop github:rito528/dotfiles?dir=nix#scala";
+      dev-typescript = "nix develop github:rito528/dotfiles?dir=nix#typescript";
     };
 
     initExtra = ''

@@ -118,3 +118,46 @@ home-manager build --flake ./nix
 # 世代の一覧
 home-manager generations
 ```
+
+## 開発環境テンプレート
+
+プロジェクトごとに独立した Nix 開発環境を提供するテンプレートを管理しています。
+
+| テンプレート | 内容 |
+|-------------|------|
+| `rust` | Rust stable toolchain + pkg-config + openssl |
+| `scala` | JDK 17 + sbt + metals + scalafmt |
+| `typescript` | Node.js 22 + pnpm |
+
+### 自分のプロジェクトで使う場合
+
+```bash
+# プロジェクトディレクトリで初期化
+nix flake init -t github:rito528/dotfiles?dir=nix#rust
+nix flake init -t github:rito528/dotfiles?dir=nix#scala
+nix flake init -t github:rito528/dotfiles?dir=nix#typescript
+```
+
+### OSS プロジェクト等で dotfiles の devShell を直接参照する場合
+
+```bash
+# Rust 環境に入る
+nix develop github:rito528/dotfiles?dir=nix#rust
+
+# Scala 環境に入る
+nix develop github:rito528/dotfiles?dir=nix#scala
+
+# TypeScript 環境に入る
+nix develop github:rito528/dotfiles?dir=nix#typescript
+```
+
+### direnv との連携
+
+プロジェクトディレクトリに `.envrc` を作成することで、ディレクトリに入ると自動的に開発環境が有効になります：
+
+```bash
+echo "use flake" > .envrc
+direnv allow
+```
+
+> `.envrc` はプロジェクト固有の設定のため、global gitignore に追加することを推奨します。
