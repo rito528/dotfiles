@@ -13,10 +13,8 @@
     elif ! ${pkgs.doppler}/bin/doppler whoami &>/dev/null; then
       echo "WARNING: Doppler 未認証。'doppler login' 後に home-manager switch を再実行してください。"
     else
-      $DRY_RUN_CMD bash -c "${pkgs.doppler}/bin/doppler secrets get SSH_PRIVATE_KEY --plain --project keys --config prd > \"$HOME/.ssh/id_rsa\""
-      $DRY_RUN_CMD bash -c "${pkgs.doppler}/bin/doppler secrets get SSH_PUBLIC_KEY --plain --project keys --config prd > \"$HOME/.ssh/id_rsa.pub\""
-      $DRY_RUN_CMD chmod 600 "$HOME/.ssh/id_rsa"
-      $DRY_RUN_CMD chmod 644 "$HOME/.ssh/id_rsa.pub"
+      $DRY_RUN_CMD bash -c "(umask 077 && ${pkgs.doppler}/bin/doppler secrets get SSH_PRIVATE_KEY --plain --project keys --config prd > \"$HOME/.ssh/id_rsa\")"
+      $DRY_RUN_CMD bash -c "(umask 133 && ${pkgs.doppler}/bin/doppler secrets get SSH_PUBLIC_KEY --plain --project keys --config prd > \"$HOME/.ssh/id_rsa.pub\")"
     fi
   '';
 }
