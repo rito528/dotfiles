@@ -8,6 +8,8 @@
   home.activation.importSshKeys = lib.hm.dag.entryAfter [ "setupSshDirectory" ] ''
     if [ "${"CI:-"}" = "true" ]; then
       $VERBOSE_ECHO "CI: SSH key import skipped"
+    elif [ -f "$HOME/.ssh/id_rsa" ]; then
+      $VERBOSE_ECHO "SSH key already exists, skipping import"
     elif ! ${pkgs.doppler}/bin/doppler whoami &>/dev/null; then
       echo "WARNING: Doppler 未認証。'doppler login' 後に home-manager switch を再実行してください。"
     else
