@@ -5,10 +5,7 @@
 set -euo pipefail
 
 PACKAGES=(
-    git
     curl
-    wget
-    build-essential
 )
 
 echo "Updating package list..."
