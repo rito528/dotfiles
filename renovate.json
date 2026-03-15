@@ -15,7 +15,8 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^nix/modules/npm/packages/.+\\.nix$/"
+        "/^nix/modules/npm/packages/.+\\.nix$/",
+        "/^nix/modules/.+\\.nix$/"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+version = \"(?<currentValue>[^\"]+)\";"
