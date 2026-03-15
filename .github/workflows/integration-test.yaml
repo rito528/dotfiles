@@ -31,5 +31,7 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
       - name: Build home-manager configuration
+        env:
+          CI: true
         run: |
           nix run nixpkgs#home-manager -- build --flake ./nix#testuser
