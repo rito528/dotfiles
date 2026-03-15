@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-if command -v nix &>/dev/null; then
+if command -v nix &>/dev/null || [ -e /nix/var/nix/profiles/default/bin/nix ]; then
     echo "Nix is already installed"
     exit 0
 fi
