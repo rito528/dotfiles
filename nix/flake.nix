@@ -97,7 +97,11 @@
             pkgs.sbt
             pkgs.metals
             pkgs.scalafmt
+            pkgs.stdenv.cc.cc.lib
           ];
+          shellHook = ''
+            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+          '';
         };
         typescript = pkgs.mkShell {
           buildInputs = [
