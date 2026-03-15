@@ -46,20 +46,25 @@
         };
     in
     let
-      npmPackagesDir = ./modules/npm/packages;
-      allFiles = builtins.readDir npmPackagesDir;
-      nixFiles = builtins.filter (name: builtins.match ".*\\.nix" name != null) (
-        builtins.attrNames allFiles
-      );
-      npmPackages = builtins.listToAttrs (
-        map (name: {
-          name = builtins.replaceStrings [ ".nix" ] [ "" ] name;
-          value = import (npmPackagesDir + "/${name}") { inherit pkgs; };
-        }) nixFiles
-      );
+      loadPackagesDir =
+        dir:
+        let
+          allFiles = builtins.readDir dir;
+          nixFiles = builtins.filter (name: name != "default.nix" && builtins.match ".*\\.nix" name != null) (
+            builtins.attrNames allFiles
+          );
+        in
+        builtins.listToAttrs (
+          map (name: {
+            name = builtins.replaceStrings [ ".nix" ] [ "" ] name;
+            value = import (dir + "/${name}") { inherit pkgs; };
+          }) nixFiles
+        );
+      npmPackages = loadPackagesDir ./modules/npm/packages;
+      extraPackages = loadPackagesDir ./modules/packages;
     in
     {
-      packages.${system} = npmPackages;
+      packages.${system} = npmPackages // extraPackages;
       homeConfigurations = {
         "rito528" = mkHomeConfig "rito528" "/home/rito528";
         "testuser" = mkHomeConfig "testuser" "/home/testuser";
