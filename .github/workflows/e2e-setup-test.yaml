@@ -25,6 +25,7 @@ jobs:
       - name: Create testuser
         run: |
           sudo useradd -m -s /bin/bash testuser
+          echo "testuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/testuser
           sudo mkdir -p /nix/var/nix/profiles/per-user/testuser
           sudo chown testuser:testuser /nix/var/nix/profiles/per-user/testuser
           # Allow testuser to use nix
