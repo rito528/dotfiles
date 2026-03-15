@@ -4,6 +4,7 @@
 
   services.gpg-agent = {
     enable = true;
+    enableBashIntegration = true;
     pinentry.package = pkgs.pinentry-curses;
     extraConfig = "allow-loopback-pinentry";
   };
