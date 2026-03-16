@@ -64,6 +64,7 @@
       "Bash(sudo *)",
       "Bash(nc *)",
       "Bash(doppler *)",
+      "Bash(git reset --hard *)",
       "Read(.env.*)",
       "Read(~/.ssh/**)",
       "Edit(.env*)",
