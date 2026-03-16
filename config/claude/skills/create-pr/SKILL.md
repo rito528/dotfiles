@@ -32,6 +32,9 @@ git branch -vv
 現在のブランチがメインブランチ（main/master）の場合:
 - 変更内容から適切なブランチ名を自動生成する（例: `feat/add-pr-skill`, `fix/ci-path`）
 - ブランチを作成して切り替え、コミットを移動する
+- ブランチの切り替えには `git checkout` ではなく `git switch` を使用すること
+  - 新規ブランチ作成と切り替えは `git switch -c <branch-name>`
+  - 既存ブランチへの切り替えは `git switch <branch-name>`
 
 ### 4. 差分の分析
 
