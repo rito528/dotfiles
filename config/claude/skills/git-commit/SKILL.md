@@ -21,6 +21,9 @@ description: AI Agent が git commit を行うためのスキル
 
 - メインブランチ(例: main, master)ではなく、作業ブランチでコミットすること
 - 現在のブランチがメインブランチである場合、コミット前に作業ブランチを作成して切り替えること
+- ブランチの切り替えには `git checkout` ではなく `git switch` コマンドを使用すること
+  - 新規ブランチ作成と切り替えは `git switch -c <branch-name>` を使用すること
+  - 既存ブランチへの切り替えは `git switch <branch-name>` を使用すること
 
 ## コミットの条件
 
