@@ -10,7 +10,7 @@
   };
 
   home.activation.importGpgKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if [ "''${CI:-}" = "true" ]; then
+    if [ "${"CI:-"}" = "true" ]; then
       $VERBOSE_ECHO "CI: GPG key import skipped"
     elif ${pkgs.gnupg}/bin/gpg --list-secret-keys 2>/dev/null | grep -q '^sec'; then
       $VERBOSE_ECHO "GPG secret key already exists, skipping import"
