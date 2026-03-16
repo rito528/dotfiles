@@ -25,7 +25,8 @@
   programs.home-manager.enable = true;
 
   # 3件超または5日より古い generation を自動削除
-  home.activation.collectGarbage = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  # linkGeneration の後に実行することで、新 generation の GC ルートが確立されてから GC を走らせる
+  home.activation.collectGarbage = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     $DRY_RUN_CMD nix-env --profile ~/.local/state/nix/profiles/home-manager --delete-generations +3 || true
     $DRY_RUN_CMD nix-collect-garbage --delete-older-than 5d || true
   '';
