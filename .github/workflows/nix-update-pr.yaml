@@ -11,7 +11,7 @@ jobs:
   update-hashes:
     # Renovate が開いた PR のみ対象
     if: startsWith(github.head_ref, 'renovate/')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
