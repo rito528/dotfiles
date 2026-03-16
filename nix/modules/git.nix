@@ -12,6 +12,7 @@
       ".env"
       ".env.local"
       ".claude/settings.local.json"
+      ".claude/worktrees/"
     ];
     settings = {
       user = {

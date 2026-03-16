@@ -1,4 +1,7 @@
 {
+  "worktreeConfig": {
+    "enabled": true
+  },
   "hooks": {
     "Notification": [
       {
