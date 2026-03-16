@@ -50,6 +50,7 @@
       "Bash(docker ps *)",
       "Bash(docker images *)",
       "Bash(sbt *)",
+      "Bash(sbtn *)",
       "Bash(cargo *)",
       "WebFetch",
       "WebSearch"
