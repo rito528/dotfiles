@@ -13,7 +13,62 @@
     ]
   },
   "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "example-skills@anthropic-agent-skills": true
   },
-  "effortLevel": "low"
+  "effortLevel": "low",
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git fetch *)",
+      "Bash(git switch *)",
+      "Bash(git pull *)",
+      "Bash(nixfmt *)",
+      "Bash(home-manager build *)",
+      "Bash(nix *)",
+      "Bash(gh issue view *)",
+      "Bash(gh pr view *)",
+      "Bash(gh run view *)",
+      "Bash(gh run list *)",
+      "Bash(docker buildx build *)",
+      "Bash(docker build)",
+      "Bash(docker ps *)",
+      "Bash(docker images *)",
+      "Bash(sbt *)",
+      "Bash(cargo *)",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(wget *)",
+      "Bash(cat *)",
+      "Bash(curl *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git stash *)",
+      "Bash(git rm *)",
+      "Bash(gh pr create *)"
+    ],
+    "deny": [
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(sudo *)",
+      "Bash(nc *)",
+      "Bash(doppler *)",
+      "Bash(git reset --hard *)",
+      "Read(.env.*)",
+      "Read(~/.ssh/**)",
+      "Edit(.env*)",
+      "Edit(~/.ssh/**)"
+    ]
+  }
 }
