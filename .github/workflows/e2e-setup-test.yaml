@@ -42,10 +42,10 @@ jobs:
 
       - name: Verify managed packages
         run: |
-          sudo -u testuser /home/testuser/.nix-profile/bin/jq --version
-          sudo -u testuser /home/testuser/.nix-profile/bin/rg --version
-          sudo -u testuser /home/testuser/.nix-profile/bin/gh --version
-          sudo -u testuser /home/testuser/.nix-profile/bin/starship --version
+          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/jq --version
+          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/rg --version
+          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/gh --version
+          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/starship --version
 
       - name: Verify managed config files
         run: |
