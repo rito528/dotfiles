@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended"
   ],
+  "gitIgnoredAuthors": ["github-actions[bot]@users.noreply.github.com"],
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
