@@ -30,8 +30,7 @@ pkgs.stdenv.mkDerivation {
   '';
   installPhase = ''
     mkdir -p $out/lib/difit $out/bin
-    cp -r dist node_modules package.json $out/lib/difit/
-    find $out/lib/difit/node_modules -xtype l -delete
+    cp -r dist node_modules package.json packages $out/lib/difit/
     makeWrapper ${pkgs.nodejs_22}/bin/node $out/bin/difit \
       --add-flags "$out/lib/difit/dist/cli/index.js"
   '';
