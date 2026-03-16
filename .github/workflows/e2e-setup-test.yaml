@@ -28,8 +28,6 @@ jobs:
           echo "testuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/testuser
           sudo mkdir -p /nix/var/nix/profiles/per-user/testuser
           sudo chown testuser:testuser /nix/var/nix/profiles/per-user/testuser
-          sudo mkdir -p /nix/var/nix/gcroots/per-user/testuser
-          sudo chown testuser:testuser /nix/var/nix/gcroots/per-user/testuser
           # Allow testuser to use nix
           echo "trusted-users = root runner testuser" | sudo tee -a /etc/nix/nix.conf
           sudo systemctl restart nix-daemon || true

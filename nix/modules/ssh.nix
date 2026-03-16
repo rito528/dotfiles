@@ -6,7 +6,7 @@
   '';
 
   home.activation.importSshKeys = lib.hm.dag.entryAfter [ "setupSshDirectory" ] ''
-    if [ "''${CI:-}" = "true" ]; then
+    if [ "${"CI:-"}" = "true" ]; then
       $VERBOSE_ECHO "CI: SSH key import skipped"
     elif [ -f "$HOME/.ssh/id_rsa" ]; then
       $VERBOSE_ECHO "SSH key already exists, skipping import"
