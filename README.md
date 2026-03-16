@@ -9,7 +9,6 @@
 - **パッケージ管理**: [Nix](https://nixos.org/) + home-manager
 - **シークレット管理**: [Doppler](https://www.doppler.com/) (GPG/SSH キーも含む)
 - **シェル**: Bash
-- **追加ツール**: starship, direnv, gitleaks, difit (npm), claude-code
 
 ## ディレクトリ構成
 
@@ -123,11 +122,9 @@ home-manager generations
 
 プロジェクトごとに独立した Nix 開発環境を提供するテンプレートを管理しています。
 
-| テンプレート | 内容 |
-|-------------|------|
-| `rust` | Rust stable toolchain + pkg-config + openssl |
-| `scala` | JDK 17 + sbt + metals + scalafmt |
-| `typescript` | Node.js 22 + pnpm |
+- `rust`
+- `scala`
+- `typescript`
 
 ### 自分のプロジェクトで使う場合
 
