@@ -51,5 +51,5 @@ jobs:
         run: |
           test -f /home/testuser/.bashrc
           test -f /home/testuser/.bash_profile
-          test -f /home/testuser/.gitconfig
+          test -f /home/testuser/.config/git/config
           test -f /home/testuser/.config/git/hooks/pre-commit
