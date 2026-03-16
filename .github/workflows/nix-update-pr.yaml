@@ -9,8 +9,8 @@ on:
 
 jobs:
   update-hashes:
-    # Renovate が開いた PR のみ対象
-    if: startsWith(github.head_ref, 'renovate/')
+    # Renovate が開いた PR のみ対象・GitHub App による push は無限ループ防止のためスキップ
+    if: startsWith(github.head_ref, 'renovate/') && github.actor != 'rito528-dotfiles-bot[bot]'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
