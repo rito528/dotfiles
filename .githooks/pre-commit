@@ -15,3 +15,20 @@ if ! command -v editorconfig-checker &>/dev/null; then
 fi
 
 git diff --cached --name-only --diff-filter=ACM | xargs -r editorconfig-checker
+
+# ステージされた .sh ファイルに実行権限があるか確認する
+missing_exec=()
+while IFS= read -r file; do
+  if [[ -f "$file" ]] && ! [[ -x "$file" ]]; then
+    missing_exec+=("$file")
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$')
+
+if [[ ${#missing_exec[@]} -gt 0 ]]; then
+  echo "Error: The following shell scripts are missing execute permission:"
+  for f in "${missing_exec[@]}"; do
+    echo "  $f"
+  done
+  echo "Run: chmod +x <file> and re-stage."
+  exit 1
+fi
