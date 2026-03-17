@@ -49,6 +49,9 @@
       "Bash(home-manager build *)",
       "Bash(nix *)",
       "Bash(gh issue view *)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue edit *)",
+      "Bash(gh label create *)",
       "Bash(gh pr view *)",
       "Bash(gh run view *)",
       "Bash(gh run list *)",
@@ -77,7 +80,8 @@
       "Bash(git -C * stash *)",
       "Bash(git rm *)",
       "Bash(git -C * rm *)",
-      "Bash(gh pr create *)"
+      "Bash(gh pr create *)",
+      "Bash(gh issue comment *)"
     ],
     "deny": [
       "Bash(python *)",
