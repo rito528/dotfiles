@@ -30,7 +30,17 @@
       dev-typescript = "nix develop --refresh github:rito528/dotfiles?dir=nix#typescript";
     };
 
+    plugins = [
+      {
+        name = "zsh-autosuggestions";
+        src = pkgs.zsh-autosuggestions;
+        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+      }
+    ];
+
     initContent = ''
+      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#888888"
+
       # Nix daemon
       if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
           . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
