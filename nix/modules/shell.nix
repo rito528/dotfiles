@@ -38,6 +38,13 @@
       }
     ];
 
+    profileExtra = ''
+      # Nix daemon
+      if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      fi
+    '';
+
     initContent = ''
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#888888"
       ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
