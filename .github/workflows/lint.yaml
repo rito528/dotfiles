@@ -6,12 +6,14 @@ on:
     paths:
       - '**/*.sh'
       - 'config/**'
+      - '.editorconfig'
       - '.github/workflows/lint.yaml'
   pull_request:
     branches: [main]
     paths:
       - '**/*.sh'
       - 'config/**'
+      - '.editorconfig'
       - '.github/workflows/lint.yaml'
 
 jobs:
@@ -36,3 +38,9 @@ jobs:
           find . -type f \( -name "*.sh" -o ! -name "*.*" \) \
             | xargs grep -lE '^#!.*\b(bash|sh)\b' \
             | xargs shellcheck
+
+      - name: Set up editorconfig-checker
+        uses: editorconfig-checker/action-editorconfig-checker@main
+
+      - name: Check editorconfig
+        run: editorconfig-checker

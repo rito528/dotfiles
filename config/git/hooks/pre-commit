@@ -7,3 +7,11 @@ if ! command -v gitleaks &>/dev/null; then
 fi
 
 gitleaks protect --staged --redact
+
+# editorconfig チェック (staged ファイルのみ)
+if ! command -v editorconfig-checker &>/dev/null; then
+  echo "editorconfig-checker is not installed. Cannot editorconfig check."
+  exit 1
+fi
+
+git diff --cached --name-only --diff-filter=ACM | xargs -r editorconfig-checker
