@@ -82,6 +82,22 @@
           path = ./templates/typescript;
           description = "TypeScript (pnpm) development environment";
         };
+        seichi-assist = {
+          path = ./templates/seichi-assist;
+          description = "SeichiAssist development environment";
+        };
+        seichi-infra = {
+          path = ./templates/seichi-infra;
+          description = "seichi-infra development environment";
+        };
+        seichi-portal-backend = {
+          path = ./templates/seichi-portal-backend;
+          description = "seichi-portal-backend development environment";
+        };
+        seichi-portal-frontend = {
+          path = ./templates/seichi-portal-frontend;
+          description = "seichi-portal-frontend development environment";
+        };
       };
       devShells.${system} = {
         rust = pkgsWithRust.mkShell {
@@ -104,6 +120,41 @@
           '';
         };
         typescript = pkgs.mkShell {
+          buildInputs = [
+            pkgs.nodejs_22
+            pkgs.pnpm
+          ];
+        };
+        seichi-assist = pkgs.mkShell {
+          buildInputs = [
+            pkgs.jdk17
+            pkgs.sbt
+            pkgs.metals
+            pkgs.scalafmt
+            pkgs.stdenv.cc.cc.lib
+          ];
+          shellHook = ''
+            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+          '';
+        };
+        seichi-infra = pkgs.mkShell {
+          buildInputs = [
+            pkgs.terraform
+            pkgs.tflint
+            pkgs.kubectl
+            pkgs.kubernetes-helm
+          ];
+        };
+        seichi-portal-backend = pkgsWithRust.mkShell {
+          buildInputs = [
+            pkgsWithRust.rust-bin.stable.latest.default
+            pkgsWithRust.pkg-config
+            pkgsWithRust.openssl
+            pkgsWithRust.cargo-make
+            pkgsWithRust.sqlx-cli
+          ];
+        };
+        seichi-portal-frontend = pkgs.mkShell {
           buildInputs = [
             pkgs.nodejs_22
             pkgs.pnpm
