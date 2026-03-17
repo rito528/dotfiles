@@ -39,6 +39,8 @@ jobs:
             | xargs grep -lE '^#!.*\b(bash|sh)\b' \
             | xargs shellcheck
 
+      - name: Set up editorconfig-checker
+        uses: editorconfig-checker/action-editorconfig-checker@main
+
       - name: Check editorconfig
-        run: |
-          nix run nixpkgs#editorconfig-checker -- .
+        run: editorconfig-checker
