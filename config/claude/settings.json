@@ -41,6 +41,7 @@
       "Bash(git -C * switch *)",
       "Bash(git pull *)",
       "Bash(git -C * pull *)",
+      "Bash(shellcheck *)",
       "Bash(nixfmt *)",
       "Bash(home-manager build *)",
       "Bash(nix *)",
