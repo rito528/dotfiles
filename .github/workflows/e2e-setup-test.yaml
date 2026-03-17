@@ -24,7 +24,8 @@ jobs:
 
       - name: Create testuser
         run: |
-          sudo useradd -m -s /bin/bash testuser
+          sudo apt-get install -y zsh
+          sudo useradd -m -s /bin/zsh testuser
           echo "testuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/testuser
           sudo mkdir -p /nix/var/nix/profiles/per-user/testuser
           sudo chown testuser:testuser /nix/var/nix/profiles/per-user/testuser
@@ -49,7 +50,7 @@ jobs:
 
       - name: Verify managed config files
         run: |
-          test -f /home/testuser/.bashrc
-          test -f /home/testuser/.bash_profile
+          test -f /home/testuser/.zshrc
+          test -f /home/testuser/.zprofile
           test -f /home/testuser/.config/git/config
           test -f /home/testuser/.config/git/hooks/pre-commit

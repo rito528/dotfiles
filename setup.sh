@@ -23,4 +23,7 @@ echo "==> Installing Nix..."
 echo "==> Applying home-manager configuration..."
 "$REPO_DIR/install/common/home-manager.sh"
 
+echo "==> Configuring login shell (zsh)..."
+"$REPO_DIR/install/common/chsh-zsh.sh"
+
 echo "Setup complete."
