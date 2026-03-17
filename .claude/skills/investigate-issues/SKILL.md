@@ -41,3 +41,4 @@ gh issue list --label "status: needs-investigation" --state open --json number,t
 ## 注意事項
 
 - エージェントが失敗した issue は失敗理由とともに報告する
+- 調査完了後は `status: investigated` ラベルが付与される。次のステップとして `/promote-investigated` スキルを実行すると、調査結果をもとに `status: ready` への昇格や再調査判断が行われる
