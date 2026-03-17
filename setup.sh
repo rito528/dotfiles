@@ -17,6 +17,9 @@ echo "==> Installing packages..."
 echo "==> Installing Docker..."
 "$REPO_DIR/install/ubuntu/docker.sh"
 
+echo "==> Installing CA certificate..."
+"$REPO_DIR/install/common/ca-certs.sh"
+
 echo "==> Installing Nix..."
 "$REPO_DIR/install/common/nix.sh"
 
