@@ -6,6 +6,7 @@ set -euo pipefail
 
 PACKAGES=(
     curl
+    ca-certificates
 )
 
 echo "Updating package list..."
