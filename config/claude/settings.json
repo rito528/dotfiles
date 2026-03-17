@@ -36,6 +36,8 @@
       "Bash(cd *)",
       "Bash(git log *)",
       "Bash(git -C * log *)",
+      "Bash(git branch *)",
+      "Bash(git -C * branch *)",
       "Bash(git fetch *)",
       "Bash(git -C * fetch *)",
       "Bash(git switch *)",
