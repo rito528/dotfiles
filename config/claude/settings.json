@@ -26,6 +26,7 @@
       "Bash(grep *)",
       "Bash(rg *)",
       "Bash(ls *)",
+      "Bash(tree *)",
       "Bash(mkdir *)",
       "Bash(git status *)",
       "Bash(git -C * status *)",
