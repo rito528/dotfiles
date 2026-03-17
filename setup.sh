@@ -26,4 +26,7 @@ echo "==> Applying home-manager configuration..."
 echo "==> Configuring login shell (zsh)..."
 "$REPO_DIR/install/common/chsh-zsh.sh"
 
+echo "==> Setting up local git hooks..."
+"$REPO_DIR/install/common/setup-local-hooks.sh"
+
 echo "Setup complete."
