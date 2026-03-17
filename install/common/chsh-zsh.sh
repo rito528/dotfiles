@@ -13,6 +13,6 @@ fi
 
 # ログインシェルの変更
 if [ "$SHELL" != "$ZSH_PATH" ]; then
-    chsh -s "$ZSH_PATH"
+    sudo chsh -s "$ZSH_PATH" "$USER"
     echo "==> Login shell changed to $ZSH_PATH (requires re-login)"
 fi
