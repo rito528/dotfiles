@@ -13,5 +13,6 @@
     github-copilot-cli
     shellcheck
     ghq
+    editorconfig-checker
   ];
 }
