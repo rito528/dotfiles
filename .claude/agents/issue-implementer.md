@@ -1,7 +1,7 @@
 ---
 name: issue-implementer
 description: 単一の GitHub issue を worktree で実装し PR を作成するエージェント。tackle-issues スキルから並列起動される。
-tools: Read, Write, Edit, Bash, Glob, Grep
+tools: Read, Write, Edit, Bash, Glob, Grep, Skill
 isolation: worktree
 ---
 
