@@ -20,7 +20,7 @@ open issues
     │
     └─ status: ready
             ▼
-       /tackle-issues   ── 実装 → PR 作成
+        /tackle-issues   ── 実装 → PR 作成
 ```
 
 ---
@@ -45,8 +45,8 @@ Claude Code のチャットで次のように入力します。
 2. `ai: ignore` ラベルがある issue はスキップする。
 3. すでに `status:` ラベルがある issue もスキップする。
 4. 残りの issue を内容で分類してラベルを付与する。
-   - 実装内容が明確で即着手できる → `status: ready`
-   - 仕様が不明瞭・調査が必要 → `status: needs-investigation`
+    - 実装内容が明確で即着手できる → `status: ready`
+    - 仕様が不明瞭・調査が必要 → `status: needs-investigation`
 5. 処理結果を一覧で表示する。
 
 ---
@@ -66,7 +66,7 @@ Claude Code のチャットで次のように入力します。
 1. `status: needs-investigation` の issue を取得する。
 2. 各 issue に対して `issue-investigator` エージェントを並列起動する。
 3. 各エージェントはコードベース調査・外部調査を行い、以下の形式で issue にコメントする。
-   - 現状 / 影響範囲 / 実装方針案 / 懸念点
+    - 現状 / 影響範囲 / 実装方針案 / 懸念点
 4. 調査完了後、ラベルを `status: needs-investigation` から `status: investigated` に変更する。
 5. 完了した issue の URL を一覧で報告する。
 
@@ -89,11 +89,11 @@ Claude Code のチャットで次のように入力します。
 1. `status: ready` の issue を取得する。
 2. 各 issue に対して `issue-implementer` エージェントを worktree 隔離環境で並列起動する（上限 5 並列）。
 3. 各エージェントは以下を行う。
-   - コードベースを調査して実装する。
-   - `git-commit` スキルでコミットする。
-   - `create-pr` スキルで PR を作成する。
-   - issue に PR URL をコメントする。
-   - issue に `status: in-progress` ラベルを付与する。
+    - コードベースを調査して実装する。
+    - `git-commit` スキルでコミットする。
+    - `create-pr` スキルで PR を作成する。
+    - issue に PR URL をコメントする。
+    - issue に `status: in-progress` ラベルを付与する。
 4. 完了した PR の URL を一覧で報告する。
 
 ---
