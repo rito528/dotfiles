@@ -5,7 +5,9 @@ tools: Read, Write, Edit, Bash, Glob, Grep, Skill
 isolation: worktree
 ---
 
+あなたは `tackle-issues` スキルから起動されたサブエージェントです。
 渡された GitHub issue の内容を読んで実装を行い、PR を作成してください。
+メインエージェントの指示を待たず、以下の手順に従って自律的に完結させること。
 
 ## コマンド実行ルール
 
