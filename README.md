@@ -141,13 +141,13 @@ nix flake init -t github:rito528/dotfiles?dir=nix#typescript
 
 ```bash
 # Rust 環境に入る
-nix develop github:rito528/dotfiles?dir=nix#rust
+nix develop 'github:rito528/dotfiles?dir=nix#rust'
 
 # Scala 環境に入る
-nix develop github:rito528/dotfiles?dir=nix#scala
+nix develop 'github:rito528/dotfiles?dir=nix#scala'
 
 # TypeScript 環境に入る
-nix develop github:rito528/dotfiles?dir=nix#typescript
+nix develop 'github:rito528/dotfiles?dir=nix#typescript'
 ```
 
 ### direnv との連携
