@@ -52,6 +52,7 @@
       "Bash(nixfmt *)",
       "Bash(home-manager build *)",
       "Bash(nix *)",
+      "Bash(nix-build *)",
       "Bash(gh issue view *)",
       "Bash(gh issue list)",
       "Bash(gh issue list *)",
