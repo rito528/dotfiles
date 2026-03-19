@@ -1,10 +1,10 @@
 { pkgs }:
 let
   # renovate: datasource=github-releases depName=mizchi/actrun
-  version = "0.17.0";
+  version = "0.18.0";
   src = pkgs.fetchurl {
     url = "https://github.com/mizchi/actrun/releases/download/v${version}/actrun-linux-x64.tar.gz";
-    hash = "sha256-h7m92+5Wmz0D3KHKMXRNXHD7liqypKdhB+yS8sYUqU4=";
+    hash = "sha256-I+PEaot0teJXCTWcsqgJ1F5yFCpP04wIFfKjEOnHuOg=";
   };
 in
 pkgs.stdenv.mkDerivation {
