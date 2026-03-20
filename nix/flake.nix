@@ -62,6 +62,7 @@
         );
       npmPackages = loadPackagesDir ./modules/npm/packages;
       extraPackages = loadPackagesDir ./modules/packages;
+      mkShellWithZsh = mkPkgs: args: mkPkgs.mkShell ({ SHELL = "${pkgs.zsh}/bin/zsh"; } // args);
     in
     {
       packages.${system} = npmPackages // extraPackages;
@@ -100,14 +101,14 @@
         };
       };
       devShells.${system} = {
-        rust = pkgsWithRust.mkShell {
+        rust = mkShellWithZsh pkgsWithRust {
           buildInputs = [
             pkgsWithRust.rust-bin.stable.latest.default
             pkgsWithRust.pkg-config
             pkgsWithRust.openssl
           ];
         };
-        scala = pkgs.mkShell {
+        scala = mkShellWithZsh pkgs {
           buildInputs = [
             pkgs.jdk17
             pkgs.sbt
@@ -119,13 +120,13 @@
             export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
           '';
         };
-        typescript = pkgs.mkShell {
+        typescript = mkShellWithZsh pkgs {
           buildInputs = [
             pkgs.nodejs_22
             pkgs.pnpm
           ];
         };
-        seichi-assist = pkgs.mkShell {
+        seichi-assist = mkShellWithZsh pkgs {
           buildInputs = [
             pkgs.jdk17
             pkgs.sbt
@@ -137,7 +138,7 @@
             export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
           '';
         };
-        seichi-infra = pkgs.mkShell {
+        seichi-infra = mkShellWithZsh pkgs {
           buildInputs = [
             pkgs.terraform
             pkgs.tflint
@@ -145,7 +146,7 @@
             pkgs.kubernetes-helm
           ];
         };
-        seichi-portal-backend = pkgsWithRust.mkShell {
+        seichi-portal-backend = mkShellWithZsh pkgsWithRust {
           buildInputs = [
             pkgsWithRust.rust-bin.stable.latest.default
             pkgsWithRust.pkg-config
@@ -154,7 +155,7 @@
             pkgsWithRust.sqlx-cli
           ];
         };
-        seichi-portal-frontend = pkgs.mkShell {
+        seichi-portal-frontend = mkShellWithZsh pkgs {
           buildInputs = [
             pkgs.nodejs_22
             pkgs.pnpm
