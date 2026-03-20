@@ -70,6 +70,10 @@
       "Bash(sbt *)",
       "Bash(sbtn *)",
       "Bash(cargo *)",
+      "Bash(curl -X GET *)",
+      "Bash(curl --request GET *)",
+      "Bash(curl --get *)",
+      "Bash(curl -G *)",
       "WebFetch",
       "WebSearch"
     ],
