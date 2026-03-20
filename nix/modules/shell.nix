@@ -55,6 +55,14 @@
       if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
           . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
       fi
+
+      repo() {
+        local selected
+        selected=$(ghq list | fzf --prompt="repo> " --height=40%)
+        if [ -n "$selected" ]; then
+          cd "$(ghq root)/$selected" || return
+        fi
+      }
     '';
   };
 
