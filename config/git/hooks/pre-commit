@@ -6,4 +6,4 @@ if ! command -v gitleaks &>/dev/null; then
   exit 1
 fi
 
-gitleaks protect --staged --redact
+gitleaks git --pre-commit --staged --redact
