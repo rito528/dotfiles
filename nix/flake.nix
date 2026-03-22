@@ -36,12 +36,12 @@
         overlays = [ rust-overlay.overlays.default ];
       };
       mkHomeConfig =
-        username: homeDirectory:
+        username: homeDirectory: personal:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit username homeDirectory;
+            inherit username homeDirectory personal;
           };
         };
     in
@@ -67,8 +67,16 @@
     {
       packages.${system} = npmPackages // extraPackages;
       homeConfigurations = {
-        "rito528" = mkHomeConfig "rito528" "/home/rito528";
-        "testuser" = mkHomeConfig "testuser" "/home/testuser";
+        "rito528" = mkHomeConfig "rito528" "/home/rito528" {
+          name = "rito528";
+          email = "39003544+rito528@users.noreply.github.com";
+          gpgKey = "F4022307254812F8";
+        };
+        "testuser" = mkHomeConfig "testuser" "/home/testuser" {
+          name = "testuser";
+          email = "testuser@example.com";
+          gpgKey = "";
+        };
       };
       templates = {
         rust = {
