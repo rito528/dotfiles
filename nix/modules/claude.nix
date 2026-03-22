@@ -11,4 +11,9 @@
     text = builtins.readFile ../../config/claude/hooks/notify.sh;
     executable = true;
   };
+
+  home.file.".claude/statusline.py" = {
+    text = builtins.readFile ../../config/claude/statusline.py;
+    executable = true;
+  };
 }
