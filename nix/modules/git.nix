@@ -1,9 +1,9 @@
-{ ... }:
+{ lib, personal, ... }:
 {
   programs.git = {
     enable = true;
-    signing = {
-      key = "F4022307254812F8";
+    signing = lib.mkIf (personal.gpgKey != "") {
+      key = personal.gpgKey;
       signByDefault = true;
     };
     ignores = [
@@ -16,8 +16,8 @@
     ];
     settings = {
       user = {
-        name = "rito528";
-        email = "39003544+rito528@users.noreply.github.com";
+        name = personal.name;
+        email = personal.email;
       };
       gpg.program = "gpg";
       init.defaultBranch = "main";
