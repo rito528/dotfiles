@@ -12,7 +12,8 @@
       "matchDepTypes": [
         "action"
       ],
-      "pinDigests": true
+      "pinDigests": true,
+      "minimumReleaseAge": "7 days"
     }
   ],
   "customManagers": [
