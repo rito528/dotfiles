@@ -4,12 +4,14 @@ on:
   push:
     branches: [main]
     paths:
-      - 'nix/**'
+      - '**/*.nix'
+      - 'flake.lock'
       - '.github/workflows/nix.yaml'
   pull_request:
     branches: [main]
     paths:
-      - 'nix/**'
+      - '**/*.nix'
+      - 'flake.lock'
       - '.github/workflows/nix.yaml'
 
 jobs:
@@ -21,6 +23,6 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
       - name: Check nixfmt formatting
         run: |
-          find nix -name "*.nix" -type f | \
+          find . -name "*.nix" -not -path "./.git/*" -type f | \
             xargs nix run nixpkgs#nixfmt -- --check
-      - run: nix flake check ./nix
+      - run: nix flake check .
