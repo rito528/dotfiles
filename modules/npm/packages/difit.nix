@@ -1,18 +1,18 @@
 { pkgs }:
 let
   # renovate: datasource=github-releases depName=yoshiko-pg/difit
-  version = "3.1.17";
+  version = "3.1.18";
   src = pkgs.fetchFromGitHub {
     owner = "yoshiko-pg";
     repo = "difit";
     rev = "v${version}";
-    hash = "sha256-EI5kM3znW2r2eup2X2sCmSEPE6Kzz5MHpAIUoBEZi+c=";
+    hash = "sha256-TRksl1VZT3OmJGPlPMI/rC2v5YYzHL2y+iGjfduGNiA=";
   };
   pnpmDeps = pkgs.fetchPnpmDeps {
     pname = "difit";
     inherit version src;
     fetcherVersion = 2;
-    hash = "sha256-GWUMyq38jxLmJGERikBwWzzWF7WdEqGSW4im37EO3Os=";
+    hash = "sha256-4cfB4mYQneWC3YixXsvynShFWknCbR2flsMUsj+xRvI=";
   };
 in
 pkgs.stdenv.mkDerivation {
