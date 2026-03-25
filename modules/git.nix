@@ -39,7 +39,7 @@
   };
 
   home.file.".config/git/hooks/pre-commit" = {
-    source = ../../config/git/hooks/pre-commit;
+    source = ../config/git/hooks/pre-commit;
     executable = true;
   };
 
