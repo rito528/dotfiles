@@ -4,14 +4,16 @@ on:
   push:
     branches: [main]
     paths:
-      - 'nix/**'
+      - '**/*.nix'
+      - 'flake.lock'
       - 'config/**'
       - 'install/**'
       - '.github/workflows/integration-test.yaml'
   pull_request:
     branches: [main]
     paths:
-      - 'nix/**'
+      - '**/*.nix'
+      - 'flake.lock'
       - 'config/**'
       - 'install/**'
       - '.github/workflows/integration-test.yaml'
@@ -34,4 +36,4 @@ jobs:
         env:
           CI: true
         run: |
-          nix run nixpkgs#home-manager -- build --flake ./nix#testuser
+          nix run nixpkgs#home-manager -- build --flake .#testuser

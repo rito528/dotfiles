@@ -11,7 +11,7 @@ if [ -e "$NIX_PROFILE" ] && ! command -v nix &>/dev/null; then
 fi
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-FLAKE_PATH="$REPO_DIR/nix"
+FLAKE_PATH="$REPO_DIR"
 FLAKE_USER="${HM_FLAKE_USER:-${USER}}"
 
 if command -v home-manager &>/dev/null; then

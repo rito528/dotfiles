@@ -25,5 +25,5 @@ jobs:
           pr-title: 'deps: update flake.lock'
           pr-labels: |
             dependencies
-          path-to-flake-dir: 'nix/'
+          path-to-flake-dir: '.'
           token: ${{ steps.app-token.outputs.token }}
