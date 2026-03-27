@@ -6,7 +6,7 @@ let
     owner = "yoshiko-pg";
     repo = "difit";
     rev = "v${version}";
-    hash = "sha256-KwUBdt4dDfjOS6jTYCK6AVG/0+yffSgAdVqNUTcZqos=";
+    hash = "sha256-Bmo121L5/PAiQRlmcJqw7vBTbr0dOdEtW08A55PXUL8=";
   };
   pnpmDeps = pkgs.fetchPnpmDeps {
     pname = "difit";
