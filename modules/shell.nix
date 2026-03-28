@@ -58,13 +58,19 @@
 
       repo() {
         local selected
+        local list
+        list=$(ghq list; echo "dotfiles")
         if [ -n "$1" ]; then
-          selected=$(ghq list | grep -i "$1" | head -1)
+          selected=$(echo "$list" | grep -i "$1" | head -1)
         else
-          selected=$(ghq list | fzf --prompt="repo> " --height=40%)
+          selected=$(echo "$list" | fzf --prompt="repo> " --height=40%)
         fi
         if [ -n "$selected" ]; then
-          cd "$(ghq root)/$selected" || return
+          if [ "$selected" = "dotfiles" ]; then
+            cd "$HOME/dotfiles" || return
+          else
+            cd "$(ghq root)/$selected" || return
+          fi
         fi
       }
     '';
