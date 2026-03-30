@@ -4,7 +4,7 @@ let
   version = "0.27.0";
   src = pkgs.fetchurl {
     url = "https://github.com/mizchi/actrun/releases/download/v${version}/actrun-linux-x64.tar.gz";
-    hash = "sha256-qysWbBgqLHqd1AVZ+k2ilctJB/owUGQMCJ6jLuHffsg=";
+    hash = "sha256-aq/mCYT0aV+WQTuSqbAmlXKP0yj7miCka/Acb8Dp4zw=";
   };
 in
 pkgs.stdenv.mkDerivation {
