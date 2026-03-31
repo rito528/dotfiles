@@ -20,7 +20,7 @@ jobs:
 
       - uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
 
-      - uses: DeterminateSystems/update-flake-lock@5070bce87b4321d1b9431c9d454a7c34d9131f53
+      - uses: DeterminateSystems/update-flake-lock@1229b72b684c18c5b7341bad77b83e0c0378ae74
         with:
           pr-title: 'deps: update flake.lock'
           pr-labels: |
