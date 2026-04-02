@@ -12,6 +12,11 @@
     executable = true;
   };
 
+  home.file.".claude/hooks/prevent-main-commit.sh" = {
+    text = builtins.readFile ../config/claude/hooks/prevent-main-commit.sh;
+    executable = true;
+  };
+
   home.file.".claude/statusline.py" = {
     text = builtins.readFile ../config/claude/statusline.py;
     executable = true;
