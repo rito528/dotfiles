@@ -3,6 +3,17 @@
     "enabled": true
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/prevent-main-commit.sh"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "permission_prompt|idle_prompt",
