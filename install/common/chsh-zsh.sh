@@ -4,6 +4,14 @@
 
 set -euo pipefail
 
+# home-manager が Nix 経由で zsh をインストールした場合、現セッションの PATH に
+# Nix プロファイルが含まれていないことがある。明示的に source して解決する。
+NIX_PROFILE=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+if [ -e "$NIX_PROFILE" ] && ! command -v zsh &>/dev/null; then
+    # shellcheck source=/dev/null
+    . "$NIX_PROFILE"
+fi
+
 ZSH_PATH="$(command -v zsh)"
 
 # /etc/shells への登録
