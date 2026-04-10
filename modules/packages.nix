@@ -17,5 +17,6 @@
     ghq
     fzf
     editorconfig-checker
+    bubblewrap
   ];
 }
