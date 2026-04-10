@@ -3,8 +3,7 @@
   home.file.".claude/settings.json".source = ../config/claude/settings.json;
 
   home.file.".claude/skills" = {
-    source = ../config/claude/skills;
-    recursive = true;
+    source = ../config/agents/skills;
   };
 
   home.file.".claude/hooks/notify.sh" = {

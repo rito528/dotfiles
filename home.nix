@@ -12,6 +12,7 @@
     ./modules/ssh.nix
     ./modules/shell.nix
     ./modules/scripts
+    ./modules/agents.nix
     ./modules/claude.nix
     ./modules/gitleaks.nix
     ./modules/npm
