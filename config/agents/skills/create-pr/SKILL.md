@@ -64,8 +64,17 @@ git diff main...HEAD --stat
 ## テスト計画
 <!-- テストや検証の方法をチェックリストで記述 -->
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+🤖 Generated with <現在使用中の AI Agent 名>
 ```
+
+#### 生成元表記のルール
+
+- PR 本文の最後には、`🤖 Generated with <現在使用中の AI Agent 名>` を記載する
+- AI Agent 名は、このスキルを実行しているエージェント自身の正式名称をそのまま使う
+- Codex なら `Codex`、Claude Code なら `Claude Code`、その他の AI Agent ならその名称を使う
+- エージェント名が特定できない場合は推測で特定の製品名を書かないこと
+- Claude Code でないのに `Claude Code` と書かないこと
+- リンクは付けず、プレーンテキストで統一する
 
 ### 6. push と PR 作成
 
@@ -81,7 +90,7 @@ gh pr create --title "タイトル" --body "$(cat <<'EOF'
 ## テスト計画
 - [ ] ...
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+🤖 Generated with <現在使用中の AI Agent 名>
 EOF
 )"
 ```
