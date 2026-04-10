@@ -10,6 +10,7 @@
       ".idea/"
       ".vscode/"
       ".env"
+      ".envrc"
       ".env.local"
       ".claude/settings.local.json"
       ".claude/worktrees/"
