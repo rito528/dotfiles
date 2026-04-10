@@ -11,6 +11,27 @@ description: AI Agent が git commit を行うためのスキル
 - コミットメッセージは、差分を読めばわかるコメントではなく、なぜそのような変更をしたのかを書くこと
 - プロジェクト単位のルールや指示がない限り、コミットメッセージは日本語で記述すること
 - Claude がコミットする場合、Co-Author として Claude を追加すること
+- `git commit -m 'subject\n\nbody'` のように、`-m` 引数の中で `\n` を使って改行を表現しようとしてはいけない。これは文字列 `\n` がそのままコミットメッセージに入る原因になる
+- 本文や trailer が必要なコミットでは、実際の改行を含む複数行メッセージを使うこと。擬似改行を使わないこと
+- Codex がコミットメッセージを書くときは、末尾に `Co-authored-by: Codex <noreply@openai.com>` をちょうど 1 回だけ含めること
+
+### 例
+
+NG:
+
+```bash
+git commit -m 'feat: 設定を更新\n\n理由を書く'
+```
+
+OK:
+
+```text
+feat: 設定を更新
+
+理由を書く
+
+Co-authored-by: Codex <noreply@openai.com>
+```
 
 ## コミット署名
 
