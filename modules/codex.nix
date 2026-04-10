@@ -7,7 +7,7 @@ let
   tomlFormat = pkgs.formats.toml { };
   codexConfig = {
     model = "gpt-5.4";
-    model_reasoning_effort = "high";
+    model_reasoning_effort = "medium";
 
     projects."${homeDirectory}".trust_level = "trusted";
 
