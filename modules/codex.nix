@@ -8,6 +8,8 @@ let
   codexConfig = {
     model = "gpt-5.4";
     model_reasoning_effort = "medium";
+    sandbox_mode = "workspace-write";
+    sandbox_workspace_write.writable_roots = [ "/tmp" ];
 
     projects."${homeDirectory}".trust_level = "trusted";
 
