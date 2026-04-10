@@ -4,7 +4,7 @@
 
 ## 概要
 
-`.claude/skills/` 以下に定義された 3 つのスキルを順に実行することで、open な issue の分類から実装・PR 作成までを自動化できます。
+正規配置である `.agents/skills/` 以下に定義された 3 つのスキルを順に実行することで、open な issue の分類から実装・PR 作成までを自動化できます。Claude Code からは `.claude/skills/` シンボリックリンク経由でも同じスキルを参照できます。
 
 ```
 open issues
@@ -123,17 +123,20 @@ gh label create "ai: ignore" --color "CCCCCC" --description "AI 処理対象外"
 ## 構成ファイル
 
 ```
+.agents/
+└── skills/
+    ├── issue-triage/SKILL.md        # issue-triage スキル定義
+    ├── investigate-issues/SKILL.md  # investigate-issues スキル定義
+    └── tackle-issues/SKILL.md       # tackle-issues スキル定義
+
 .claude/
-├── skills/
-│   ├── issue-triage/SKILL.md        # issue-triage スキル定義
-│   ├── investigate-issues/SKILL.md  # investigate-issues スキル定義
-│   └── tackle-issues/SKILL.md       # tackle-issues スキル定義
+├── skills -> ../.agents/skills      # Claude 互換リンク
 └── agents/
     ├── issue-investigator.md        # 調査エージェント定義
     └── issue-implementer.md         # 実装エージェント定義
 ```
 
-- **スキル** (`skills/`): `/スキル名` で呼び出せるトップレベルの手順書。
+- **スキル** (`.agents/skills/`): `/スキル名` で呼び出せるトップレベルの手順書。
 - **エージェント** (`agents/`): スキルから内部的に呼び出されるサブエージェント。直接呼び出すことは想定していません。
 
 ---
