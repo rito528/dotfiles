@@ -1,17 +1,22 @@
+---
+name: add-script
+description: install/ 配下に新しいセットアップ用シェルスクリプトを追加するスキル
+---
+
 # add-script スキル
 
-`install/` 配下にシェルスクリプトを追加するワークフロー。
+`install/` 配下に冪等なセットアップ用シェルスクリプトを追加し、必要に応じて `setup.sh` に組み込む。
 
 ## 手順
 
-### 1. 配置先の決定
+### 1. 配置先を決める
 
-- `install/common/` … OS に依存しない処理
-- `install/ubuntu/` … Ubuntu / Debian 固有の処理
+- `install/common/`: OS に依存しない処理
+- `install/ubuntu/`: Ubuntu / Debian 固有の処理
 
-### 2. スクリプトの雛形作成
+### 2. スクリプトを作成する
 
-Write ツールで以下のテンプレートをベースに作成する。
+以下のテンプレートをベースに対象ファイルを作成する。
 
 ```bash
 #!/usr/bin/env bash
@@ -20,7 +25,7 @@ Write ツールで以下のテンプレートをベースに作成する。
 
 set -euo pipefail
 
-# 冪等性チェック: 処理済みなら早期 exit
+# 冪等性チェック: 処理済みなら早期終了
 if <already_done_condition>; then
   echo "<name>: already done. Skipping."
   exit 0
@@ -29,44 +34,45 @@ fi
 # 本処理
 ```
 
-**必須ルール:**
-- `#!/usr/bin/env bash` を使う（PATH から bash を探す）
-- `set -euo pipefail` 必須
-- 処理の先頭で「すでに適用済みか」チェックし、済みなら `exit 0`（冪等性）
-- CI 対応が必要な場合は `[ "${CI:-}" = "true" ]` で分岐（`sudo` を使う箇所など）
+必須ルール:
 
-### 3. 実行権限の付与
+- `#!/usr/bin/env bash` を使う
+- `set -euo pipefail` を入れる
+- 処理の先頭で「すでに適用済みか」を確認し、済みなら `exit 0` する
+- CI で分岐が必要なら `[ "${CI:-}" = "true" ]` を使う
+
+### 3. 実行権限を付与する
 
 ```bash
 chmod +x install/<type>/<name>.sh
 ```
 
-git は実行ビットを追跡するため、`chmod +x` 後にコミットすれば `git clone` 後も実行可能。
+git は実行ビットを追跡するため、実行権限を付与した状態でコミットする。
 
-### 4. shellcheck の実行
+### 4. shellcheck を実行する
 
 ```bash
 shellcheck install/<type>/<name>.sh
 ```
 
-すべての警告・エラーを解消する。
+警告とエラーを解消する。
 
-### 5. setup.sh への追記（任意）
+### 5. 必要なら `setup.sh` に組み込む
 
-スクリプトをセットアップフローに組み込む場合は該当の `setup.sh` に追記する。
+セットアップフローに含める場合は該当する `setup.sh` に追記する。
 
 ```bash
 echo "==> <説明>..."
 "$REPO_DIR/install/<type>/<name>.sh"
 ```
 
-### 6. コミット
+### 6. 変更を検証してコミットする
 
-`/git-commit` スキルを呼び出してコミットする。
+必要に応じて関連するセットアップフローを確認し、コミットが必要なら `git-commit` 系のスキルや通常の git 手順を使う。
 
 ## 注意事項
 
-- `sudo` を使う場合は CI でスキップ: `[ "${CI:-}" = "true" ] && { echo "skip in CI"; exit 0; }`
-- 外部コマンドへの依存は `command -v <cmd>` で存在確認する
-- `REPO_DIR` が必要な場合: `REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"` （階層に応じて `..` の数を調整）
-- `echo` より `printf` を使うと shellcheck の警告を避けられる場合がある
+- `sudo` が必要な処理は CI でスキップする: `[ "${CI:-}" = "true" ] && { echo "skip in CI"; exit 0; }`
+- 外部コマンドに依存する場合は `command -v <cmd>` で存在確認する
+- `REPO_DIR` が必要なら `REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"` のように階層に応じて組み立てる
+- `echo` より `printf` の方が shellcheck 的に安全な場面がある
