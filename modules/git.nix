@@ -10,6 +10,7 @@
       ".idea/"
       ".vscode/"
       ".codex/"
+      ".direnv/"
       ".env"
       ".envrc"
       ".env.local"
