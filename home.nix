@@ -13,6 +13,7 @@
     ./modules/shell.nix
     ./modules/scripts
     ./modules/agents.nix
+    ./modules/codex.nix
     ./modules/claude.nix
     ./modules/gitleaks.nix
     ./modules/npm

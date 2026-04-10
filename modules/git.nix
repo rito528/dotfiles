@@ -9,6 +9,7 @@
     ignores = [
       ".idea/"
       ".vscode/"
+      ".codex/"
       ".env"
       ".envrc"
       ".env.local"
