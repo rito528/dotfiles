@@ -32,8 +32,4 @@ in
     force = true;
     source = tomlFormat.generate "codex-config.toml" codexConfig;
   };
-
-  home.file.".codex/skills/create-pr".source = ../config/agents/skills/create-pr;
-  home.file.".codex/skills/ensure-branch".source = ../config/agents/skills/ensure-branch;
-  home.file.".codex/skills/git-commit".source = ../config/agents/skills/git-commit;
 }
