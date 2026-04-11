@@ -5,6 +5,47 @@
 }:
 let
   tomlFormat = pkgs.formats.toml { };
+  shellReadPrefixes = [
+    "rg"
+    "grep"
+    "ls"
+    "tree"
+    "pwd"
+  ];
+  gitReadPrefixes = [
+    "git status"
+    "git diff"
+    "git log"
+    "git branch"
+    "git fetch"
+    "git switch"
+    "git pull"
+  ];
+  buildPrefixes = [
+    "shellcheck"
+    "nixfmt"
+    "home-manager build"
+    "nix"
+    "nix-build"
+  ];
+  githubReadPrefixes = [
+    "gh issue view"
+    "gh issue list"
+    "gh pr list"
+    "gh pr view"
+    "gh run view"
+    "gh run list"
+  ];
+  allowCommandPrefixes = shellReadPrefixes ++ gitReadPrefixes ++ buildPrefixes ++ githubReadPrefixes;
+  renderPrefixRule =
+    prefix:
+    let
+      pattern = pkgs.lib.splitString " " prefix;
+    in
+    ''prefix_rule(pattern=${builtins.toJSON pattern}, decision="allow")'';
+  codexRules = pkgs.writeText "codex-default.rules" (
+    builtins.concatStringsSep "\n" (map renderPrefixRule allowCommandPrefixes) + "\n"
+  );
   codexConfig = {
     model = "gpt-5.4";
     model_reasoning_effort = "medium";
@@ -33,5 +74,10 @@ in
   home.file.".codex/config.toml" = {
     force = true;
     source = tomlFormat.generate "codex-config.toml" codexConfig;
+  };
+
+  home.file.".codex/rules/default.rules" = {
+    force = true;
+    source = codexRules;
   };
 }
