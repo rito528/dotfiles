@@ -5,21 +5,30 @@
 }:
 let
   tomlFormat = pkgs.formats.toml { };
-  shellReadPrefixes = [
+  shellUtilityPrefixes = [
     "rg"
     "grep"
     "ls"
     "tree"
     "pwd"
+    "mkdir"
+    "cat"
   ];
   gitReadPrefixes = [
     "git status"
     "git diff"
     "git log"
     "git branch"
+    "git branch --show-current"
     "git fetch"
     "git switch"
+    "git switch -c"
     "git pull"
+  ];
+  gitLocalWritePrefixes = [
+    "git add"
+    "git commit"
+    "git commit --no-gpg-sign"
   ];
   buildPrefixes = [
     "shellcheck"
@@ -27,6 +36,19 @@ let
     "home-manager build"
     "nix"
     "nix-build"
+    "cargo"
+    "sbt"
+    "sbtn"
+  ];
+  dockerLocalPrefixes = [
+    "docker build"
+    "docker buildx build"
+    "docker ps"
+    "docker images"
+  ];
+  tempFilePrefixes = [
+    "mktemp"
+    "printf"
   ];
   githubReadPrefixes = [
     "gh issue view"
@@ -36,7 +58,14 @@ let
     "gh run view"
     "gh run list"
   ];
-  allowCommandPrefixes = shellReadPrefixes ++ gitReadPrefixes ++ buildPrefixes ++ githubReadPrefixes;
+  allowCommandPrefixes =
+    shellUtilityPrefixes
+    ++ gitReadPrefixes
+    ++ gitLocalWritePrefixes
+    ++ buildPrefixes
+    ++ dockerLocalPrefixes
+    ++ tempFilePrefixes
+    ++ githubReadPrefixes;
   renderPrefixRule =
     prefix:
     let
