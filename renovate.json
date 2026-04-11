@@ -3,17 +3,26 @@
   "extends": [
     "config:recommended"
   ],
-  "gitIgnoredAuthors": ["github-actions[bot]@users.noreply.github.com"],
+  "timezone": "Asia/Tokyo",
+  "gitIgnoredAuthors": [
+    "github-actions[bot]@users.noreply.github.com"
+  ],
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
+  "updateNotScheduled": false,
   "packageRules": [
     {
       "matchDepTypes": [
         "action"
       ],
       "pinDigests": true,
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "6 days",
+      "internalChecksFilter": "strict",
+      "prCreation": "not-pending",
+      "schedule": [
+        "* * * * 0"
+      ]
     }
   ],
   "customManagers": [
