@@ -5,34 +5,47 @@
 }:
 let
   tomlFormat = pkgs.formats.toml { };
-  codexRules = pkgs.writeText "codex-default.rules" ''
-    prefix_rule(pattern=["rg"], decision="allow")
-    prefix_rule(pattern=["grep"], decision="allow")
-    prefix_rule(pattern=["ls"], decision="allow")
-    prefix_rule(pattern=["tree"], decision="allow")
-    prefix_rule(pattern=["pwd"], decision="allow")
-
-    prefix_rule(pattern=["git", "status"], decision="allow")
-    prefix_rule(pattern=["git", "diff"], decision="allow")
-    prefix_rule(pattern=["git", "log"], decision="allow")
-    prefix_rule(pattern=["git", "branch"], decision="allow")
-    prefix_rule(pattern=["git", "fetch"], decision="allow")
-    prefix_rule(pattern=["git", "switch"], decision="allow")
-    prefix_rule(pattern=["git", "pull"], decision="allow")
-
-    prefix_rule(pattern=["shellcheck"], decision="allow")
-    prefix_rule(pattern=["nixfmt"], decision="allow")
-    prefix_rule(pattern=["home-manager", "build"], decision="allow")
-    prefix_rule(pattern=["nix"], decision="allow")
-    prefix_rule(pattern=["nix-build"], decision="allow")
-
-    prefix_rule(pattern=["gh", "issue", "view"], decision="allow")
-    prefix_rule(pattern=["gh", "issue", "list"], decision="allow")
-    prefix_rule(pattern=["gh", "pr", "list"], decision="allow")
-    prefix_rule(pattern=["gh", "pr", "view"], decision="allow")
-    prefix_rule(pattern=["gh", "run", "view"], decision="allow")
-    prefix_rule(pattern=["gh", "run", "list"], decision="allow")
-  '';
+  shellReadPrefixes = [
+    "rg"
+    "grep"
+    "ls"
+    "tree"
+    "pwd"
+  ];
+  gitReadPrefixes = [
+    "git status"
+    "git diff"
+    "git log"
+    "git branch"
+    "git fetch"
+    "git switch"
+    "git pull"
+  ];
+  buildPrefixes = [
+    "shellcheck"
+    "nixfmt"
+    "home-manager build"
+    "nix"
+    "nix-build"
+  ];
+  githubReadPrefixes = [
+    "gh issue view"
+    "gh issue list"
+    "gh pr list"
+    "gh pr view"
+    "gh run view"
+    "gh run list"
+  ];
+  allowCommandPrefixes = shellReadPrefixes ++ gitReadPrefixes ++ buildPrefixes ++ githubReadPrefixes;
+  renderPrefixRule =
+    prefix:
+    let
+      pattern = pkgs.lib.splitString " " prefix;
+    in
+    ''prefix_rule(pattern=${builtins.toJSON pattern}, decision="allow")'';
+  codexRules = pkgs.writeText "codex-default.rules" (
+    builtins.concatStringsSep "\n" (map renderPrefixRule allowCommandPrefixes) + "\n"
+  );
   codexConfig = {
     model = "gpt-5.4";
     model_reasoning_effort = "medium";
