@@ -21,9 +21,9 @@
 
 ## permission 方針
 
-- 抽象的な判断基準はルート `AGENTS.md` に記述する
+- 抽象的な判断基準は `config/AGENTS.md` に記述する
 - 実際に有効なルールは `settings.json` を正とする
-- `AGENTS.md`、`config/AGENTS.md`、`config/claude/AGENTS.md`、`settings.json` に関わる変更では、説明と実装の不整合を残さない
+- `config/AGENTS.md`、`config/claude/AGENTS.md`、`settings.json` に関わる変更では、説明と実装の不整合を残さない
 
 ## 変更時の観点
 

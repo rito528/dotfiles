@@ -11,7 +11,7 @@
 ## 2. 編集方針
 
 - `settings.json` の変更は、UI 調整ではなく実運用ポリシーの更新として扱う
-- `permissions` を変える場合は、ルート `AGENTS.md` の抽象原則と `config/claude/README.md` の説明も同時に見直す
+- `permissions` を変える場合は、`config/AGENTS.md` の抽象原則と `config/claude/README.md` の説明も同時に見直す
 - hooks や補助スクリプトは、非対話環境や CI 環境でも破綻しにくい形を優先する
 
 ## 3. permission の観点
