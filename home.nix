@@ -11,6 +11,7 @@
     ./modules/gpg.nix
     ./modules/ssh.nix
     ./modules/shell.nix
+    ./modules/yazi.nix
     ./modules/scripts
     ./modules/agents.nix
     ./modules/codex.nix
