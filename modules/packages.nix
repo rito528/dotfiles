@@ -18,5 +18,6 @@
     fzf
     editorconfig-checker
     bubblewrap
+    yazi
   ];
 }
