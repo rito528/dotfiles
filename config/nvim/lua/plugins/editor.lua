@@ -1,10 +1,10 @@
 return {
   {
-    "ellisonleao/gruvbox.nvim",
+    "folke/tokyonight.nvim",
     priority = 1000,
     opts = {
-      contrast = "hard",
-      transparent_mode = false,
+      style = "night",
+      transparent = false,
     },
   },
   {
