@@ -10,6 +10,7 @@
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/ssh.nix
+    ./modules/neovim.nix
     ./modules/shell.nix
     ./modules/yazi.nix
     ./modules/scripts
