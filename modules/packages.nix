@@ -6,6 +6,7 @@
     direnv
     starship
     neovim
+    nodejs_24
     nixfmt
     doppler
     gh
