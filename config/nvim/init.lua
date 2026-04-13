@@ -1,5 +1,9 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.termguicolors = true
+
+vim.cmd("syntax enable")
+vim.cmd("filetype plugin indent on")
 
 local uv = vim.uv or vim.loop
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
