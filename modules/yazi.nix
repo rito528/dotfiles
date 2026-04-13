@@ -1,4 +1,4 @@
 { ... }:
 {
-  xdg.configFile."yazi/yazi.toml".source = ../config/yazi/yazi.toml;
+  programs.yazi.settings.mgr.show_hidden = true;
 }
