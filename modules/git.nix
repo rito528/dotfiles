@@ -26,7 +26,7 @@
       gpg.program = "gpg";
       init.defaultBranch = "main";
       core = {
-        editor = "vim";
+        editor = "nvim";
         hooksPath = "~/.config/git/hooks";
       };
       "credential \"https://github.com\"".helper = [
