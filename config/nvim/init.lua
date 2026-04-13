@@ -33,20 +33,20 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("tokyonight")
 
 local markdown_highlights = vim.api.nvim_create_augroup("markdown_highlights", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = markdown_highlights,
   callback = function()
-    vim.api.nvim_set_hl(0, "markdownH1", { fg = "#fb4934", bold = true })
-    vim.api.nvim_set_hl(0, "markdownH2", { fg = "#fe8019", bold = true })
-    vim.api.nvim_set_hl(0, "markdownH3", { fg = "#fabd2f", bold = true })
-    vim.api.nvim_set_hl(0, "markdownCode", { fg = "#b8bb26", italic = true })
-    vim.api.nvim_set_hl(0, "markdownCodeBlock", { fg = "#b8bb26" })
-    vim.api.nvim_set_hl(0, "markdownLinkText", { fg = "#83a598", underline = true })
-    vim.api.nvim_set_hl(0, "markdownUrl", { fg = "#8ec07c", underline = true })
+    vim.api.nvim_set_hl(0, "markdownH1", { fg = "#7aa2f7", bold = true })
+    vim.api.nvim_set_hl(0, "markdownH2", { fg = "#7dcfff", bold = true })
+    vim.api.nvim_set_hl(0, "markdownH3", { fg = "#89ddff", bold = true })
+    vim.api.nvim_set_hl(0, "markdownCode", { fg = "#73daca", italic = true })
+    vim.api.nvim_set_hl(0, "markdownCodeBlock", { fg = "#73daca" })
+    vim.api.nvim_set_hl(0, "markdownLinkText", { fg = "#7aa2f7", underline = true })
+    vim.api.nvim_set_hl(0, "markdownUrl", { fg = "#2ac3de", underline = true })
     vim.api.nvim_set_hl(0, "markdownBold", { bold = true })
     vim.api.nvim_set_hl(0, "markdownItalic", { italic = true })
   end,
