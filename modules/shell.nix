@@ -1,8 +1,10 @@
 { pkgs, ... }:
 {
   home.sessionVariables = {
+    EDITOR = "nvim";
     NIX_BUILD_SHELL = "${pkgs.zsh}/bin/zsh";
     LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib\${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}";
+    VISUAL = "nvim";
   };
 
   programs.zsh = {
