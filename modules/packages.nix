@@ -5,6 +5,7 @@
     jq
     direnv
     starship
+    neovim
     nixfmt
     doppler
     gh
