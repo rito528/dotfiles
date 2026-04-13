@@ -1,4 +1,13 @@
 { ... }:
 {
-  programs.yazi.settings.mgr.show_hidden = true;
+  programs.yazi.settings = {
+    mgr.show_hidden = true;
+    opener.edit = [
+      {
+        run = "nvim %s";
+        block = true;
+        for = "unix";
+      }
+    ];
+  };
 }
