@@ -3,7 +3,21 @@ vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "yes"
+vim.opt.numberwidth = 4
 vim.opt.conceallevel = 2
+
+function _G.statuscolumn_numbers()
+  if vim.v.virtnum ~= 0 then
+    return ""
+  end
+
+  local absolute = tostring(vim.v.lnum)
+  local relative = tostring(vim.v.relnum)
+
+  return string.format("%4s %4s ", absolute, relative)
+end
+
+vim.opt.statuscolumn = "%s%=%{v:lua.statuscolumn_numbers()}"
 
 vim.cmd("syntax enable")
 vim.cmd("filetype plugin indent on")
