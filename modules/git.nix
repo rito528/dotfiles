@@ -2,7 +2,10 @@
 {
   programs.git = {
     enable = true;
-    signing = lib.mkIf (personal.gpgKey != "") {
+    signing = {
+      format = "openpgp";
+    }
+    // lib.optionalAttrs (personal.gpgKey != "") {
       key = personal.gpgKey;
       signByDefault = true;
     };
