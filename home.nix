@@ -7,6 +7,7 @@
 {
   imports = [
     ./modules/packages.nix
+    ./modules/fonts.nix
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/ssh.nix
