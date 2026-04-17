@@ -1,10 +1,10 @@
 { pkgs }:
 let
   # renovate: datasource=github-releases depName=k1LoW/git-wt
-  version = "0.26.2";
+  version = "0.27.0";
   src = pkgs.fetchurl {
     url = "https://github.com/k1LoW/git-wt/releases/download/v${version}/git-wt_v${version}_linux_amd64.tar.gz";
-    hash = "sha256-Gc6wNlpPr3VYaOh90Tgv/fwqSQVALUf6+fyR7KGeCcA=";
+    hash = "sha256-qOJkuF/1lK2RHF967NlXJVr0Z4mVm7PJ+uDxBfGv+ew=";
   };
 in
 pkgs.stdenv.mkDerivation {
