@@ -132,6 +132,9 @@
           buildInputs = [
             pkgs.nodejs_22
             pkgs.pnpm
+            pkgs.typescript
+            pkgs.nodePackages.typescript-language-server
+            pkgs.vscode-langservers-extracted
           ];
         };
         seichi-assist = mkShellWithZsh pkgs {
