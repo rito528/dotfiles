@@ -4,41 +4,36 @@ on:
   push:
     branches: [main]
     paths:
-      - 'flake.nix'
-      - 'flake.lock'
+      - 'templates/**'
       - '.github/workflows/devshell.yaml'
   pull_request:
     branches: [main]
     paths:
-      - 'flake.nix'
-      - 'flake.lock'
+      - 'templates/**'
       - '.github/workflows/devshell.yaml'
 
 jobs:
   discover:
-    name: Discover devShells
+    name: Discover templates
     runs-on: ubuntu-24.04
     outputs:
-      shells: ${{ steps.list.outputs.shells }}
+      templates: ${{ steps.list.outputs.templates }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: cachix/install-nix-action@616559265b40713947b9c190a8ff4b507b5df49b # v31
-
-      - name: List devShells
+      - name: List templates
         id: list
         run: |
-          shells=$(nix flake show --json 2>/dev/null \
-            | jq -c '.devShells."x86_64-linux" | keys')
-          echo "shells=$shells" >> "$GITHUB_OUTPUT"
+          templates=$(ls -1 templates/ | jq -Rc '[.,inputs]')
+          echo "templates=$templates" >> "$GITHUB_OUTPUT"
 
   devshell-build:
-    name: Build devShell (${{ matrix.shell }})
+    name: Build devShell (${{ matrix.template }})
     needs: discover
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        shell: ${{ fromJson(needs.discover.outputs.shells) }}
+        template: ${{ fromJson(needs.discover.outputs.templates) }}
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -51,4 +46,4 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
       - name: Build devShell
-        run: nix build .#devShells.x86_64-linux.${{ matrix.shell }}
+        run: nix build ./templates/${{ matrix.template }}#devShells.x86_64-linux.default
