@@ -162,3 +162,19 @@ direnv allow
 ```
 
 > `.envrc` はプロジェクト固有の設定のため、global gitignore に追加することを推奨します。
+
+### nix-init-env コマンド
+
+`nix-init-env` は、プロジェクトディレクトリに `.envrc` を対話的に生成するコマンドです。
+このリポジトリで管理されているテンプレート一覧を取得し、選択した内容で `.envrc` を作成します。
+
+```bash
+# プロジェクトディレクトリで実行
+nix-init-env
+```
+
+- fzf がインストールされている場合はインタラクティブに選択できます
+- `local` を選択すると `use flake`（ローカル flake 参照）が生成されます
+- それ以外を選択すると `use flake 'github:rito528/dotfiles#<template>'` が生成されます
+- `.envrc` が既に存在する場合は上書き確認を行います
+- 生成後、`direnv allow` を実行するか確認します

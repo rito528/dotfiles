@@ -3,7 +3,7 @@
 REPO="github:rito528/dotfiles"
 
 echo "Fetching templates from $REPO ..."
-mapfile -t TEMPLATES < <(nix flake show "$REPO" --json 2>/dev/null | jq -r '.templates | keys[]' | sort)
+mapfile -t TEMPLATES < <(nix flake show "$REPO" --json --no-write-lock-file 2>/dev/null | jq -r '.templates | keys[]' | sort)
 
 if [ ${#TEMPLATES[@]} -eq 0 ]; then
   echo "No templates found." >&2
