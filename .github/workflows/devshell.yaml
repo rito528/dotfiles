@@ -1,0 +1,54 @@
+name: Dev Shell
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.nix'
+      - 'flake.lock'
+      - '.github/workflows/devshell.yaml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.nix'
+      - 'flake.lock'
+      - '.github/workflows/devshell.yaml'
+
+jobs:
+  discover:
+    name: Discover devShells
+    runs-on: ubuntu-24.04
+    outputs:
+      shells: ${{ steps.list.outputs.shells }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: cachix/install-nix-action@616559265b40713947b9c190a8ff4b507b5df49b # v31
+
+      - name: List devShells
+        id: list
+        run: |
+          shells=$(nix flake show --json 2>/dev/null \
+            | jq -c '.devShells."x86_64-linux" | keys')
+          echo "shells=$shells" >> "$GITHUB_OUTPUT"
+
+  devshell-build:
+    name: Build devShell (${{ matrix.shell }})
+    needs: discover
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        shell: ${{ fromJson(needs.discover.outputs.shells) }}
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: cachix/install-nix-action@616559265b40713947b9c190a8ff4b507b5df49b # v31
+
+      - uses: cachix/cachix-action@1eb2ef646ac0255473d23a5907ad7b04ce94065c # v17
+        with:
+          name: rito528-dotfiles
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - name: Build devShell
+        run: nix build .#devShells.x86_64-linux.${{ matrix.shell }}
