@@ -133,7 +133,7 @@
             pkgs.nodejs_22
             pkgs.pnpm
             pkgs.typescript
-            pkgs.nodePackages.typescript-language-server
+            pkgs.typescript-language-server
             pkgs.vscode-langservers-extracted
           ];
         };
