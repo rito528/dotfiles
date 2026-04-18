@@ -7,17 +7,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
-      rust-overlay,
       ...
     }:
     let
@@ -30,10 +25,6 @@
             "claude-code"
             "github-copilot-cli"
           ];
-      };
-      pkgsWithRust = import nixpkgs {
-        inherit system;
-        overlays = [ rust-overlay.overlays.default ];
       };
       mkHomeConfig =
         username: homeDirectory: personal:
@@ -62,7 +53,6 @@
         );
       npmPackages = loadPackagesDir ./modules/npm/packages;
       extraPackages = loadPackagesDir ./modules/packages;
-      mkShellWithZsh = mkPkgs: args: mkPkgs.mkShell ({ SHELL = "${pkgs.zsh}/bin/zsh"; } // args);
     in
     {
       packages.${system} = npmPackages // extraPackages;
@@ -79,18 +69,6 @@
         };
       };
       templates = {
-        rust = {
-          path = ./templates/rust;
-          description = "Rust development environment";
-        };
-        scala = {
-          path = ./templates/scala;
-          description = "Scala development environment";
-        };
-        typescript = {
-          path = ./templates/typescript;
-          description = "TypeScript (pnpm) development environment";
-        };
         seichi-assist = {
           path = ./templates/seichi-assist;
           description = "SeichiAssist development environment";
@@ -106,71 +84,6 @@
         seichi-portal-frontend = {
           path = ./templates/seichi-portal-frontend;
           description = "seichi-portal-frontend development environment";
-        };
-      };
-      devShells.${system} = {
-        rust = mkShellWithZsh pkgsWithRust {
-          buildInputs = [
-            pkgsWithRust.rust-bin.stable.latest.default
-            pkgsWithRust.pkg-config
-            pkgsWithRust.openssl
-          ];
-        };
-        scala = mkShellWithZsh pkgs {
-          buildInputs = [
-            pkgs.jdk17
-            pkgs.sbt
-            pkgs.metals
-            pkgs.scalafmt
-            pkgs.stdenv.cc.cc.lib
-          ];
-          shellHook = ''
-            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-          '';
-        };
-        typescript = mkShellWithZsh pkgs {
-          buildInputs = [
-            pkgs.nodejs_22
-            pkgs.pnpm
-            pkgs.typescript
-            pkgs.typescript-language-server
-            pkgs.vscode-langservers-extracted
-          ];
-        };
-        seichi-assist = mkShellWithZsh pkgs {
-          buildInputs = [
-            pkgs.jdk17
-            pkgs.sbt
-            pkgs.metals
-            pkgs.scalafmt
-            pkgs.stdenv.cc.cc.lib
-          ];
-          shellHook = ''
-            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-          '';
-        };
-        seichi-infra = mkShellWithZsh pkgs {
-          buildInputs = [
-            pkgs.terraform
-            pkgs.tflint
-            pkgs.kubectl
-            pkgs.kubernetes-helm
-          ];
-        };
-        seichi-portal-backend = mkShellWithZsh pkgsWithRust {
-          buildInputs = [
-            pkgsWithRust.rust-bin.stable.latest.default
-            pkgsWithRust.pkg-config
-            pkgsWithRust.openssl
-            pkgsWithRust.cargo-make
-            pkgsWithRust.sqlx-cli
-          ];
-        };
-        seichi-portal-frontend = mkShellWithZsh pkgs {
-          buildInputs = [
-            pkgs.nodejs_22
-            pkgs.pnpm
-          ];
         };
       };
     };

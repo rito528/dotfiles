@@ -18,6 +18,7 @@ dotfiles/
 │   ├── lint.yaml             # shellcheck・nixfmt Lint
 │   ├── integration-test.yaml # Cachix を使った home-manager ビルド検証
 │   ├── nix.yaml              # Nix flake check
+│   ├── devshell.yaml         # templates/ 配下の devShell ビルド検証
 │   ├── nix-update-pr.yaml    # Renovate 時のハッシュ自動更新
 │   ├── update-flake-lock.yaml # 週次 flake.lock 更新
 │   ├── e2e-setup-test.yaml   # セットアップ E2E テスト
@@ -137,32 +138,13 @@ home-manager generations
 
 ## 開発環境テンプレート
 
-プロジェクトごとに独立した Nix 開発環境を提供するテンプレートを管理しています。
-
-- `rust`
-- `scala`
-- `typescript`
+プロジェクトごとに独立した Nix 開発環境を提供するテンプレートを管理しています（`templates/` 参照）。
 
 ### 自分のプロジェクトで使う場合
 
 ```bash
-# プロジェクトディレクトリで初期化
-nix flake init -t github:rito528/dotfiles#rust
-nix flake init -t github:rito528/dotfiles#scala
-nix flake init -t github:rito528/dotfiles#typescript
-```
-
-### OSS プロジェクト等で dotfiles の devShell を直接参照する場合
-
-```bash
-# Rust 環境に入る
-nix develop 'github:rito528/dotfiles#rust'
-
-# Scala 環境に入る
-nix develop 'github:rito528/dotfiles#scala'
-
-# TypeScript 環境に入る
-nix develop 'github:rito528/dotfiles#typescript'
+# プロジェクトディレクトリで初期化（例）
+nix flake init -t github:rito528/dotfiles#seichi-infra
 ```
 
 ### direnv との連携
@@ -170,7 +152,12 @@ nix develop 'github:rito528/dotfiles#typescript'
 プロジェクトディレクトリに `.envrc` を作成することで、ディレクトリに入ると自動的に開発環境が有効になります：
 
 ```bash
+# テンプレートで初期化したプロジェクトの場合
 echo "use flake" > .envrc
+direnv allow
+
+# dotfiles のテンプレートを直接参照する場合
+echo "use flake 'github:rito528/dotfiles?dir=templates/rust'" > .envrc
 direnv allow
 ```
 

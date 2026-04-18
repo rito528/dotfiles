@@ -1,0 +1,50 @@
+name: Dev Shell
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - '.github/workflows/devshell.yaml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - '.github/workflows/devshell.yaml'
+
+jobs:
+  discover:
+    name: Discover templates
+    runs-on: ubuntu-24.04
+    outputs:
+      templates: ${{ steps.list.outputs.templates }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: List templates
+        id: list
+        run: |
+          templates=$(ls -1 templates/ | jq -Rc '[.,inputs]')
+          echo "templates=$templates" >> "$GITHUB_OUTPUT"
+
+  devshell-build:
+    name: Build devShell (${{ matrix.template }})
+    needs: discover
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        template: ${{ fromJson(needs.discover.outputs.templates) }}
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: cachix/install-nix-action@616559265b40713947b9c190a8ff4b507b5df49b # v31
+
+      - uses: cachix/cachix-action@1eb2ef646ac0255473d23a5907ad7b04ce94065c # v17
+        with:
+          name: rito528-dotfiles
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - name: Build devShell
+        run: nix build ./templates/${{ matrix.template }}#devShells.x86_64-linux.default
