@@ -3,20 +3,26 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local lspconfig = require("lspconfig")
+      if vim.fn.executable("typescript-language-server") == 1 then
+        vim.lsp.config("ts_ls", {})
+        vim.lsp.enable("ts_ls")
+      end
 
-      lspconfig.ts_ls.setup({})
+      if vim.fn.executable("vscode-eslint-language-server") == 1 then
+        vim.lsp.config("eslint", {
+          settings = {
+            eslint = {
+              autoFixOnSave = true,
+            },
+          },
+        })
+        vim.lsp.enable("eslint")
+      end
 
-      lspconfig.eslint.setup({
-        on_attach = function(_, bufnr)
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-          })
-        end,
-      })
-
-      lspconfig.jsonls.setup({})
+      if vim.fn.executable("vscode-json-language-server") == 1 then
+        vim.lsp.config("jsonls", {})
+        vim.lsp.enable("jsonls")
+      end
     end,
   },
 }
