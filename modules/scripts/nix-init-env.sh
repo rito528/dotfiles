@@ -18,7 +18,7 @@ build_description() {
   if [ "$name" = "local" ]; then
     printf "local flake            (use flake)"
   else
-    printf "%-30s (%s#%s)" "$name" "$REPO" "$name"
+    printf "%-30s (%s?dir=templates/%s)" "$name" "$REPO" "$name"
   fi
 }
 
@@ -53,7 +53,7 @@ fi
 if [ "$template" = "local" ]; then
   envrc_content="use flake"
 else
-  envrc_content="use flake '$REPO#$template'"
+  envrc_content="use flake '${REPO}?dir=templates/${template}' --no-write-lock-file"
 fi
 
 # .envrc が既に存在する場合は確認
