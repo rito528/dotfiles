@@ -69,18 +69,6 @@
         };
       };
       templates = {
-        rust = {
-          path = ./templates/rust;
-          description = "Rust development environment";
-        };
-        scala = {
-          path = ./templates/scala;
-          description = "Scala development environment";
-        };
-        typescript = {
-          path = ./templates/typescript;
-          description = "TypeScript (pnpm) development environment";
-        };
         seichi-assist = {
           path = ./templates/seichi-assist;
           description = "SeichiAssist development environment";

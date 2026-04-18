@@ -143,10 +143,8 @@ home-manager generations
 ### 自分のプロジェクトで使う場合
 
 ```bash
-# プロジェクトディレクトリで初期化
-nix flake init -t github:rito528/dotfiles#rust
-nix flake init -t github:rito528/dotfiles#typescript
-# ...
+# プロジェクトディレクトリで初期化（例）
+nix flake init -t github:rito528/dotfiles#seichi-infra
 ```
 
 ### direnv との連携
