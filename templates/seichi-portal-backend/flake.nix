@@ -21,7 +21,12 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = [
-          pkgs.rust-bin.stable.latest.default
+          (pkgs.rust-bin.stable.latest.default.override {
+            extensions = [
+              "rust-src"
+              "rust-analyzer"
+            ];
+          })
           pkgs.pkg-config
           pkgs.openssl
           pkgs.cargo-make
