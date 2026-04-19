@@ -1,7 +1,7 @@
 { pkgs }:
 let
   # renovate: datasource=github-releases depName=ryoppippi/ccusage
-  version = "18.0.10";
+  version = "18.0.11";
   src = pkgs.fetchFromGitHub {
     owner = "ryoppippi";
     repo = "ccusage";
