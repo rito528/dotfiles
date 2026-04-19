@@ -20,6 +20,7 @@
       "minimumReleaseAge": "6 days",
       "internalChecksFilter": "strict",
       "prCreation": "not-pending",
+      "rebaseWhen": "never",
       "schedule": [
         "* * * * 0"
       ]
