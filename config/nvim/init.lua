@@ -49,20 +49,20 @@ require("lazy").setup("plugins", {
   lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
 })
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("kanagawa")
 
 local markdown_highlights = vim.api.nvim_create_augroup("markdown_highlights", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = markdown_highlights,
   callback = function()
-    vim.api.nvim_set_hl(0, "markdownH1", { fg = "#7aa2f7", bold = true })
-    vim.api.nvim_set_hl(0, "markdownH2", { fg = "#7dcfff", bold = true })
-    vim.api.nvim_set_hl(0, "markdownH3", { fg = "#89ddff", bold = true })
-    vim.api.nvim_set_hl(0, "markdownCode", { fg = "#73daca", italic = true })
-    vim.api.nvim_set_hl(0, "markdownCodeBlock", { fg = "#73daca" })
-    vim.api.nvim_set_hl(0, "markdownLinkText", { fg = "#7aa2f7", underline = true })
-    vim.api.nvim_set_hl(0, "markdownUrl", { fg = "#2ac3de", underline = true })
+    vim.api.nvim_set_hl(0, "markdownH1", { fg = "#7E9CD8", bold = true })
+    vim.api.nvim_set_hl(0, "markdownH2", { fg = "#7FB4CA", bold = true })
+    vim.api.nvim_set_hl(0, "markdownH3", { fg = "#938AA9", bold = true })
+    vim.api.nvim_set_hl(0, "markdownCode", { fg = "#98BB6C", italic = true })
+    vim.api.nvim_set_hl(0, "markdownCodeBlock", { fg = "#98BB6C" })
+    vim.api.nvim_set_hl(0, "markdownLinkText", { fg = "#7E9CD8", underline = true })
+    vim.api.nvim_set_hl(0, "markdownUrl", { fg = "#7FB4CA", underline = true })
     vim.api.nvim_set_hl(0, "markdownBold", { bold = true })
     vim.api.nvim_set_hl(0, "markdownItalic", { italic = true })
   end,

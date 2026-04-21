@@ -7,7 +7,7 @@ return {
     },
     opts = {
       options = {
-        theme = "tokyonight",
+        theme = "auto",
         globalstatus = true,
       },
     },
