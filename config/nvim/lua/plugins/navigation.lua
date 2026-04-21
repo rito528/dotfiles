@@ -8,7 +8,11 @@ return {
     keys = {
       { "-", "<Cmd>Oil<CR>", desc = "Open parent directory" },
     },
-    opts = {},
+    opts = {
+      view_options = {
+        show_hidden = true,
+      },
+    },
   },
   {
     "nvim-telescope/telescope.nvim",
