@@ -53,4 +53,3 @@ jobs:
           test -f /home/testuser/.zshrc
           test -f /home/testuser/.zprofile
           test -f /home/testuser/.config/git/config
-          test -f /home/testuser/.config/git/hooks/pre-commit

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-if ! command -v gitleaks &>/dev/null; then
-  echo "gitleaks is not installed. Cannot secret check."
-  exit 1
-fi
-
-gitleaks git --pre-commit --staged --redact

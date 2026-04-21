@@ -22,10 +22,6 @@
   - 詳細は `config/agents/skills/README.md` を参照する
 - `config/agents/`
   - AI Agent スキル定義配下の固有ルールは `config/agents/AGENTS.md` を参照する
-- `config/git/hooks/`
-  - Git hook として実際に配備されるファイル群
-  - 開発補助ではなく、運用上の安全性に関わる設定として扱う
-
 ## 3. AI Agent 関連の注意点
 
 - `config/agents/skills/` に追加するスキルは、グローバル配備して問題ないものに限定する
