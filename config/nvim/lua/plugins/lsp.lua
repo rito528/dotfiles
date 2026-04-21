@@ -17,6 +17,12 @@ return {
 
       vim.lsp.config("jsonls", {})
       vim.lsp.enable("jsonls")
+
+      vim.lsp.config("rust_analyzer", {})
+      vim.lsp.enable("rust_analyzer")
+
+      vim.lsp.config("taplo", {})
+      vim.lsp.enable("taplo")
     end,
   },
 }
