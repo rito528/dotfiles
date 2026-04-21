@@ -33,10 +33,10 @@ return {
     "dnlhc/glance.nvim",
     cmd = "Glance",
     keys = {
-      { "gd", "<Cmd>Glance definitions<CR>", desc = "Peek definitions" },
-      { "gr", "<Cmd>Glance references<CR>", desc = "Peek references" },
-      { "gy", "<Cmd>Glance type_definitions<CR>", desc = "Peek type definitions" },
-      { "gI", "<Cmd>Glance implementations<CR>", desc = "Peek implementations" },
+      { "<Leader>ld", "<Cmd>Glance definitions<CR>", desc = "Peek definitions" },
+      { "<Leader>lr", "<Cmd>Glance references<CR>", desc = "Peek references" },
+      { "<Leader>ly", "<Cmd>Glance type_definitions<CR>", desc = "Peek type definitions" },
+      { "<Leader>li", "<Cmd>Glance implementations<CR>", desc = "Peek implementations" },
     },
     opts = function()
       local actions = require("glance").actions
