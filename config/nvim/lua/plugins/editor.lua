@@ -1,25 +1,31 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    "rebelot/kanagawa.nvim",
     priority = 1000,
     opts = {
-      style = "night",
+      theme = "wave",
       transparent = false,
-      on_highlights = function(highlights, colors)
-        highlights["@attribute"] = { fg = colors.orange, italic = true }
-        highlights["@function.macro"] = { fg = colors.orange, bold = true }
-        highlights["@module"] = { fg = colors.cyan }
-        highlights["@constructor"] = { fg = colors.magenta, bold = true }
-        highlights["@type"] = { fg = colors.blue, bold = true }
-        highlights["@type.builtin"] = { fg = colors.teal, italic = true }
-        highlights["@variable.member"] = { fg = colors.cyan }
+      commentStyle = { italic = true },
+      keywordStyle = { italic = true },
+      overrides = function(colors)
+        local palette = colors.palette
 
-        highlights["@lsp.type.deriveHelper"] = { fg = colors.orange, italic = true, bold = true }
-        highlights["@lsp.type.decorator"] = { fg = colors.orange, italic = true }
-        highlights["@lsp.type.lifetime"] = { fg = colors.red, italic = true }
-        highlights["@lsp.type.namespace"] = { fg = colors.cyan }
-        highlights["@lsp.type.selfKeyword"] = { fg = colors.red, italic = true }
-        highlights["@lsp.type.selfTypeKeyword"] = { fg = colors.red, italic = true }
+        return {
+          ["@attribute"] = { fg = palette.surimiOrange, italic = true },
+          ["@function.macro"] = { fg = palette.surimiOrange, bold = true },
+          ["@module"] = { fg = palette.springBlue },
+          ["@constructor"] = { fg = palette.oniViolet, bold = true },
+          ["@type"] = { fg = palette.waveAqua2, bold = true },
+          ["@type.builtin"] = { fg = palette.waveAqua2, italic = true },
+          ["@variable.member"] = { fg = palette.crystalBlue },
+
+          ["@lsp.type.deriveHelper"] = { fg = palette.surimiOrange, italic = true, bold = true },
+          ["@lsp.type.decorator"] = { fg = palette.surimiOrange, italic = true },
+          ["@lsp.type.lifetime"] = { fg = palette.waveRed, italic = true },
+          ["@lsp.type.namespace"] = { fg = palette.springBlue },
+          ["@lsp.type.selfKeyword"] = { fg = palette.waveRed, italic = true },
+          ["@lsp.type.selfTypeKeyword"] = { fg = palette.waveRed, italic = true },
+        }
       end,
     },
   },
