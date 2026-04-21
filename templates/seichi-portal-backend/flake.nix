@@ -31,6 +31,7 @@
           pkgs.openssl
           pkgs.cargo-make
           pkgs.sqlx-cli
+          pkgs.taplo
         ];
       };
     };
