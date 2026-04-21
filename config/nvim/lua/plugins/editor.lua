@@ -5,6 +5,22 @@ return {
     opts = {
       style = "night",
       transparent = false,
+      on_highlights = function(highlights, colors)
+        highlights["@attribute"] = { fg = colors.orange, italic = true }
+        highlights["@function.macro"] = { fg = colors.orange, bold = true }
+        highlights["@module"] = { fg = colors.cyan }
+        highlights["@constructor"] = { fg = colors.magenta, bold = true }
+        highlights["@type"] = { fg = colors.blue, bold = true }
+        highlights["@type.builtin"] = { fg = colors.teal, italic = true }
+        highlights["@variable.member"] = { fg = colors.cyan }
+
+        highlights["@lsp.type.deriveHelper"] = { fg = colors.orange, italic = true, bold = true }
+        highlights["@lsp.type.decorator"] = { fg = colors.orange, italic = true }
+        highlights["@lsp.type.lifetime"] = { fg = colors.red, italic = true }
+        highlights["@lsp.type.namespace"] = { fg = colors.cyan }
+        highlights["@lsp.type.selfKeyword"] = { fg = colors.red, italic = true }
+        highlights["@lsp.type.selfTypeKeyword"] = { fg = colors.red, italic = true }
+      end,
     },
   },
   {
