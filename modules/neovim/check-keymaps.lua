@@ -20,7 +20,8 @@ local function find_duplicates(mode)
 end
 
 local duplicates = vim.iter({ "n", "v", "x", "i", "o", "s", "c", "t" })
-  :flatmap(find_duplicates)
+  :map(find_duplicates)
+  :flatten()
   :totable()
 
 for _, d in ipairs(duplicates) do
