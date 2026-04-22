@@ -11,6 +11,11 @@
         inherit system;
         config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "terraform" ];
       };
+      treesitterRuntime = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+        plugins: with plugins; [
+          hcl
+        ]
+      );
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -20,6 +25,9 @@
           pkgs.kubectl
           pkgs.kubernetes-helm
         ];
+        shellHook = ''
+          export NVIM_TREESITTER_RUNTIME_PROJECT="${treesitterRuntime}"
+        '';
       };
     };
 }
