@@ -31,6 +31,8 @@
 - 共通 grammar runtime は [modules/neovim.nix](/home/rito528/dotfiles/modules/neovim.nix:1) で `NVIM_TREESITTER_RUNTIME_GLOBAL` として配る
 - project 固有 grammar runtime は `templates/*/flake.nix` の `shellHook` で `NVIM_TREESITTER_RUNTIME_PROJECT` として配る
 - Neovim 側は [init.lua](/home/rito528/dotfiles/config/nvim/init.lua:1) で両方を `runtimepath` に追加する
+- 言語固有の LSP 実行環境は、必要に応じて対応する `templates/*/flake.nix` の dev shell が供給する
+- Scala は `templates/seichi-assist/flake.nix` の dev shell で `metals`, `coursier`, `bloop`, `sbt` を揃え、Neovim 側は `nvim-metals` でそれらを利用する
 - parser を追加・削除するときは、この判断軸と実際の template の責務が一致しているかを確認する
 
 ## 変更時の確認
@@ -38,4 +40,6 @@
 - `.nix` を変えたら `nixfmt` を実行する
 - Home Manager 側の変更は `home-manager build --flake .#testuser` で確認する
 - template 側の変更は対応する devShell が評価できることを確認する
+- Scala の IDE 機能は `seichi-assist` dev shell 内で Neovim を起動した場合だけを保証する
+- Metals 初回起動時は build import や build server 接続に少し時間がかかることがある
 - Treesitter の配布先を変えた場合は、この README と関連ドキュメントも更新する

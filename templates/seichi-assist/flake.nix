@@ -17,6 +17,8 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = [
+          pkgs.bloop
+          pkgs.coursier
           pkgs.jdk17
           pkgs.sbt
           pkgs.metals
@@ -24,6 +26,7 @@
           pkgs.stdenv.cc.cc.lib
         ];
         shellHook = ''
+          export JAVA_HOME="${pkgs.jdk17}"
           export NVIM_TREESITTER_RUNTIME_PROJECT="${treesitterRuntime}"
           export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
         '';
