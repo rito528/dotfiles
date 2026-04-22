@@ -17,6 +17,12 @@
         inherit system;
         overlays = [ rust-overlay.overlays.default ];
       };
+      treesitterRuntime = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+        plugins: with plugins; [
+          rust
+          sql
+        ]
+      );
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -33,6 +39,9 @@
           pkgs.sqlx-cli
           pkgs.taplo
         ];
+        shellHook = ''
+          export NVIM_TREESITTER_RUNTIME_PROJECT="${treesitterRuntime}"
+        '';
       };
     };
 }

@@ -20,6 +20,9 @@
   - home-manager 配備対象の Claude Code 向けスキル定義の正規配置
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
   - 詳細は `config/agents/skills/README.md` を参照する
+- `config/nvim/`
+  - home-manager 配備対象の Neovim 設定を管理する
+  - Treesitter parser runtime の配置方針は `config/nvim/README.md` を参照する
 - `config/agents/`
   - AI Agent スキル定義配下の固有ルールは `config/agents/AGENTS.md` を参照する
 ## 3. AI Agent 関連の注意点

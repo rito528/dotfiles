@@ -28,6 +28,16 @@ vim.cmd("filetype plugin indent on")
 local uv = vim.uv or vim.loop
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local lazy_init = lazypath .. "/lua/lazy/init.lua"
+local treesitter_runtimes = {
+  vim.env.NVIM_TREESITTER_RUNTIME_GLOBAL,
+  vim.env.NVIM_TREESITTER_RUNTIME_PROJECT,
+}
+
+for _, runtime in ipairs(treesitter_runtimes) do
+  if runtime and runtime ~= "" then
+    vim.opt.rtp:append(runtime)
+  end
+end
 
 if not uv.fs_stat(lazy_init) then
   vim.fn.system({
@@ -51,6 +61,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins", {
   lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
 })
+require("config.treesitter")
 
 vim.cmd.colorscheme("kanagawa")
 

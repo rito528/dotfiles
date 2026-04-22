@@ -140,6 +140,15 @@ home-manager generations
 
 プロジェクトごとに独立した Nix 開発環境を提供するテンプレートを管理しています（`templates/` 参照）。
 
+Neovim の Treesitter parser runtime は 2 層で管理します。
+
+- Home Manager:
+  - `lua`, `markdown`, `markdown_inline`, `json`, `yaml`, `toml` のような共通 grammar を配る
+- template devShell:
+  - `rust`, `sql`, `typescript`, `javascript`, `scala`, `hcl` のような project 固有 grammar を追加する
+
+判断軸と実装ルールの詳細は `config/nvim/README.md` を参照してください。
+
 ### 自分のプロジェクトで使う場合
 
 ```bash
