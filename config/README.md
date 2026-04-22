@@ -19,9 +19,6 @@
 - `config/claude/`
   - Claude Code の設定、hooks、status line など、実際の挙動を決める設定です
   - 詳細は `config/claude/README.md` を参照してください
-- `config/nvim/`
-  - home-manager が配備する Neovim runtime 追加ファイルです
-  - Treesitter parser runtime の Home Manager / template の分担ルールは `config/nvim/README.md` を参照してください
 - `config/agents/AGENTS.md`, `config/claude/AGENTS.md`
   - AI Agent 関連サブディレクトリを編集するときの固有ルールです
   - 共通ルールに加えて、そのディレクトリで特に意識すべき観点を補います
