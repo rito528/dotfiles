@@ -27,7 +27,28 @@ return {
       { "<Leader>fr", "<Cmd>Telescope oldfiles<CR>", desc = "Recent files" },
       { "<Leader>fg", "<Cmd>Telescope live_grep<CR>", desc = "Live grep" },
     },
-    opts = {},
+    opts = {
+      defaults = {
+        sorting_strategy = "ascending",
+        layout_strategy = "horizontal",
+        layout_config = {
+          prompt_position = "top",
+          width = 0.95,
+          height = 0.9,
+          preview_width = 0.6,
+        },
+        path_display = { "smart" },
+        wrap_results = true,
+      },
+      pickers = {
+        live_grep = {
+          only_sort_text = true,
+        },
+        find_files = {
+          hidden = true,
+        },
+      },
+    },
   },
   {
     "dnlhc/glance.nvim",
