@@ -37,3 +37,9 @@ jobs:
           CI: true
         run: |
           nix run nixpkgs#home-manager -- build --flake .#testuser
+
+      - name: Test neovim headless startup
+        run: |
+          nixvim=$(nix-store -q --references "$(readlink result/home-path)" | grep nixvim)
+          XDG_CONFIG_HOME="$(readlink -f result/home-files/.config)" \
+            "$nixvim/bin/nvim" --headless -c "quitall"
