@@ -8,6 +8,7 @@ on:
       - 'flake.lock'
       - 'config/**'
       - 'install/**'
+      - 'modules/neovim/check-keymaps.lua'
       - '.github/workflows/integration-test.yaml'
   pull_request:
     branches: [main]
@@ -16,6 +17,7 @@ on:
       - 'flake.lock'
       - 'config/**'
       - 'install/**'
+      - 'modules/neovim/check-keymaps.lua'
       - '.github/workflows/integration-test.yaml'
 
 jobs:
@@ -47,3 +49,14 @@ jobs:
             XDG_CACHE_HOME="$cache_dir" \
             XDG_DATA_HOME="$(mktemp -d)" \
             "$nixvim/bin/nvim" --headless -c "quitall"
+
+      - name: Check duplicate keymaps
+        run: |
+          nixvim=$(nix-store -q --references "$(readlink result/home-path)" | grep nixvim)
+          cache_dir=$(mktemp -d)
+          mkdir -p "$cache_dir/nvim"
+          XDG_CONFIG_HOME="$(readlink -f result/home-files/.config)" \
+            XDG_CACHE_HOME="$cache_dir" \
+            XDG_DATA_HOME="$(mktemp -d)" \
+            "$nixvim/bin/nvim" --headless \
+              -S modules/neovim/check-keymaps.lua
