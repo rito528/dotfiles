@@ -8,7 +8,6 @@
         "sbt"
         "java"
       ];
-      group = "nvim-metals";
       desc = "Attach nvim-metals when Scala tooling is available";
       callback = lib.nixvim.mkRaw ''
         function()

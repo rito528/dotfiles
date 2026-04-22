@@ -12,7 +12,6 @@ in
   };
 
   opts = {
-    background = "";
     conceallevel = 2;
     cursorline = true;
     number = true;
@@ -261,7 +260,6 @@ in
   autoCmd = [
     {
       event = "ColorScheme";
-      group = "markdown_highlights";
       desc = "Apply custom markdown highlight groups";
       callback = lib.nixvim.mkRaw ''
         function()
