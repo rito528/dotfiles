@@ -45,6 +45,18 @@
       options.desc = "Toggle comment";
     }
     {
+      key = ">";
+      mode = "v";
+      action = ">gv";
+      options.desc = "Indent and keep selection";
+    }
+    {
+      key = "<";
+      mode = "v";
+      action = "<gv";
+      options.desc = "Unindent and keep selection";
+    }
+    {
       key = "-";
       mode = "n";
       action = "<Cmd>Oil<CR>";
