@@ -22,23 +22,6 @@ run_home_manager() {
     fi
 }
 
-maybe_migrate_nvim_layout() {
-    local nvim_dir target
-
-    nvim_dir="${HOME}/.config/nvim"
-    if [ ! -L "$nvim_dir" ]; then
-        return 0
-    fi
-
-    target="$(readlink -f "$nvim_dir" || true)"
-    case "$target" in
-        /nix/store/*)
-            echo "Migrating existing Neovim symlink to directory-based Home Manager layout..." >&2
-            rm "$nvim_dir"
-            ;;
-    esac
-}
-
 switch_log="$(mktemp)"
 trap 'rm -f "$switch_log"' EXIT
 
@@ -47,9 +30,6 @@ if run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" >"$switch_log" 2>
 fi
 
 if grep -Eq "Existing file '.*' is in the way|Existing file '.*' would be clobbered" "$switch_log"; then
-    if grep -Eq "Existing file '${HOME//\//\\/}/\\.config/nvim/.*' is in the way|Existing file '${HOME//\//\\/}/\\.config/nvim/.*' would be clobbered" "$switch_log"; then
-        maybe_migrate_nvim_layout
-    fi
     echo "Existing unmanaged files detected. Retrying with backup extension '.backup'..." >&2
     run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" -b backup
     exit 0
