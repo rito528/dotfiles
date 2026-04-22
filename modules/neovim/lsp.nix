@@ -1,5 +1,14 @@
 { ... }:
 {
+  extraConfigLua = ''
+    vim.diagnostic.config({
+      virtual_text = {
+        prefix = "●",
+        source = "if_many",
+      },
+    })
+  '';
+
   plugins = {
     "copilot-vim" = {
       enable = true;
