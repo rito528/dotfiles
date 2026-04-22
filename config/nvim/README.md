@@ -1,6 +1,8 @@
 # config/nvim/
 
-`config/nvim/` は home-manager によって `~/.config/nvim` へ配備される Neovim 設定の正本です。
+`config/nvim/` は home-manager によって `~/.config/nvim` へ配備される runtime 追加ファイルの置き場です。
+
+Neovim 本体の設定正本は `modules/neovim/` にあります。
 
 ## Treesitter の配置方針
 
@@ -28,9 +30,9 @@
 
 ## 実装ルール
 
-- 共通 grammar runtime は [modules/neovim.nix](/home/rito528/dotfiles/modules/neovim.nix:1) で `NVIM_TREESITTER_RUNTIME_GLOBAL` として配る
+- 共通 grammar runtime は [modules/neovim/default.nix](/home/rito528/dotfiles/modules/neovim/default.nix:1) で `NVIM_TREESITTER_RUNTIME_GLOBAL` として配る
 - project 固有 grammar runtime は `templates/*/flake.nix` の `shellHook` で `NVIM_TREESITTER_RUNTIME_PROJECT` として配る
-- Neovim 側は [init.lua](/home/rito528/dotfiles/config/nvim/init.lua:1) で両方を `runtimepath` に追加する
+- Neovim 側は [modules/neovim/base.nix](/home/rito528/dotfiles/modules/neovim/base.nix:1) の `extraConfigLuaPre` で両方を `runtimepath` に追加する
 - 言語固有の LSP 実行環境は、必要に応じて対応する `templates/*/flake.nix` の dev shell が供給する
 - Scala は `templates/seichi-assist/flake.nix` の dev shell で `metals`, `coursier`, `bloop`, `sbt` を揃え、Neovim 側は `nvim-metals` でそれらを利用する
 - parser を追加・削除するときは、この判断軸と実際の template の責務が一致しているかを確認する

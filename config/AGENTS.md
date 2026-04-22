@@ -21,7 +21,7 @@
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
   - 詳細は `config/agents/skills/README.md` を参照する
 - `config/nvim/`
-  - home-manager 配備対象の Neovim 設定を管理する
+  - Neovim の runtime 追加ファイルを管理する
   - Treesitter parser runtime の配置方針は `config/nvim/README.md` を参照する
 - `config/agents/`
   - AI Agent スキル定義配下の固有ルールは `config/agents/AGENTS.md` を参照する

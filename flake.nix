@@ -7,12 +7,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim.url = "github:nix-community/nixvim";
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
+      nixvim,
       ...
     }:
     let
@@ -23,6 +25,7 @@
           pkg:
           builtins.elem (nixpkgs.lib.getName pkg) [
             "claude-code"
+            "copilot.vim"
             "github-copilot-cli"
           ];
       };
@@ -30,7 +33,10 @@
         username: homeDirectory: personal:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [ ./home.nix ];
+          modules = [
+            nixvim.homeModules.nixvim
+            ./home.nix
+          ];
           extraSpecialArgs = {
             inherit username homeDirectory personal;
           };

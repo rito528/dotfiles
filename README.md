@@ -149,6 +149,8 @@ Neovim の Treesitter parser runtime は 2 層で管理します。
 
 判断軸と実装ルールの詳細は `config/nvim/README.md` を参照してください。
 
+Neovim 本体の設定正本は `modules/neovim/` にあり、`config/nvim/` には runtime 追加ファイルだけを置きます。
+
 ### 自分のプロジェクトで使う場合
 
 ```bash
