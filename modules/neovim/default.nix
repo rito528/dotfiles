@@ -14,9 +14,6 @@ in
 {
   home.sessionVariables.NVIM_TREESITTER_RUNTIME_GLOBAL = "${commonTreesitterRuntime}";
 
-  xdg.configFile."nvim/after/queries/rust/highlights.scm".source =
-    ../../config/nvim/after/queries/rust/highlights.scm;
-
   programs.nixvim = {
     enable = true;
     defaultEditor = true;

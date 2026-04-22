@@ -1,6 +1,8 @@
 # config/nvim/
 
-`config/nvim/` は home-manager によって `~/.config/nvim` へ配備される runtime 追加ファイルの置き場です。
+`config/nvim/` は Neovim runtime 追加ファイルの正本置き場です。
+
+`programs.nixvim` が直接配備する設定に取り込むものと、Home Manager が `~/.config/nvim` へリンクするものが含まれます。
 
 Neovim 本体の設定正本は `modules/neovim/` にあります。
 

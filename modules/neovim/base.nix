@@ -1,4 +1,10 @@
-{ lib, ... }:
+{
+  lib,
+  ...
+}:
+let
+  rustHighlightsQuery = builtins.readFile ../../config/nvim/after/queries/rust/highlights.scm;
+in
 {
   globals = {
     mapleader = " ";
@@ -227,25 +233,29 @@
   };
 
   extraConfigLuaPre = ''
-    function _G.statuscolumn_numbers()
-      if vim.v.virtnum ~= 0 then
-        return ""
-      end
+        function _G.statuscolumn_numbers()
+          if vim.v.virtnum ~= 0 then
+            return ""
+          end
 
-      local absolute = tostring(vim.v.lnum)
-      local relative = tostring(vim.v.relnum)
+          local absolute = tostring(vim.v.lnum)
+          local relative = tostring(vim.v.relnum)
 
-      return string.format("%4s %4s ", absolute, relative)
-    end
+          return string.format("%4s %4s ", absolute, relative)
+        end
 
-    for _, runtime in ipairs({
-      vim.env.NVIM_TREESITTER_RUNTIME_GLOBAL,
-      vim.env.NVIM_TREESITTER_RUNTIME_PROJECT,
-    }) do
-      if runtime and runtime ~= "" then
-        vim.opt.rtp:append(runtime)
-      end
-    end
+        for _, runtime in ipairs({
+          vim.env.NVIM_TREESITTER_RUNTIME_GLOBAL,
+          vim.env.NVIM_TREESITTER_RUNTIME_PROJECT,
+        }) do
+          if runtime and runtime ~= "" then
+            vim.opt.rtp:append(runtime)
+          end
+        end
+
+        vim.treesitter.query.set("rust", "highlights", [=[
+    ${rustHighlightsQuery}
+    ]=])
   '';
 
   autoCmd = [
