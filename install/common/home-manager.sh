@@ -14,8 +14,26 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 FLAKE_PATH="$REPO_DIR"
 FLAKE_USER="${HM_FLAKE_USER:-${USER}}"
 
-if command -v home-manager &>/dev/null; then
-    home-manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" -b backup
-else
-    nix run nixpkgs#home-manager -- switch --flake "$FLAKE_PATH#${FLAKE_USER}" -b backup
+run_home_manager() {
+    if command -v home-manager &>/dev/null; then
+        home-manager "$@"
+    else
+        nix run nixpkgs#home-manager -- "$@"
+    fi
+}
+
+switch_log="$(mktemp)"
+trap 'rm -f "$switch_log"' EXIT
+
+if run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" >"$switch_log" 2>&1; then
+    exit 0
 fi
+
+if grep -Eq "Existing file '.*' is in the way|Existing file '.*' would be clobbered" "$switch_log"; then
+    echo "Existing unmanaged files detected. Retrying with backup extension '.backup'..." >&2
+    run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" -b backup
+    exit 0
+fi
+
+cat "$switch_log" >&2
+exit 1

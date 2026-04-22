@@ -147,7 +147,7 @@ Neovim の Treesitter parser runtime は 2 層で管理します。
 - template devShell:
   - `rust`, `sql`, `typescript`, `javascript`, `scala`, `hcl` のような project 固有 grammar を追加する
 
-判断軸と実装ルールの詳細は `config/nvim/README.md` を参照してください。
+Neovim 本体の設定正本は `modules/neovim/` にあります。
 
 ### 自分のプロジェクトで使う場合
 

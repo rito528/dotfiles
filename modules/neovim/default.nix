@@ -14,5 +14,16 @@ in
 {
   home.sessionVariables.NVIM_TREESITTER_RUNTIME_GLOBAL = "${commonTreesitterRuntime}";
 
-  xdg.configFile."nvim".source = ../config/nvim;
+  programs.nixvim = {
+    enable = true;
+    defaultEditor = true;
+    nixpkgs.useGlobalPackages = true;
+    vimdiffAlias = true;
+    imports = [
+      ./base.nix
+      ./plugins.nix
+      ./lsp.nix
+      ./scala.nix
+    ];
+  };
 }

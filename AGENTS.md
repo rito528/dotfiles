@@ -26,6 +26,7 @@
 - **Git 設定を変える**: `modules/git.nix` を確認する
 - **GPG / SSH 関連を変える**: `modules/gpg.nix`, `modules/ssh.nix` を確認する
 - **Codex / Claude / AI Agent 設定を変える**: `modules/codex.nix`, `modules/claude.nix`, `.agents/skills/`, `config/agents/`, `config/claude/` のどれが正本かを確認する
+- **Neovim 設定を変える**: `modules/neovim/` を確認する
 - **セットアップ処理を変える**: `install/` を確認する。定常設定であれば Nix に寄せられないか先に検討する
 - **npm/pnpm パッケージ管理を変える**: `modules/npm/default.nix` と `modules/npm/packages/` を確認する
 - **カスタム package を変える**: `modules/packages/default.nix` と `modules/packages/` を確認する
