@@ -70,4 +70,5 @@
 - `config/` 配下の詳細な編集ルールは `config/AGENTS.md` を参照してください
 - Claude 関連の詳細は `config/claude/AGENTS.md`, `config/claude/README.md` を参照してください
 - agents 配下の詳細は `config/agents/AGENTS.md`, `config/agents/skills/README.md` を参照してください
+- Neovim 設定の詳細は `modules/neovim/AGENTS.md` を参照してください
 - 実装の全体像や詳細一覧が必要な場合は、まずコードと生成物を確認してください
