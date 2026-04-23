@@ -10,56 +10,16 @@
 - **シークレット管理**: [Doppler](https://www.doppler.com/) (GPG/SSH キーも含む)
 - **シェル**: zsh
 
-## ディレクトリ構成
+## リポジトリ構成
 
-```
-dotfiles/
-├── .github/workflows/        # GitHub Actions CI 定義
-│   ├── lint.yaml             # shellcheck・nixfmt Lint
-│   ├── integration-test.yaml # Cachix を使った home-manager ビルド検証
-│   ├── nix.yaml              # Nix flake check
-│   ├── devshell.yaml         # templates/ 配下の devShell ビルド検証
-│   ├── nix-update-pr.yaml    # Renovate 時のハッシュ自動更新
-│   ├── update-flake-lock.yaml # 週次 flake.lock 更新
-│   ├── e2e-setup-test.yaml   # セットアップ E2E テスト
-│   └── renovate.yaml         # Renovate 設定
-├── .agents/                  # エージェント横断のローカル AI 定義
-│   └── skills/               # Codex / Claude / Copilot 共有スキル
-├── .claude/                  # Claude Code ローカル設定
-│   ├── agents/               # Claude 用カスタムエージェント
-│   └── skills -> ../.agents/skills # 共有スキルへの互換リンク
-├── config/                   # home-manager が配置する設定ファイル群
-│   ├── agents/
-│   │   └── skills/           # home-manager 配備用 AI スキル定義
-│   ├── AGENTS.md             # config/ 配下専用の運用ルール
-│   ├── claude/               # Claude Code 設定
-│   │   ├── hooks/notify.sh   # WSL 向け Windows Toast 通知
-│   │   ├── settings.json     # フック・プラグイン設定
-│   └── README.md             # config/ 全体の説明
-├── .githooks/                # このリポジトリ専用の Git hooks
-├── flake.nix                 # フレーク定義
-├── flake.lock                # フレークロックファイル
-├── home.nix                  # パッケージ・ファイル配置の宣言
-├── modules/                  # 機能別 Nix モジュール
-│   ├── packages.nix          # コアパッケージ
-│   ├── git.nix               # Git 設定・GPG 署名
-│   ├── gpg.nix               # GPG/SSH キー管理 (Doppler)
-│   ├── shell.nix             # zsh・starship・direnv
-│   ├── ssh.nix               # SSH 設定
-│   ├── codex.nix             # Codex CLI 設定配置
-│   ├── claude.nix            # Claude Code 設定配置
-│   ├── gitleaks.nix          # gitleaks
-│   ├── npm/                  # npm/pnpm パッケージ管理
-│   │   ├── default.nix
-│   │   └── packages/         # パッケージ定義 (例: difit.nix)
-│   ├── packages/             # カスタムパッケージ (actrun, git-wt など)
-│   └── scripts/              # カスタムスクリプト
-├── templates/                # Nix 開発環境テンプレート
-├── install/                  # セットアップスクリプト
-│   ├── common/               # OS 共通スクリプト (nix.sh, home-manager.sh, chsh-zsh.sh, setup-local-hooks.sh)
-│   └── ubuntu/               # Ubuntu / Debian 系固有スクリプト
-└── setup.sh                  # セットアップエントリポイント
-```
+- **`home.nix` / `modules/`**: Home Manager の設定と配備定義の正本。機能ごとに Nix モジュールを分割して管理しています。
+- **`config/`**: home-manager が `~` 以下に配置する設定ファイルの正本。Claude Code 設定・AI スキル定義などを含みます。詳細は `config/AGENTS.md` と `config/README.md` を参照してください。
+- **`.agents/skills/`**: リポジトリローカルの共有 AI スキル定義（Codex / Claude / Copilot などが参照）。
+- **`.claude/`**: Claude Code ローカル設定。`skills` は `.agents/skills/` へのシンボリックリンクです。
+- **`.githooks/`**: このリポジトリ専用の Git hooks の正本。
+- **`install/`**: セットアップスクリプト群。`setup.sh` がエントリポイントです。
+- **`templates/`**: プロジェクトごとの Nix 開発環境テンプレート。
+- **`.github/workflows/`**: CI 定義。lint・ビルド検証・E2E テストなどを含みます。
 
 ## セットアップ手順
 
