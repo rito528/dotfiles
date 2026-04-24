@@ -4,10 +4,22 @@
 
 set -euo pipefail
 
+if [ "${EUID:-$(id -u)}" -eq 0 ]; then
+    echo "Error: Do not run this script as root or with sudo." >&2
+    exit 1
+fi
+
 NIX_PROFILE=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 if [ -e "$NIX_PROFILE" ] && ! command -v nix &>/dev/null; then
     # shellcheck source=/dev/null
     . "$NIX_PROFILE"
+fi
+
+NIX_USER_CONF="${XDG_CONFIG_HOME:-$HOME/.config}/nix/nix.conf"
+if ! grep -qE '^accept-flake-config\s*=' "$NIX_USER_CONF" 2>/dev/null; then
+    mkdir -p "$(dirname "$NIX_USER_CONF")"
+    echo "accept-flake-config = true" >> "$NIX_USER_CONF"
+    echo "Set accept-flake-config = true in $NIX_USER_CONF" >&2
 fi
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -18,22 +30,8 @@ run_home_manager() {
     if command -v home-manager &>/dev/null; then
         home-manager "$@"
     else
-        nix run --accept-flake-config nixpkgs#home-manager -- "$@"
+        nix run nixpkgs#home-manager -- "$@"
     fi
 }
 
-switch_log="$(mktemp)"
-trap 'rm -f "$switch_log"' EXIT
-
-if run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" >"$switch_log" 2>&1; then
-    exit 0
-fi
-
-if grep -Eq "Existing file '.*' is in the way|Existing file '.*' would be clobbered" "$switch_log"; then
-    echo "Existing unmanaged files detected. Retrying with backup extension '.backup'..." >&2
-    run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}" -b backup
-    exit 0
-fi
-
-cat "$switch_log" >&2
-exit 1
+run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}"
