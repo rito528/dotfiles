@@ -18,7 +18,7 @@ run_home_manager() {
     if command -v home-manager &>/dev/null; then
         home-manager "$@"
     else
-        nix run nixpkgs#home-manager -- "$@"
+        nix run --accept-flake-config nixpkgs#home-manager -- "$@"
     fi
 }
 
