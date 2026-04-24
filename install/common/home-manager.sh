@@ -4,11 +4,6 @@
 
 set -euo pipefail
 
-if [ "${EUID:-$(id -u)}" -eq 0 ]; then
-    echo "Error: Do not run this script as root or with sudo." >&2
-    exit 1
-fi
-
 NIX_PROFILE=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 if [ -e "$NIX_PROFILE" ] && ! command -v nix &>/dev/null; then
     # shellcheck source=/dev/null
