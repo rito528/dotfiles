@@ -9,7 +9,7 @@
   };
 
   opts = {
-    conceallevel = 2;
+    conceallevel = 0;
     cursorline = true;
     number = true;
     numberwidth = 4;
