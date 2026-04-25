@@ -10,13 +10,6 @@ if [ -e "$NIX_PROFILE" ] && ! command -v nix &>/dev/null; then
     . "$NIX_PROFILE"
 fi
 
-NIX_USER_CONF="${XDG_CONFIG_HOME:-$HOME/.config}/nix/nix.conf"
-if ! grep -qE '^accept-flake-config\s*=' "$NIX_USER_CONF" 2>/dev/null; then
-    mkdir -p "$(dirname "$NIX_USER_CONF")"
-    echo "accept-flake-config = true" >> "$NIX_USER_CONF"
-    echo "Set accept-flake-config = true in $NIX_USER_CONF" >&2
-fi
-
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 FLAKE_PATH="$REPO_DIR"
 FLAKE_USER="${HM_FLAKE_USER:-${USER}}"
@@ -25,8 +18,8 @@ run_home_manager() {
     if command -v home-manager &>/dev/null; then
         home-manager "$@"
     else
-        nix run nixpkgs#home-manager -- "$@"
+        nix --option accept-flake-config true run nixpkgs#home-manager -- "$@"
     fi
 }
 
-run_home_manager switch --flake "$FLAKE_PATH#${FLAKE_USER}"
+run_home_manager --option accept-flake-config true switch --flake "$FLAKE_PATH#${FLAKE_USER}"

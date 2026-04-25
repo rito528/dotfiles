@@ -34,14 +34,6 @@ configure_numtide_cache() {
         restart_required=1
     fi
 
-    if grep -qE "(^|[[:space:]])${USER}([[:space:]]|$)" "$target_conf" 2>/dev/null; then
-        echo "$USER is already trusted in $target_conf"
-    else
-        echo "Granting trusted Nix access to $USER in $target_conf..."
-        echo "extra-trusted-users = $USER" | sudo tee -a "$target_conf" > /dev/null
-        restart_required=1
-    fi
-
     if [ "$restart_required" -eq 1 ]; then
         echo "Restarting nix-daemon to apply cache settings..."
         sudo systemctl restart nix-daemon
