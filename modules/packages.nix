@@ -10,7 +10,6 @@
     doppler
     gh
     ripgrep
-    gemini-cli
     shellcheck
     ghq
     fzf
