@@ -10,10 +10,6 @@
     doppler
     gh
     ripgrep
-    claude-code
-    github-copilot-cli
-    gemini-cli
-    codex
     shellcheck
     ghq
     fzf

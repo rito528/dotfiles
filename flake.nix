@@ -1,6 +1,11 @@
 {
   description = "Home Manager configuration";
 
+  nixConfig = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
@@ -8,6 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim.url = "github:nix-community/nixvim";
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -15,18 +21,20 @@
       nixpkgs,
       home-manager,
       nixvim,
+      llm-agents,
       ...
     }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
+        overlays = [ llm-agents.overlays.default ];
         config.allowUnfreePredicate =
           pkg:
           builtins.elem (nixpkgs.lib.getName pkg) [
             "claude-code"
             "copilot.vim"
-            "github-copilot-cli"
+            "copilot-cli"
           ];
       };
       mkHomeConfig =
