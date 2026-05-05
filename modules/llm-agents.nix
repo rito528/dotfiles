@@ -6,5 +6,6 @@
     pkgs.llm-agents.copilot-cli
     pkgs.llm-agents.codex
     pkgs.llm-agents.gemini-cli
+    pkgs.llm-agents.opencode
   ];
 }
