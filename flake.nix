@@ -35,6 +35,7 @@
             "claude-code"
             "copilot.vim"
             "copilot-cli"
+            "vimplugin-barbar.nvim"
           ];
       };
       mkHomeConfig =
