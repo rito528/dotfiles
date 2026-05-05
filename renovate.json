@@ -22,7 +22,7 @@
       "prCreation": "not-pending",
       "rebaseWhen": "never",
       "schedule": [
-        "* * * * 0"
+        "on sunday"
       ]
     }
   ],
