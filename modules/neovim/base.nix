@@ -87,6 +87,12 @@
       options.desc = "Live grep";
     }
     {
+      key = "<Leader>gs";
+      mode = "n";
+      action = "<Cmd>Telescope git_status<CR>";
+      options.desc = "Git status";
+    }
+    {
       key = "<Leader>ld";
       mode = "n";
       action = "<Cmd>Glance definitions<CR>";
