@@ -118,7 +118,14 @@
         };
         pickers = {
           find_files.hidden = true;
-          live_grep.only_sort_text = true;
+          grep_string.sorter = lib.nixvim.mkRaw "require('telescope.sorters').empty()";
+          live_grep = {
+            only_sort_text = true;
+            # ripgrep already does the actual filtering. Avoid Telescope's
+            # secondary fuzzy matcher here so multibyte queries such as
+            # Japanese text are not filtered out after rg finds them.
+            sorter = lib.nixvim.mkRaw "require('telescope.sorters').empty()";
+          };
         };
       };
     };
