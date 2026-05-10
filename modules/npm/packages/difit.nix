@@ -1,12 +1,12 @@
 { pkgs }:
 let
   # renovate: datasource=github-releases depName=yoshiko-pg/difit
-  version = "4.0.6";
+  version = "4.0.7";
   src = pkgs.fetchFromGitHub {
     owner = "yoshiko-pg";
     repo = "difit";
     rev = "v${version}";
-    hash = "sha256-IvXs8JRT1DFI3O2Ow+jX77Cxi6utoP4eIam+IW/BhsM=";
+    hash = "sha256-UkyCs0liror17s6pMkRtC91t6GwTFSK6OOhceS2C5og=";
   };
   pnpmDeps = pkgs.fetchPnpmDeps {
     pname = "difit";
