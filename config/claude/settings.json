@@ -43,7 +43,7 @@
     "OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE": "delta",
     "OTEL_LOG_TOOL_DETAILS": "1"
   },
-  "effortLevel": "low",
+  "effortLevel": "medium",
   "permissions": {
     "defaultMode": "default",
     "allow": [
