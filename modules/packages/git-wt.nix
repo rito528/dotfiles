@@ -4,7 +4,7 @@ let
   version = "0.28.0";
   src = pkgs.fetchurl {
     url = "https://github.com/k1LoW/git-wt/releases/download/v${version}/git-wt_v${version}_linux_amd64.tar.gz";
-    hash = "sha256-qOJkuF/1lK2RHF967NlXJVr0Z4mVm7PJ+uDxBfGv+ew=";
+    hash = "sha256-1wucLbCNBiuMN6iq+HZsB0NPkfyEFMkEMK7gE1M6rAI=";
   };
 in
 pkgs.stdenv.mkDerivation {
