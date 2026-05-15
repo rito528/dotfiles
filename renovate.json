@@ -17,11 +17,12 @@
         "action"
       ],
       "pinDigests": true,
-      "minimumReleaseAge": "6 days",
-      "internalChecksFilter": "strict",
-      "prCreation": "not-pending",
+      "minimumReleaseAge": "7 days",
+      "minimumReleaseAgeBehaviour": "timestamp-required",
+      "internalChecksFilter": "none",
+      "prCreation": "immediate",
       "rebaseWhen": "never",
-      "schedule": [
+      "automergeSchedule": [
         "on sunday"
       ]
     }
