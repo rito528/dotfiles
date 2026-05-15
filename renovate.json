@@ -36,7 +36,7 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+version = \"(?<currentValue>[^\"]+)\";"
       ],
-      "versioningTemplate": "semver",
+      "versioningTemplate": "semver-coerced",
       "extractVersionTemplate": "^v?(?<version>.*)$"
     }
   ]
