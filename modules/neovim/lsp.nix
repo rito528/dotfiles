@@ -59,7 +59,6 @@
         };
         ts_ls = {
           enable = true;
-          package = null;
         };
       };
     };
