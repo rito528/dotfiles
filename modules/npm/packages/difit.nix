@@ -12,7 +12,7 @@ let
     pname = "difit";
     inherit version src;
     fetcherVersion = 3;
-    hash = "sha256-LaKAgA2O+z670LLz+HqOehXblFH1T2hY3s6GUKezR0w=";
+    hash = "sha256-SUnURxQ1hnLt30pINv0gaBHcIuzmqCt9u9sk8e2P91c=";
   };
 in
 pkgs.stdenv.mkDerivation {
