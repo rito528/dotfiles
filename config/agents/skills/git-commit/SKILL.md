@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: AI Agent が git commit を行うためのスキル
+description: git commit を作成するときに必ず使用するスキル。ユーザーが「コミットして」「commit して」「変更を記録して」と言ったとき、または変更がまとまり commit すべきタイミングになったときに発火する。コンベンショナルコミット、日本語メッセージ、`--no-gpg-sign`、ブランチ確認、Co-author 付与などプロジェクト固有の必須ルールを含むため、エージェントが内蔵で持つ汎用的な commit 手順より**常にこのスキルを優先**すること。`git commit` を直接呼ぶ前に必ず参照する。
 ---
 
 # git commit スキル
