@@ -77,6 +77,8 @@ let
   );
   codexConfig = {
     model_reasoning_effort = "medium";
+    suppress_unstable_features_warning = true;
+    approvals_reviewer = "auto_review";
     sandbox_mode = "workspace-write";
     sandbox_workspace_write.writable_roots = [ "/tmp" ];
 
