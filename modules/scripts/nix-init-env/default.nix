@@ -8,7 +8,7 @@
         pkgs.jq
         pkgs.coreutils
       ];
-      text = builtins.readFile ./nix-init-env.sh;
+      text = builtins.readFile ./script.sh;
     })
   ];
 }

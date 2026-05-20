@@ -1,7 +1,8 @@
 { ... }:
+let
+  entries = builtins.readDir ./.;
+  dirs = builtins.filter (name: entries.${name} == "directory") (builtins.attrNames entries);
+in
 {
-  imports = [
-    ./switch-branch-with-refresh.nix
-    ./nix-init-env.nix
-  ];
+  imports = map (d: ./. + "/${d}") dirs;
 }
