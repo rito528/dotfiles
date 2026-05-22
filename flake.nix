@@ -67,10 +67,9 @@
           }) nixFiles
         );
       npmPackages = loadPackagesDir ./modules/npm/packages;
-      extraPackages = loadPackagesDir ./modules/packages;
     in
     {
-      packages.${system} = npmPackages // extraPackages;
+      packages.${system} = npmPackages;
       homeConfigurations = {
         "rito528" = mkHomeConfig "rito528" "/home/rito528" {
           name = "rito528";

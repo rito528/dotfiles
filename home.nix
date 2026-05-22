@@ -20,7 +20,7 @@
     ./modules/claude.nix
     ./modules/gitleaks.nix
     ./modules/npm
-    ./modules/packages
+    ./modules/actrun.nix
     ./modules/git-wt.nix
   ];
 

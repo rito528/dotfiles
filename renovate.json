@@ -32,7 +32,6 @@
       "customType": "regex",
       "managerFilePatterns": [
         "/^modules/npm/packages/.+\\.nix$/",
-        "/^modules/packages/.+\\.nix$/",
         "/^modules/[^/]+\\.nix$/"
       ],
       "matchStrings": [
