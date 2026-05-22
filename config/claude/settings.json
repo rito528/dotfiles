@@ -2,6 +2,13 @@
   "worktreeConfig": {
     "enabled": true
   },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": [
+      "git *"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
