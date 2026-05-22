@@ -21,6 +21,7 @@
     ./modules/gitleaks.nix
     ./modules/npm
     ./modules/packages
+    ./modules/git-wt.nix
   ];
 
   home.username = username;
