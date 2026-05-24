@@ -109,18 +109,6 @@
       "WebFetch",
       "WebSearch"
     ],
-    "ask": [
-      "Bash(wget *)",
-      "Bash(curl *)",
-      "Bash(git push *)",
-      "Bash(git -C * push *)",
-      "Bash(git stash *)",
-      "Bash(git -C * stash *)",
-      "Bash(git rm *)",
-      "Bash(git -C * rm *)",
-      "Bash(gh pr create *)",
-      "Bash(gh issue comment *)"
-    ],
     "deny": [
       "Bash(python *)",
       "Bash(python3 *)",
