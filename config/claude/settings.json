@@ -44,8 +44,7 @@
     "command": "$HOME/.claude/statusline.py"
   },
   "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "example-skills@anthropic-agent-skills": true
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
   "permissions": {
