@@ -40,22 +40,18 @@
       servers = {
         eslint = {
           enable = true;
-          package = null;
           settings.eslint.autoFixOnSave = true;
         };
         jsonls = {
           enable = true;
-          package = null;
         };
         rust_analyzer = {
           enable = true;
           installCargo = false;
           installRustc = false;
-          package = null;
         };
         taplo = {
           enable = true;
-          package = null;
         };
         ts_ls = {
           enable = true;
