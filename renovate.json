@@ -25,6 +25,20 @@
       "automergeSchedule": [
         "on sunday"
       ]
+    },
+    {
+      "matchDepTypes": [
+        "action"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest"
+      ],
+      "minimumReleaseAge": null,
+      "minimumReleaseAgeBehaviour": "timestamp-optional",
+      "automergeSchedule": [
+        "on sunday"
+      ]
     }
   ],
   "customManagers": [
