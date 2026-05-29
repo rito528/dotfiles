@@ -105,8 +105,7 @@ in
   # mutable なコピーとして配置する。home-manager switch のたびに上書きされる。
   home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     $DRY_RUN_CMD mkdir -p "${homeDirectory}/.codex"
-    $DRY_RUN_CMD cp -f ${codexConfigFile} "${homeDirectory}/.codex/config.toml"
-    $DRY_RUN_CMD chmod 644 "${homeDirectory}/.codex/config.toml"
+    $DRY_RUN_CMD install -m 644 ${codexConfigFile} "${homeDirectory}/.codex/config.toml"
   '';
 
   home.file.".codex/rules/default.rules" = {
