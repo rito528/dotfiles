@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   homeDirectory,
   ...
 }:
@@ -97,12 +98,16 @@ let
 
     features.codex_git_commit = true;
   };
+  codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;
 in
 {
-  home.file.".codex/config.toml" = {
-    force = true;
-    source = tomlFormat.generate "codex-config.toml" codexConfig;
-  };
+  # config.toml は Codex がトラスト設定などを書き込むため、symlink ではなく
+  # mutable なコピーとして配置する。home-manager switch のたびに上書きされる。
+  home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD mkdir -p "${homeDirectory}/.codex"
+    $DRY_RUN_CMD cp -f ${codexConfigFile} "${homeDirectory}/.codex/config.toml"
+    $DRY_RUN_CMD chmod 644 "${homeDirectory}/.codex/config.toml"
+  '';
 
   home.file.".codex/rules/default.rules" = {
     force = true;
