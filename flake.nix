@@ -2,8 +2,14 @@
   description = "Home Manager configuration";
 
   nixConfig = {
-    extra-substituters = [ "https://cache.numtide.com" ];
-    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
+    extra-substituters = [
+      "https://cache.numtide.com"
+      "https://rito528-dotfiles.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "rito528-dotfiles.cachix.org-1:Kp/hDIx4sR31gHfT0z0D1RxjdpSrh47nHqzOtDXL/mE="
+    ];
   };
 
   inputs = {
