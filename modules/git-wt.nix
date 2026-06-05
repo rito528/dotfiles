@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   # renovate: datasource=github-releases depName=k1LoW/git-wt
-  version = "0.28.0";
+  version = "0.29.0";
   git-wt = pkgs.stdenv.mkDerivation {
     pname = "git-wt";
     inherit version;
