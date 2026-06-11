@@ -14,7 +14,10 @@ on:
 jobs:
   auto-merge:
     name: Auto Merge Dependency PRs
-    if: github.event.workflow_run.event == 'pull_request'
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_branch == 'update-flake-lock' &&
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
