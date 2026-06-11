@@ -58,5 +58,3 @@ jobs:
             --label "dependencies" \
             --base main \
             --head "$branch" 2>/dev/null || echo "PR already exists, branch updated"
-
-          gh pr merge "$branch" --auto --squash --delete-branch
