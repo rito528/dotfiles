@@ -1,18 +1,12 @@
 name: Lint
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '**/*.sh'
-      - 'config/**'
-      - '.github/workflows/lint.yaml'
-  pull_request:
-    branches: [main]
-    paths:
-      - '**/*.sh'
-      - 'config/**'
-      - '.github/workflows/lint.yaml'
+  workflow_call:
+    inputs:
+      run-shellcheck:
+        description: Run shellcheck when shell-related files changed.
+        required: true
+        type: boolean
 
 jobs:
   lint:
@@ -29,10 +23,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install shellcheck
+        if: inputs.run-shellcheck
         run: sudo apt-get install -y shellcheck
 
       - name: Run shellcheck
+        if: inputs.run-shellcheck
         run: |
-          find . -type f \( -name "*.sh" -o ! -name "*.*" \) \
-            | xargs grep -lE '^#!.*\b(bash|sh)\b' \
-            | xargs shellcheck
+          find . -type f \( -name "*.sh" -o ! -name "*.*" \) -print0 \
+            | xargs -0 -r grep -lZE '^#!.*\b(bash|sh)\b' \
+            | xargs -0 -r shellcheck
