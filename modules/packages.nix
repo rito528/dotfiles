@@ -11,6 +11,7 @@
     gh
     ripgrep
     shellcheck
+    actionlint
     ghq
     fzf
     editorconfig-checker
