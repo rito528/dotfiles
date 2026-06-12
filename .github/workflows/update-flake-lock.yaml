@@ -2,7 +2,7 @@ name: Update flake.lock
 
 on:
   schedule:
-    - cron: '0 0 * * 1'  # 毎週月曜日 UTC 0:00
+    - cron: '0 0 * * *'  # 毎日 UTC 0:00
   workflow_dispatch:
 
 jobs:
@@ -54,7 +54,7 @@ jobs:
 
           gh pr create \
             --title "deps: update flake.lock" \
-            --body "Weekly automated flake.lock updates for root flake and templates." \
+            --body "Daily automated flake.lock updates for root flake and templates." \
             --label "dependencies" \
             --base main \
             --head "$branch" 2>/dev/null || echo "PR already exists, branch updated"
