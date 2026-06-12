@@ -8,21 +8,48 @@ fi
 
 gitleaks protect --staged --redact
 
+staged_files=()
+while IFS= read -r -d '' file; do
+  staged_files+=("$file")
+done < <(git diff --cached --name-only --diff-filter=ACM -z)
+
 # editorconfig チェック (staged ファイルのみ)
 if ! command -v editorconfig-checker &>/dev/null; then
   echo "editorconfig-checker is not installed. Cannot editorconfig check."
   exit 1
 fi
 
-git diff --cached --name-only --diff-filter=ACM | xargs -r editorconfig-checker
+if [[ ${#staged_files[@]} -gt 0 ]]; then
+  printf '%s\0' "${staged_files[@]}" | xargs -0 -r editorconfig-checker
+fi
+
+workflow_files=()
+for file in "${staged_files[@]}"; do
+  case "$file" in
+    .github/workflows/*.yml | .github/workflows/*.yaml)
+      workflow_files+=("$file")
+      ;;
+  esac
+done
+
+if [[ ${#workflow_files[@]} -gt 0 ]]; then
+  # GitHub Actions workflow チェック (staged workflow ファイルのみ)
+  if ! command -v actionlint &>/dev/null; then
+    echo "actionlint is not installed. Cannot GitHub Actions workflow check."
+    exit 1
+  fi
+
+  actionlint "${workflow_files[@]}"
+fi
 
 # ステージされた .sh ファイルに実行権限があるか確認する
 missing_exec=()
-while IFS= read -r file; do
+for file in "${staged_files[@]}"; do
+  [[ "$file" == *.sh ]] || continue
   if [[ -f "$file" ]] && ! [[ -x "$file" ]]; then
     missing_exec+=("$file")
   fi
-done < <(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$')
+done
 
 if [[ ${#missing_exec[@]} -gt 0 ]]; then
   echo "Error: The following shell scripts are missing execute permission:"
