@@ -1,16 +1,7 @@
 name: Dev Shell
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'templates/**'
-      - '.github/workflows/devshell.yaml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'templates/**'
-      - '.github/workflows/devshell.yaml'
+  workflow_call:
 
 jobs:
   discover:
@@ -24,7 +15,7 @@ jobs:
       - name: List templates
         id: list
         run: |
-          templates=$(ls -1 templates/ | jq -Rc '[.,inputs]')
+          templates=$(find templates -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | jq -Rc '[.,inputs]')
           echo "templates=$templates" >> "$GITHUB_OUTPUT"
 
   devshell-build:

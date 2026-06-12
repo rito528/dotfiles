@@ -1,18 +1,7 @@
 name: Nix
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '**/*.nix'
-      - 'flake.lock'
-      - '.github/workflows/nix.yaml'
-  pull_request:
-    branches: [main]
-    paths:
-      - '**/*.nix'
-      - 'flake.lock'
-      - '.github/workflows/nix.yaml'
+  workflow_call:
 
 jobs:
   nix-flake-check:
@@ -26,6 +15,6 @@ jobs:
           name: rito528-dotfiles
       - name: Check nixfmt formatting
         run: |
-          find . -name "*.nix" -not -path "./.git/*" -type f | \
-            xargs nix run nixpkgs#nixfmt -- --check
+          find . -name "*.nix" -not -path "./.git/*" -type f -print0 | \
+            xargs -0 nix run nixpkgs#nixfmt -- --check
       - run: nix flake check .

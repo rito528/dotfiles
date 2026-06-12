@@ -1,24 +1,7 @@
 name: Integration Test
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '**/*.nix'
-      - 'flake.lock'
-      - 'config/**'
-      - 'install/**'
-      - 'modules/neovim/check-keymaps.lua'
-      - '.github/workflows/integration-test.yaml'
-  pull_request:
-    branches: [main]
-    paths:
-      - '**/*.nix'
-      - 'flake.lock'
-      - 'config/**'
-      - 'install/**'
-      - 'modules/neovim/check-keymaps.lua'
-      - '.github/workflows/integration-test.yaml'
+  workflow_call:
 
 jobs:
   integration-test:
