@@ -19,9 +19,10 @@
 - `config/claude/`
   - Claude Code の設定、hooks、status line など、実際の挙動を決める設定です
   - 詳細は `config/claude/README.md` を参照してください
-- `config/agents/AGENTS.md`, `config/claude/AGENTS.md`
-  - AI Agent 関連サブディレクトリを編集するときの固有ルールです
-  - 共通ルールに加えて、そのディレクトリで特に意識すべき観点を補います
+- `config/agents/AGENTS.md`
+  - `~/.agents/AGENTS.md` と `~/.claude/CLAUDE.md` に配備される、グローバル AI Agent 向けの応答方針です
+- `config/claude/CLAUDE.md`
+  - `config/agents/AGENTS.md` へのシンボリックリンクです
 - `config/AGENTS.md`
   - `config/` 配下を編集するときの運用ルールです
   - 権限境界やグローバル反映に関わる注意点をまとめています

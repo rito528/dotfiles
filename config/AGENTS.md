@@ -14,14 +14,14 @@
 - `config/claude/`
   - Claude Code の hooks、permissions、status line などを管理する
   - 特に `settings.json` は実効権限を定義するため、単なる設定変更として扱わない
-  - この配下の固有ルールは `config/claude/AGENTS.md` を参照する
+  - `config/claude/CLAUDE.md` はグローバル AI Agent 向けの応答方針として配備される
   - 詳細は `config/claude/README.md` を参照する
 - `config/agents/skills/`
   - home-manager 配備対象の Claude Code 向けスキル定義の正規配置
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
   - 詳細は `config/agents/skills/README.md` を参照する
 - `config/agents/`
-  - AI Agent スキル定義配下の固有ルールは `config/agents/AGENTS.md` を参照する
+  - `config/agents/AGENTS.md` は `~/.agents/AGENTS.md` と `~/.claude/CLAUDE.md` に配備される応答方針の正本として扱う
 ## 3. AI Agent 関連の注意点
 
 - `config/agents/skills/` に追加するスキルは、グローバル配備して問題ないものに限定する
@@ -95,3 +95,5 @@
 - 変更時に特有のレビュー観点や禁止事項がある
 
 単純な静的設定は、無理に個別ドキュメントを増やさず、Nix モジュールと簡潔な README 参照で十分です。
+
+README 以外の文書を `config/` 配下へ置く場合は、原則として実際に home-manager で配備されるものに限定してください。
