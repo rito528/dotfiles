@@ -3,12 +3,14 @@
 `config/claude/` は Claude Code の実運用設定を管理するディレクトリです。  
 この配下のファイルは [modules/claude.nix](/home/rito528/dotfiles/modules/claude.nix:1) によって `~/.claude/` へ配置されます。
 
-このディレクトリを編集する前に、`config/AGENTS.md` と `config/claude/AGENTS.md` も参照してください。
+このディレクトリを編集する前に、`config/AGENTS.md` も参照してください。
 
 ## 含まれるもの
 
 - `settings.json`
   - Claude Code の hooks、permission、plugin 有効化、status line などを定義します
+- `CLAUDE.md`
+  - グローバル AI Agent 向けの応答方針として、`~/.claude/CLAUDE.md` へ配備されます
 - `hooks/`
   - Claude が特定イベント時に実行する補助スクリプトです
 - `statusline.py`
@@ -23,7 +25,7 @@
 
 - 抽象的な判断基準は `config/AGENTS.md` に記述する
 - 実際に有効なルールは `settings.json` を正とする
-- `config/AGENTS.md`、`config/claude/AGENTS.md`、`settings.json` に関わる変更では、説明と実装の不整合を残さない
+- `config/AGENTS.md` と `settings.json` に関わる変更では、説明と実装の不整合を残さない
 
 ## 変更時の観点
 
