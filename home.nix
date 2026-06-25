@@ -22,6 +22,7 @@
     ./modules/npm
     ./modules/actrun.nix
     ./modules/git-wt.nix
+    ./modules/takt.nix
   ];
 
   home.username = username;
