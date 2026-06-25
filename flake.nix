@@ -23,6 +23,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
+    takt = {
+      url = "github:nrslib/takt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,6 +35,7 @@
       home-manager,
       nixvim,
       llm-agents,
+      takt,
       ...
     }:
     let
@@ -56,7 +61,12 @@
             ./home.nix
           ];
           extraSpecialArgs = {
-            inherit username homeDirectory personal;
+            inherit
+              username
+              homeDirectory
+              personal
+              takt
+              ;
           };
         };
     in

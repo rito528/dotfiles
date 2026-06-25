@@ -202,7 +202,8 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "takt": "takt"
       }
     },
     "systems": {
@@ -233,6 +234,26 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "takt": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782303278,
+        "narHash": "sha256-PJvgcn3O2EuqP+r5nQnmyPBTN6kmgKn6g3iQaOOPfe8=",
+        "owner": "nrslib",
+        "repo": "takt",
+        "rev": "d37cc398b55a5b4e4edee0ac8af503ce85de581a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nrslib",
+        "repo": "takt",
         "type": "github"
       }
     },
