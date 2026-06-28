@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rust Ownership Discipline"
+  short_description: "Rust の所有権と Clone/Copy 判断を抑える"
+  default_prompt: "Use $rust-ownership-discipline when writing or reviewing Rust code that chooses ownership, borrowing, Clone, Copy, or string types."
