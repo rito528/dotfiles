@@ -13,9 +13,9 @@ jobs:
       CI: true
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-
-      - uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31
+      - parallel:
+          - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+          - uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31
 
       - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
         with:
@@ -41,15 +41,16 @@ jobs:
       - name: Run setup.sh as testuser
         run: sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config bash -c "cd /home/testuser/dotfiles && CI=true ./setup.sh"
 
-      - name: Verify managed packages
-        run: |
-          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/jq --version
-          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/rg --version
-          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/gh --version
-          sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/starship --version
+      - parallel:
+          - name: Verify managed packages
+            run: |
+              sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/jq --version
+              sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/rg --version
+              sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/gh --version
+              sudo -u testuser env HOME=/home/testuser XDG_CONFIG_HOME=/home/testuser/.config /home/testuser/.nix-profile/bin/starship --version
 
-      - name: Verify managed config files
-        run: |
-          test -f /home/testuser/.zshrc
-          test -f /home/testuser/.zprofile
-          test -f /home/testuser/.config/git/config
+          - name: Verify managed config files
+            run: |
+              test -f /home/testuser/.zshrc
+              test -f /home/testuser/.zprofile
+              test -f /home/testuser/.config/git/config
