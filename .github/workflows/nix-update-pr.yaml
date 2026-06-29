@@ -15,11 +15,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
-        id: app-token
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - parallel:
+          - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+            id: app-token
+            with:
+              app-id: ${{ vars.APP_ID }}
+              private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+          - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
@@ -27,34 +30,33 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
 
-      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - parallel:
+          - name: Update hashes for npm packages
+            run: |
+              changed=$(git diff --name-only origin/main HEAD -- 'modules/npm/packages/*.nix')
+              for f in $changed; do
+                pkg=$(basename "$f" .nix)
+                echo "Updating hashes for ${pkg}..."
+                nix run nixpkgs#nix-update -- --version=skip --flake "${pkg}"
+              done
 
-      - name: Update hashes for npm packages
-        run: |
-          changed=$(git diff --name-only origin/main HEAD -- 'modules/npm/packages/*.nix')
-          for f in $changed; do
-            pkg=$(basename "$f" .nix)
-            echo "Updating hashes for ${pkg}..."
-            nix run nixpkgs#nix-update -- --version=skip --flake "${pkg}"
-          done
+          - name: Update hashes for module packages
+            run: |
+              changed=$(git diff --name-only origin/main HEAD -- 'modules/*.nix')
+              for f in $changed; do
+                grep -q '# renovate:' "${f}" || continue
 
-      - name: Update hashes for module packages
-        run: |
-          changed=$(git diff --name-only origin/main HEAD -- 'modules/*.nix')
-          for f in $changed; do
-            grep -q '# renovate:' "${f}" || continue
+                version=$(grep -oP 'version = "\K[^"]+' "${f}" | head -1)
+                url=$(grep -oP 'url = "\K[^"]+' "${f}" | head -1 | sed "s/\\\${version}/${version}/g")
+                [ -n "${url}" ] || continue
 
-            version=$(grep -oP 'version = "\K[^"]+' "${f}" | head -1)
-            url=$(grep -oP 'url = "\K[^"]+' "${f}" | head -1 | sed "s/\\\${version}/${version}/g")
-            [ -n "${url}" ] || continue
+                echo "Fetching hash for ${f} (${url})..."
+                new_hash=$(nix store prefetch-file --hash-type sha256 --json "${url}" | jq -r '.hash')
+                [ -n "${new_hash}" ] && [ "${new_hash}" != "null" ] || continue
 
-            echo "Fetching hash for ${f} (${url})..."
-            new_hash=$(nix store prefetch-file --hash-type sha256 --json "${url}" | jq -r '.hash')
-            [ -n "${new_hash}" ] && [ "${new_hash}" != "null" ] || continue
-
-            sed -i "s|hash = \"sha256-[^\"]*\"|hash = \"${new_hash}\"|" "${f}"
-            echo "Updated hash in ${f}: ${new_hash}"
-          done
+                sed -i "s|hash = \"sha256-[^\"]*\"|hash = \"${new_hash}\"|" "${f}"
+                echo "Updated hash in ${f}: ${new_hash}"
+              done
 
       - name: Commit updated hashes
         run: |

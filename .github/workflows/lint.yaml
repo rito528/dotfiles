@@ -17,18 +17,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run gitleaks
-        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - parallel:
+          - name: Run gitleaks
+            uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install shellcheck
-        if: inputs.run-shellcheck
-        run: sudo apt-get install -y shellcheck
-
-      - name: Run shellcheck
-        if: inputs.run-shellcheck
-        run: |
-          find . -type f \( -name "*.sh" -o ! -name "*.*" \) -print0 \
-            | xargs -0 -r grep -lZE '^#!.*\b(bash|sh)\b' \
-            | xargs -0 -r shellcheck
+          - name: Run shellcheck
+            if: inputs.run-shellcheck
+            run: |
+              sudo apt-get install -y shellcheck
+              find . -type f \( -name "*.sh" -o ! -name "*.*" \) -print0 \
+                | xargs -0 -r grep -lZE '^#!.*\b(bash|sh)\b' \
+                | xargs -0 -r shellcheck
