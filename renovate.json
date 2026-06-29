@@ -19,8 +19,7 @@
       "pinDigests": true,
       "minimumReleaseAge": "7 days",
       "minimumReleaseAgeBehaviour": "timestamp-required",
-      "internalChecksFilter": "none",
-      "prCreation": "immediate",
+      "internalChecksFilter": "strict",
       "rebaseWhen": "never",
       "automergeSchedule": [
         "on sunday"
