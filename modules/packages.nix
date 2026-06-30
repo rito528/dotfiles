@@ -18,5 +18,6 @@
     bubblewrap
     socat
     yazi
+    python3
   ];
 }
