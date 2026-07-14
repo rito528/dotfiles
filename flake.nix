@@ -50,6 +50,7 @@
             "copilot.vim"
             "copilot-cli"
             "barbar.nvim"
+            "antigravity-cli"
           ];
       };
       mkHomeConfig =
