@@ -42,7 +42,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ llm-agents.overlays.default ];
+        overlays = [ llm-agents.overlays.shared-nixpkgs ];
         config.allowUnfreePredicate =
           pkg:
           builtins.elem (nixpkgs.lib.getName pkg) [
@@ -50,6 +50,7 @@
             "copilot.vim"
             "copilot-cli"
             "barbar.nvim"
+            "antigravity-cli"
           ];
       };
       mkHomeConfig =
