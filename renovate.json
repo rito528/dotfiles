@@ -35,6 +35,7 @@
       ],
       "minimumReleaseAge": null,
       "minimumReleaseAgeBehaviour": "timestamp-optional",
+      "internalChecksFilter": "none",
       "automergeSchedule": [
         "on sunday"
       ]
