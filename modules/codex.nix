@@ -96,6 +96,31 @@ let
     plugins."google-calendar@openai-curated".enabled = true;
     plugins."github@openai-curated".enabled = true;
 
+    mcp_servers.grafana = {
+      command = "${pkgs.doppler}/bin/doppler";
+      args = [
+        "run"
+        "--project"
+        "codex-mcp"
+        "--config"
+        "prd"
+        "--"
+        "${pkgs.docker}/bin/docker"
+        "run"
+        "--rm"
+        "-i"
+        "-e"
+        "GRAFANA_URL"
+        "-e"
+        "GRAFANA_SERVICE_ACCOUNT_TOKEN"
+        "grafana/mcp-grafana:0.14.0@sha256:42f541f2206359ce7a40c8e19d96253cef4771bf00e707a760d3a7035c40e8f8"
+        "-t"
+        "stdio"
+        "--disable-write"
+      ];
+      startup_timeout_sec = 120;
+    };
+
     features.codex_git_commit = true;
   };
   codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;

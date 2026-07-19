@@ -79,6 +79,10 @@
 - **汎用スクリプト実行**: 任意コードの実行につながる恐れがあるインタープリタ。
   - 例: `python`, `python3`
 
+Nix で宣言した固定の MCP 起動設定が子プロセスとして Doppler を起動する経路は、
+AI Agent がツール経由で任意の Doppler コマンドを実行する経路とは別に扱います。
+この区別は、AI Agent に Doppler の実行権限を与えるものではありません。
+
 ## 5. permission 設定の扱い
 
 - AI Agent のコマンド許可判断の原則はこの `config/AGENTS.md` に記述する
