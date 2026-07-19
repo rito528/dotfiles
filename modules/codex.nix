@@ -2,11 +2,11 @@
   pkgs,
   lib,
   homeDirectory,
+  grafanaMcp,
   ...
 }:
 let
   tomlFormat = pkgs.formats.toml { };
-  grafanaMcp = import ./lib/grafana-mcp.nix { inherit pkgs; };
   shellUtilityPrefixes = [
     "rg"
     "grep"

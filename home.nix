@@ -8,6 +8,7 @@
   imports = [
     ./modules/packages.nix
     ./modules/llm-agents.nix
+    ./modules/grafana-mcp.nix
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/ssh.nix
