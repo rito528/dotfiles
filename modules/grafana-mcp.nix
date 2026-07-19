@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   # renovate: datasource=github-releases depName=grafana/mcp-grafana
-  version = "0.14.0";
+  version = "0.17.2";
   package = pkgs.stdenvNoCC.mkDerivation {
     pname = "mcp-grafana";
     inherit version;
