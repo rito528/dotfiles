@@ -2,6 +2,7 @@
   pkgs,
   lib,
   homeDirectory,
+  grafanaMcp,
   ...
 }:
 let
@@ -95,6 +96,11 @@ let
 
     plugins."google-calendar@openai-curated".enabled = true;
     plugins."github@openai-curated".enabled = true;
+
+    mcp_servers.grafana = {
+      inherit (grafanaMcp) command args;
+      startup_timeout_sec = 120;
+    };
 
     features.codex_git_commit = true;
   };
