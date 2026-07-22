@@ -23,3 +23,6 @@ jobs:
 
           - name: Run nix flake check
             run: nix flake check .
+
+          - name: Evaluate darwin home-manager config
+            run: nix eval .#homeConfigurations.testuser-darwin.config.home.username

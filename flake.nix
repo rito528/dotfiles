@@ -39,24 +39,25 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ llm-agents.overlays.shared-nixpkgs ];
-        config.allowUnfreePredicate =
-          pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) [
-            "claude-code"
-            "copilot.vim"
-            "copilot-cli"
-            "barbar.nvim"
-            "antigravity-cli"
-          ];
-      };
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = [ llm-agents.overlays.shared-nixpkgs ];
+          config.allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "claude-code"
+              "copilot.vim"
+              "copilot-cli"
+              "barbar.nvim"
+              "antigravity-cli"
+            ];
+        };
       mkHomeConfig =
-        username: homeDirectory: personal:
+        system: username: homeDirectory: identity:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = mkPkgs system;
           modules = [
             nixvim.homeModules.nixvim
             ./home.nix
@@ -65,7 +66,7 @@
             inherit
               username
               homeDirectory
-              personal
+              identity
               takt
               ;
           };
@@ -73,7 +74,7 @@
     in
     let
       loadPackagesDir =
-        dir:
+        dir: pkgs:
         let
           allFiles = builtins.readDir dir;
           nixFiles = builtins.filter (name: name != "default.nix" && builtins.match ".*\\.nix" name != null) (
@@ -86,22 +87,48 @@
             value = import (dir + "/${name}") { inherit pkgs; };
           }) nixFiles
         );
-      npmPackages = loadPackagesDir ./modules/npm/packages;
-    in
-    {
-      packages.${system} = npmPackages;
-      homeConfigurations = {
-        "rito528" = mkHomeConfig "rito528" "/home/rito528" {
-          name = "rito528";
-          email = "39003544+rito528@users.noreply.github.com";
-          gpgKey = "F4022307254812F8";
+      npmPackages = loadPackagesDir ./modules/npm/packages (mkPkgs "x86_64-linux");
+
+      # 各マシン向け homeConfigurations の定義。新しいマシンを追加する場合はここにエントリを足す。
+      machines = {
+        rito528 = {
+          system = "x86_64-linux";
+          username = "rito528";
+          homeDirectory = "/home/rito528";
+          identity = {
+            name = "rito528";
+            email = "39003544+rito528@users.noreply.github.com";
+            gpgKey = "F4022307254812F8";
+          };
         };
-        "testuser" = mkHomeConfig "testuser" "/home/testuser" {
-          name = "testuser";
-          email = "testuser@example.com";
-          gpgKey = "";
+        testuser = {
+          system = "x86_64-linux";
+          username = "testuser";
+          homeDirectory = "/home/testuser";
+          identity = {
+            name = "testuser";
+            email = "testuser@example.com";
+            gpgKey = "";
+          };
+        };
+        # aarch64-darwin 向け評価確認用。実 Mac 上の Unix ユーザー名は testuser のまま。
+        testuser-darwin = {
+          system = "aarch64-darwin";
+          username = "testuser";
+          homeDirectory = "/Users/testuser";
+          identity = {
+            name = "testuser";
+            email = "testuser@example.com";
+            gpgKey = "";
+          };
         };
       };
+    in
+    {
+      packages.x86_64-linux = npmPackages;
+      homeConfigurations = builtins.mapAttrs (
+        _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.identity
+      ) machines;
       templates = {
         seichi-assist = {
           path = ./templates/seichi-assist;
