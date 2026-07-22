@@ -39,24 +39,25 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ llm-agents.overlays.shared-nixpkgs ];
-        config.allowUnfreePredicate =
-          pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) [
-            "claude-code"
-            "copilot.vim"
-            "copilot-cli"
-            "barbar.nvim"
-            "antigravity-cli"
-          ];
-      };
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = [ llm-agents.overlays.shared-nixpkgs ];
+          config.allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "claude-code"
+              "copilot.vim"
+              "copilot-cli"
+              "barbar.nvim"
+              "antigravity-cli"
+            ];
+        };
       mkHomeConfig =
-        username: homeDirectory: personal:
+        system: username: homeDirectory: personal:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = mkPkgs system;
           modules = [
             nixvim.homeModules.nixvim
             ./home.nix
@@ -73,7 +74,7 @@
     in
     let
       loadPackagesDir =
-        dir:
+        dir: pkgs:
         let
           allFiles = builtins.readDir dir;
           nixFiles = builtins.filter (name: name != "default.nix" && builtins.match ".*\\.nix" name != null) (
@@ -86,17 +87,22 @@
             value = import (dir + "/${name}") { inherit pkgs; };
           }) nixFiles
         );
-      npmPackages = loadPackagesDir ./modules/npm/packages;
+      npmPackages = loadPackagesDir ./modules/npm/packages (mkPkgs "x86_64-linux");
     in
     {
-      packages.${system} = npmPackages;
+      packages.x86_64-linux = npmPackages;
       homeConfigurations = {
-        "rito528" = mkHomeConfig "rito528" "/home/rito528" {
+        "rito528" = mkHomeConfig "x86_64-linux" "rito528" "/home/rito528" {
           name = "rito528";
           email = "39003544+rito528@users.noreply.github.com";
           gpgKey = "F4022307254812F8";
         };
-        "testuser" = mkHomeConfig "testuser" "/home/testuser" {
+        "testuser" = mkHomeConfig "x86_64-linux" "testuser" "/home/testuser" {
+          name = "testuser";
+          email = "testuser@example.com";
+          gpgKey = "";
+        };
+        "testuser-darwin" = mkHomeConfig "aarch64-darwin" "testuser" "/Users/testuser" {
           name = "testuser";
           email = "testuser@example.com";
           gpgKey = "";
