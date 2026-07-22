@@ -55,7 +55,11 @@
             ];
         };
       mkHomeConfig =
-        system: username: homeDirectory: identity:
+        system: username: homeDirectory: identity: profile:
+        assert builtins.elem profile [
+          "personal"
+          "work"
+        ];
         home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs system;
           modules = [
@@ -67,6 +71,7 @@
               username
               homeDirectory
               identity
+              profile
               takt
               ;
           };
@@ -100,6 +105,7 @@
             email = "39003544+rito528@users.noreply.github.com";
             gpgKey = "F4022307254812F8";
           };
+          profile = "personal";
         };
         testuser = {
           system = "x86_64-linux";
@@ -110,6 +116,7 @@
             email = "testuser@example.com";
             gpgKey = "";
           };
+          profile = "personal";
         };
         # aarch64-darwin 向け評価確認用。実 Mac 上の Unix ユーザー名は testuser のまま。
         testuser-darwin = {
@@ -121,13 +128,26 @@
             email = "testuser@example.com";
             gpgKey = "";
           };
+          profile = "personal";
+        };
+        # profile 配線確認用。実マシンではない。
+        testuser-work = {
+          system = "x86_64-linux";
+          username = "testuser";
+          homeDirectory = "/home/testuser";
+          identity = {
+            name = "testuser";
+            email = "testuser@example.com";
+            gpgKey = "";
+          };
+          profile = "work";
         };
       };
     in
     {
       packages.x86_64-linux = npmPackages;
       homeConfigurations = builtins.mapAttrs (
-        _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.identity
+        _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.identity cfg.profile
       ) machines;
       templates = {
         seichi-assist = {
