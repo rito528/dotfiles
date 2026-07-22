@@ -55,7 +55,7 @@
             ];
         };
       mkHomeConfig =
-        system: username: homeDirectory: personal:
+        system: username: homeDirectory: identity:
         home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs system;
           modules = [
@@ -66,7 +66,7 @@
             inherit
               username
               homeDirectory
-              personal
+              identity
               takt
               ;
           };
@@ -95,7 +95,7 @@
           system = "x86_64-linux";
           username = "rito528";
           homeDirectory = "/home/rito528";
-          personal = {
+          identity = {
             name = "rito528";
             email = "39003544+rito528@users.noreply.github.com";
             gpgKey = "F4022307254812F8";
@@ -105,7 +105,7 @@
           system = "x86_64-linux";
           username = "testuser";
           homeDirectory = "/home/testuser";
-          personal = {
+          identity = {
             name = "testuser";
             email = "testuser@example.com";
             gpgKey = "";
@@ -116,7 +116,7 @@
           system = "aarch64-darwin";
           username = "testuser";
           homeDirectory = "/Users/testuser";
-          personal = {
+          identity = {
             name = "testuser";
             email = "testuser@example.com";
             gpgKey = "";
@@ -127,7 +127,7 @@
     {
       packages.x86_64-linux = npmPackages;
       homeConfigurations = builtins.mapAttrs (
-        _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.personal
+        _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.identity
       ) machines;
       templates = {
         seichi-assist = {

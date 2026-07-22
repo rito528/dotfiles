@@ -1,12 +1,12 @@
-{ lib, personal, ... }:
+{ lib, identity, ... }:
 {
   programs.git = {
     enable = true;
     signing = {
       format = "openpgp";
     }
-    // lib.optionalAttrs (personal.gpgKey != "") {
-      key = personal.gpgKey;
+    // lib.optionalAttrs (identity.gpgKey != "") {
+      key = identity.gpgKey;
       signByDefault = true;
     };
     ignores = [
@@ -23,8 +23,8 @@
     ];
     settings = {
       user = {
-        name = personal.name;
-        email = personal.email;
+        name = identity.name;
+        email = identity.email;
       };
       gpg.program = "gpg";
       init.defaultBranch = "main";
