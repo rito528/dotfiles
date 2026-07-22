@@ -22,6 +22,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     llm-agents.url = "github:numtide/llm-agents.nix";
     takt = {
       url = "github:nrslib/takt";
@@ -34,25 +38,28 @@
       nixpkgs,
       home-manager,
       nixvim,
+      nix-darwin,
       llm-agents,
       takt,
       ...
     }:
     let
+      nixpkgsOverlays = [ llm-agents.overlays.shared-nixpkgs ];
+      nixpkgsAllowUnfreePredicate =
+        pkg:
+        builtins.elem (nixpkgs.lib.getName pkg) [
+          "claude-code"
+          "copilot.vim"
+          "copilot-cli"
+          "barbar.nvim"
+          "antigravity-cli"
+        ];
       mkPkgs =
         system:
         import nixpkgs {
           inherit system;
-          overlays = [ llm-agents.overlays.shared-nixpkgs ];
-          config.allowUnfreePredicate =
-            pkg:
-            builtins.elem (nixpkgs.lib.getName pkg) [
-              "claude-code"
-              "copilot.vim"
-              "copilot-cli"
-              "barbar.nvim"
-              "antigravity-cli"
-            ];
+          overlays = nixpkgsOverlays;
+          config.allowUnfreePredicate = nixpkgsAllowUnfreePredicate;
         };
       mkHomeConfig =
         system: username: homeDirectory: identity: profile:
@@ -75,6 +82,47 @@
               takt
               ;
           };
+        };
+      mkDarwinConfig =
+        system: username: homeDirectory: identity: profile:
+        assert builtins.elem profile [
+          "personal"
+          "work"
+        ];
+        nix-darwin.lib.darwinSystem {
+          inherit system;
+          modules = [
+            {
+              nixpkgs.overlays = nixpkgsOverlays;
+              nixpkgs.config.allowUnfreePredicate = nixpkgsAllowUnfreePredicate;
+            }
+            ./modules/darwin
+            {
+              users.users.${username} = {
+                name = username;
+                home = homeDirectory;
+              };
+              system.primaryUser = username;
+            }
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                inherit
+                  username
+                  homeDirectory
+                  identity
+                  profile
+                  takt
+                  ;
+              };
+              home-manager.users.${username} = {
+                imports = [
+                  nixvim.homeModules.nixvim
+                  ./home.nix
+                ];
+              };
+            }
+          ];
         };
     in
     let
@@ -118,18 +166,6 @@
           };
           profile = "personal";
         };
-        # aarch64-darwin 向け評価確認用。実 Mac 上の Unix ユーザー名は testuser のまま。
-        testuser-darwin = {
-          system = "aarch64-darwin";
-          username = "testuser";
-          homeDirectory = "/Users/testuser";
-          identity = {
-            name = "testuser";
-            email = "testuser@example.com";
-            gpgKey = "";
-          };
-          profile = "personal";
-        };
         # profile 配線確認用。実マシンではない。
         testuser-work = {
           system = "x86_64-linux";
@@ -143,12 +179,31 @@
           profile = "work";
         };
       };
+
+      # 各マシン向け darwinConfigurations の定義。実 Mac が判明したらここにエントリを足す。
+      darwinMachines = {
+        # aarch64-darwin 向け評価確認用。実マシンではない。
+        testuser-darwin = {
+          system = "aarch64-darwin";
+          username = "testuser";
+          homeDirectory = "/Users/testuser";
+          identity = {
+            name = "testuser";
+            email = "testuser@example.com";
+            gpgKey = "";
+          };
+          profile = "personal";
+        };
+      };
     in
     {
       packages.x86_64-linux = npmPackages;
       homeConfigurations = builtins.mapAttrs (
         _: cfg: mkHomeConfig cfg.system cfg.username cfg.homeDirectory cfg.identity cfg.profile
       ) machines;
+      darwinConfigurations = builtins.mapAttrs (
+        _: cfg: mkDarwinConfig cfg.system cfg.username cfg.homeDirectory cfg.identity cfg.profile
+      ) darwinMachines;
       templates = {
         seichi-assist = {
           path = ./templates/seichi-assist;
