@@ -26,7 +26,7 @@ description: dotfiles の Neovim Treesitter parser runtime を Home Manager と 
 2. 共通なら `modules/neovim.nix` の `commonTreesitterRuntime` を更新する
 3. project 固有なら対象 `templates/*/flake.nix` の `treesitterRuntime` を更新する
 4. `config/nvim/init.lua` が `NVIM_TREESITTER_RUNTIME_GLOBAL` と `NVIM_TREESITTER_RUNTIME_PROJECT` を読む前提を壊していないか確認する
-5. 判断軸に影響する変更なら `config/nvim/README.md` と必要に応じてルート `README.md` を更新する
+5. 判断軸に影響する変更なら `config/nvim/README.md` と必要に応じて `docs-site/src/dev-environment-templates.md` を更新する
 6. `.nix` を変更したら `nixfmt` を実行する
 
 ## 注意点

@@ -18,6 +18,7 @@
 - **Codex / Claude の配備定義**: `modules/codex.nix`, `modules/claude.nix`
 - **セットアップ処理**: `install/`
 - **CI と検証要件の実装**: `.github/workflows/`
+- **ドキュメントサイトのソース**: `docs-site/`
 
 ## 3. 変更ガイド
 - **Home Manager の挙動や有効化設定を変える**: `home.nix` と `modules/` を確認する
@@ -32,6 +33,7 @@
 - **カスタム package を変える**: `modules/packages/default.nix` と `modules/packages/` を確認する
 - **カスタム script を追加・変更する**: `modules/scripts/default.nix` と `modules/scripts/` を確認する
 - **CI を変える**: `.github/workflows/` を確認する
+- **ドキュメントサイトの内容を変える**: `docs-site/src/` を確認する
 
 ## 4. 変更ルール
 1. **冪等性を保つ**:
@@ -71,4 +73,5 @@
 - Claude 関連の詳細は `config/claude/README.md` を参照してください
 - agents 配下の詳細は `config/agents/AGENTS.md`, `config/agents/skills/README.md` を参照してください
 - Neovim 設定の詳細は `modules/neovim/AGENTS.md` を参照してください
+- ドキュメントサイトのプレビュー方法は `docs-site/README.md` を参照してください
 - 実装の全体像や詳細一覧が必要な場合は、まずコードと生成物を確認してください

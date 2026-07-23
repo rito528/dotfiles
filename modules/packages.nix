@@ -19,5 +19,6 @@
     socat
     yazi
     python3
+    mdbook
   ];
 }

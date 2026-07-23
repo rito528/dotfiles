@@ -13,6 +13,7 @@ jobs:
     outputs:
       ci: ${{ steps.changes.outputs.ci }}
       devshell: ${{ steps.changes.outputs.devshell }}
+      docs: ${{ steps.changes.outputs.docs }}
       integration: ${{ steps.changes.outputs.integration }}
       nix: ${{ steps.changes.outputs.nix }}
       shell: ${{ steps.changes.outputs.shell }}
@@ -41,6 +42,7 @@ jobs:
 
           ci=false
           devshell=false
+          docs=false
           integration=false
           nix=false
           shell=false
@@ -74,6 +76,12 @@ jobs:
             esac
 
             case "$file" in
+              docs-site/*)
+                docs=true
+                ;;
+            esac
+
+            case "$file" in
               *.sh|install/*|config/*)
                 shell=true
                 ;;
@@ -83,6 +91,7 @@ jobs:
           {
             echo "ci=$ci"
             echo "devshell=$devshell"
+            echo "docs=$docs"
             echo "integration=$integration"
             echo "nix=$nix"
             echo "shell=$shell"
@@ -119,6 +128,12 @@ jobs:
     uses: ./.github/workflows/devshell.yaml
     secrets: inherit
 
+  docs:
+    name: Docs
+    needs: changes
+    if: needs.changes.outputs.ci == 'true' || needs.changes.outputs.docs == 'true'
+    uses: ./.github/workflows/docs.yaml
+
   ci-gate:
     name: CI Gate
     needs:
@@ -128,6 +143,7 @@ jobs:
       - nix
       - integration-test
       - devshell
+      - docs
     if: always()
     runs-on: ubuntu-24.04
     steps:
