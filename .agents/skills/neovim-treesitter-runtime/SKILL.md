@@ -9,7 +9,7 @@ description: dotfiles の Neovim Treesitter parser runtime を Home Manager と 
 
 ## 判断ルール
 
-- `modules/neovim.nix` に置く:
+- [`modules/neovim/default.nix`](../../../modules/neovim/default.nix) に置く:
   - dotfiles 自身でも頻繁に使う
   - 設定ファイルやドキュメントのように複数プロジェクトで横断的に編集する
   - 常時グローバル配備でも責務がぶれにくい
@@ -23,10 +23,10 @@ description: dotfiles の Neovim Treesitter parser runtime を Home Manager と 
 ## 実装手順
 
 1. 追加・変更したい grammar が共通か project 固有かを判定する
-2. 共通なら `modules/neovim.nix` の `commonTreesitterRuntime` を更新する
+2. 共通なら [`modules/neovim/default.nix`](../../../modules/neovim/default.nix) の `commonTreesitterRuntime` を更新する
 3. project 固有なら対象 `templates/*/flake.nix` の `treesitterRuntime` を更新する
-4. `config/nvim/init.lua` が `NVIM_TREESITTER_RUNTIME_GLOBAL` と `NVIM_TREESITTER_RUNTIME_PROJECT` を読む前提を壊していないか確認する
-5. 判断軸に影響する変更なら `config/nvim/README.md` と必要に応じて `docs-site/src/dev-environment-templates.md` を更新する
+4. [`modules/neovim/base.nix`](../../../modules/neovim/base.nix) が `NVIM_TREESITTER_RUNTIME_GLOBAL` と `NVIM_TREESITTER_RUNTIME_PROJECT` を読む前提を壊していないか確認する
+5. 判断軸に影響する変更なら [`modules/neovim/AGENTS.md`](../../../modules/neovim/AGENTS.md) と必要に応じて [`docs-site/src/dev-environment-templates.md`](../../../docs-site/src/dev-environment-templates.md) を更新する
 6. `.nix` を変更したら `nixfmt` を実行する
 
 ## 注意点

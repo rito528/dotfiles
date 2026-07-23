@@ -1,7 +1,7 @@
 # config/claude/
 
 `config/claude/` は Claude Code の実運用設定を管理するディレクトリです。  
-この配下のファイルは [modules/claude.nix](/home/rito528/dotfiles/modules/claude.nix:1) によって `~/.claude/` へ配置されます。
+この配下のファイルは [modules/claude.nix](../../modules/claude.nix) によって `~/.claude/` へ配置されます。
 
 このディレクトリを編集する前に、`config/AGENTS.md` も参照してください。
 

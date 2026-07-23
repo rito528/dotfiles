@@ -4,7 +4,7 @@
 
 ## 概要
 
-正規配置である `.agents/skills/` 以下に定義された 3 つのスキルを順に実行することで、open な issue の分類から実装・PR 作成までを自動化できます。Claude Code からは `.claude/skills/` シンボリックリンク経由でも同じスキルを参照できます。
+正規配置である [`.agents/skills/`](../.agents/skills/) 以下に定義された 3 つのスキルを順に実行することで、open な issue の分類から実装・PR 作成までを自動化できます。Claude Code からは [`.claude/skills/`](../.claude/skills) シンボリックリンク経由でも同じスキルを参照できます。
 
 ```
 open issues
@@ -136,8 +136,8 @@ gh label create "ai: ignore" --color "CCCCCC" --description "AI 処理対象外"
     └── issue-implementer.md         # 実装エージェント定義
 ```
 
-- **スキル** (`.agents/skills/`): `/スキル名` で呼び出せるトップレベルの手順書。
-- **エージェント** (`agents/`): スキルから内部的に呼び出されるサブエージェント。直接呼び出すことは想定していません。
+- **スキル** ([`.agents/skills/`](../.agents/skills/)): `/スキル名` で呼び出せるトップレベルの手順書。
+- **エージェント** ([`.claude/agents/`](../.claude/agents/)): スキルから内部的に呼び出されるサブエージェント。直接呼び出すことは想定していません。
 
 ---
 

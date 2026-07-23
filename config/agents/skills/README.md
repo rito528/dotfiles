@@ -1,7 +1,7 @@
 # config/agents/skills/
 
 `config/agents/skills/` は home-manager 配備対象の AI Agent スキル定義です。  
-このディレクトリの内容は [modules/claude.nix](/home/rito528/dotfiles/modules/claude.nix:1) と [modules/agents.nix](/home/rito528/dotfiles/modules/agents.nix:1) によって `~/.claude/skills` と `~/.agents/skills` へ反映されます。
+このディレクトリの内容は [modules/claude.nix](../../../modules/claude.nix) と [modules/agents.nix](../../../modules/agents.nix) によって `~/.claude/skills` と `~/.agents/skills` へ反映されます。
 
 このディレクトリを編集する前に、`config/AGENTS.md` も参照してください。
 
