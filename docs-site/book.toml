@@ -1,0 +1,9 @@
+[book]
+title = "dotfiles ドキュメント"
+description = "home-manager を使った Linux (Ubuntu/WSL) 向け dotfiles のドキュメント"
+authors = ["rito528"]
+language = "ja"
+src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/rito528/dotfiles"
