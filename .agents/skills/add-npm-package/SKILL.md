@@ -1,11 +1,11 @@
 ---
 name: add-npm-package
-description: nix/modules/npm/packages/ に新しい npm/pnpm パッケージを追加するスキル
+description: modules/npm/packages/ に新しい npm/pnpm パッケージを追加するスキル
 ---
 
 # npm パッケージ追加スキル
 
-`nix/modules/npm/packages/` に新しいパッケージの `.nix` ファイルを作成し、`home-manager switch` で反映する。
+[`modules/npm/packages/`](../../../modules/npm/packages/) に新しいパッケージの `.nix` ファイルを作成し、`home-manager switch` で反映する。
 
 ## 手順
 
@@ -79,7 +79,7 @@ curl -s https://raw.githubusercontent.com/<owner>/<repo>/v<version>/package.json
 
 ### 6. `.nix` ファイルの作成
 
-`nix/modules/npm/packages/<pname>.nix`:
+`modules/npm/packages/<pname>.nix`:
 
 ```nix
 { pkgs }:
@@ -125,15 +125,15 @@ pkgs.stdenv.mkDerivation {
 ### 7. フォーマットとビルド確認
 
 ```bash
-nixfmt nix/modules/npm/packages/<pname>.nix
-git add nix/modules/npm/
-home-manager build --flake ./nix
+nixfmt modules/npm/packages/<pname>.nix
+git add modules/npm/
+home-manager build --flake .
 ```
 
 ### 8. 動作確認と反映
 
 ```bash
-home-manager switch --flake ./nix
+home-manager switch --flake .
 <pname> --help
 ```
 

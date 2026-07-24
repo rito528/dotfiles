@@ -17,7 +17,7 @@ isolation: worktree
 
 1. **nixfmt**: `.nix` ファイルがすべてフォーマット済みか（`nixfmt --check <file>`）
 2. **shellcheck**: シェルスクリプトがすべてパスするか
-3. **home-manager build**: `home-manager build --flake ./nix#testuser` が通るか
+3. **home-manager build**: `home-manager build --flake .#testuser` が通るか
 4. **gitleaks**: シークレットが含まれていないか
 5. **冪等性**: 変更が冪等か
 

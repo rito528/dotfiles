@@ -15,6 +15,7 @@
     ghq
     fzf
     editorconfig-checker
+    markdown-link-check
     bubblewrap
     socat
     yazi

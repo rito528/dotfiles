@@ -30,7 +30,7 @@ isolation: worktree
 
 **Nix モジュール変更の場合:**
 - 変更後は `nixfmt <file>` を実行してフォーマットを適用
-- `home-manager build --flake ./nix#testuser` でビルドが通ることを確認
+- `home-manager build --flake .#testuser` でビルドが通ることを確認
 
 **シェルスクリプト変更の場合:**
 - `set -euo pipefail` 必須

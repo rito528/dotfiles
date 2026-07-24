@@ -101,6 +101,10 @@ jobs:
     name: EditorConfig
     uses: ./.github/workflows/editorconfig.yaml
 
+  markdown-link-check:
+    name: Markdown Link Check
+    uses: ./.github/workflows/markdown-link-check.yaml
+
   lint:
     name: Lint
     needs: changes
@@ -139,6 +143,7 @@ jobs:
     needs:
       - changes
       - editorconfig
+      - markdown-link-check
       - lint
       - nix
       - integration-test

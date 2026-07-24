@@ -1,0 +1,22 @@
+name: Markdown Link Check
+
+on:
+  workflow_call:
+
+jobs:
+  markdown-link-check:
+    name: Markdown Link Check
+    runs-on: ubuntu-24.04
+    steps:
+      - parallel:
+          - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+          - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+
+      - name: Check markdown links
+        run: |
+          set -euo pipefail
+
+          find . -type f -name '*.md' \
+            -not -path './.git/*' \
+            -print0 \
+            | xargs -0 -r nix shell nixpkgs#markdown-link-check --command ./.github/scripts/check-markdown-links.sh

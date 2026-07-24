@@ -42,6 +42,22 @@ if [[ ${#workflow_files[@]} -gt 0 ]]; then
   actionlint "${workflow_files[@]}"
 fi
 
+# markdown リンクチェック (staged .md ファイルのみ)
+markdown_files=()
+for file in "${staged_files[@]}"; do
+  [[ "$file" == *.md ]] || continue
+  markdown_files+=("$file")
+done
+
+if [[ ${#markdown_files[@]} -gt 0 ]]; then
+  if ! command -v markdown-link-check &>/dev/null; then
+    echo "markdown-link-check is not installed. Cannot markdown link check."
+    exit 1
+  fi
+
+  .github/scripts/check-markdown-links.sh "${markdown_files[@]}"
+fi
+
 # ステージされた .sh ファイルに実行権限があるか確認する
 missing_exec=()
 for file in "${staged_files[@]}"; do
