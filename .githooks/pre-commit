@@ -43,16 +43,9 @@ if [[ ${#workflow_files[@]} -gt 0 ]]; then
 fi
 
 # markdown リンクチェック (staged .md ファイルのみ)
-# config/agents/skills/, config/agents/AGENTS.md, config/claude/CLAUDE.md は
-# home-manager 配備先で相対パスが変わるため対象外とする。
 markdown_files=()
 for file in "${staged_files[@]}"; do
   [[ "$file" == *.md ]] || continue
-  case "$file" in
-    config/agents/skills/* | config/agents/AGENTS.md | config/claude/CLAUDE.md)
-      continue
-      ;;
-  esac
   markdown_files+=("$file")
 done
 
@@ -62,7 +55,7 @@ if [[ ${#markdown_files[@]} -gt 0 ]]; then
     exit 1
   fi
 
-  markdown-link-check "${markdown_files[@]}"
+  .github/scripts/check-markdown-links.sh "${markdown_files[@]}"
 fi
 
 # ステージされた .sh ファイルに実行権限があるか確認する
