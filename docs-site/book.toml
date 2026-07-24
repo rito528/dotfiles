@@ -5,5 +5,8 @@ authors = ["rito528"]
 language = "ja"
 src = "src"
 
+[preprocessor.github-links]
+command = "./preprocessors/github-links.sh"
+
 [output.html]
 git-repository-url = "https://github.com/rito528/dotfiles"
