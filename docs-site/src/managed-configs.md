@@ -1,31 +1,14 @@
 # 管理対象と構成
 
-## リポジトリ構成
+具体的なディレクトリ構成やファイル一覧は変更頻度が高く、この文書と二重管理すると必ず乖離します。
+最新の構造は [`CLAUDE.md`](../../CLAUDE.md) と各ディレクトリの README・AGENTS.md を正本としてください。
+ここには、コードを読むだけでは分かりにくい設計判断だけを残します。
 
-- **[`home.nix`](../../home.nix) / [`modules/`](../../modules/)**: Home Manager の設定と配備定義の正本。機能ごとに Nix モジュールを分割して管理しています。
-- **[`config/`](../../config/)**: home-manager が `~` 以下に配置する設定ファイルの正本。Claude Code 設定・AI スキル定義などを含みます。詳細は [`config/AGENTS.md`](../../config/AGENTS.md) と [`config/README.md`](../../config/README.md) を参照してください。
-- **[`.agents/skills/`](../../.agents/skills/)**: リポジトリローカルの共有 AI スキル定義（Codex / Claude / Copilot などが参照）。
-- **[`.claude/`](../../.claude/)**: Claude Code ローカル設定。`skills` は [`.agents/skills/`](../../.agents/skills/) へのシンボリックリンクです。
-- **[`.githooks/`](../../.githooks/)**: このリポジトリ専用の Git hooks の正本。
-- **[`install/`](../../install/)**: セットアップスクリプト群。[`setup.sh`](../../setup.sh) がエントリポイントです。
-- **`templates/`**: プロジェクトごとの Nix 開発環境テンプレート。
-- **[`.github/workflows/`](../../.github/workflows/)**: CI 定義。lint・ビルド検証・E2E テストなどを含みます。
+## 設計判断
 
-## 管理対象の設定
+- **home-manager 配備対象とリポジトリローカルの分離**: [`config/agents/skills/`](../../config/agents/skills/) は home-manager が `~/.claude/skills` などへ配備する定義、[`.agents/skills/`](../../.agents/skills/) はリポジトリローカルで各エージェントが直接参照する共有定義です。両者は置き場所が似ているため混同しやすく、[`config/AGENTS.md`](../../config/AGENTS.md) で明確に区別しています。
+- **Git hooks は home-manager 管理外**: このリポジトリの Git hooks は [`.githooks/`](../../.githooks/) を正本とし、home-manager では配布せず [`install/common/setup-local-hooks.sh`](../../install/common/setup-local-hooks.sh) が repo-local の `core.hooksPath` を設定します。ユーザー環境全体ではなく、このリポジトリ専用のフックだからです。
+- **シークレット検出と CI 検証は pre-commit フックで実行**: `gitleaks`(シークレット検出)と `actionlint`(ステージされた workflow ファイルの検証)を `pre-commit` フックで実行しています。
+- **`profile`(personal/work)は配線済みの未使用フィールド**: [`flake.nix`](../../flake.nix) の各マシン定義は `profile` に `"personal"` または `"work"` を持ちますが、現時点ではどの `modules/` も参照していません。将来 work profile 向けの分岐を追加する予定のための先行配線です。新しいマシンを追加する際も、この値だけで動作が変わることはまだありません。
 
-| カテゴリ | ソースファイル | 展開先 |
-|----------|---------------|--------|
-| Shell | [`modules/shell.nix`](../../modules/shell.nix) (programs.zsh) | 宣言的管理 (ファイルなし) |
-| Git hooks | [`.githooks/pre-commit`](../../.githooks/pre-commit) | このリポジトリの `.git/config` に `core.hooksPath=.githooks` を設定 |
-| Codex | [`modules/codex.nix`](../../modules/codex.nix) | `~/.codex/config.toml` と `~/.codex/rules/default.rules` |
-| Claude Code | [`config/claude/`](../../config/claude/) | `~/.claude/` |
-| Claude skills | [`config/agents/skills/`](../../config/agents/skills/) | `~/.claude/skills` と `~/.agents/skills` へのシンボリックリンク |
-| Shared AI skills | [`.agents/skills/`](../../.agents/skills/) | リポジトリローカルで各エージェントから参照 |
-
-このリポジトリの Git hooks は [`.githooks/`](../../.githooks/) を正本とし、[`./install/common/setup-local-hooks.sh`](../../install/common/setup-local-hooks.sh) が repo-local の `core.hooksPath` を設定します。
-
-シークレット検出には `gitleaks` を使用しています（このリポジトリでは `pre-commit` フックで実行）。GitHub Actions workflow の検証には `actionlint` を使用しています（同じく `pre-commit` フックでステージされた workflow ファイルに対して実行されます）。
-
-ファイルの配置は [`home.nix`](../../home.nix) の `home.file` で宣言的に管理されています。
-
-[`config/`](../../config/) 配下の運用ルールは [`config/AGENTS.md`](../../config/AGENTS.md)、配置方針や各サブディレクトリの意味は [`config/README.md`](../../config/README.md) と配下の README を参照してください。
+詳細な配置ルールは [`config/AGENTS.md`](../../config/AGENTS.md) と [`config/README.md`](../../config/README.md) を参照してください。
