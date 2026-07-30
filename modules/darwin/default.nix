@@ -14,6 +14,8 @@
     casks = [
       # システム拡張の権限付与が必要なため nix パッケージではなく cask で導入する。
       "karabiner-elements"
+      # 仮想化・GUI 権限が必要なため cask で導入する(旧名 "docker")。
+      "docker-desktop"
     ];
   };
 }
