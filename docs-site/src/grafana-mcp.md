@@ -24,6 +24,3 @@ Grafana Cloud ではスタックの URL を `GRAFANA_URL` に設定します。�
 `--disable-write` は誤操作を防ぐための補助策であり、Grafana 側の RBAC に代わるものでは
 ありません。MCP サーバーは必須扱いにしていないため、Doppler や Grafana への接続に
 失敗しても Codex や Claude Code 全体の起動は止まりません。
-
-`mcp-grafana` を更新するときは、[`modules/grafana-mcp.nix`](../../modules/grafana-mcp.nix) のバージョンと
-hash を同時に更新してください。

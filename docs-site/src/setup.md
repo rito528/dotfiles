@@ -60,7 +60,14 @@ darwin-rebuild switch --flake .#<エントリ名>
 
 `<エントリ名>` は [`flake.nix`](../../flake.nix) の `darwinMachines` に定義したキーです。新しい Mac を追加する場合は、ここに実マシンのエントリを追加してください。
 
-`modules/darwin/default.nix` で `homebrew.enable = true` にしているため、Homebrew(未導入なら要インストール)経由で `karabiner-elements` などの cask も導入されます。Karabiner-Elements は初回起動時に入力監視の権限許可が必要です。また [`config/karabiner/`](../../config/karabiner/) のキーリマップルールは配置されるだけで自動有効化はされないため、Karabiner-Elements の「Complex Modifications」タブから一度だけ「Add rule」を行ってください。
+`modules/darwin/default.nix` で `homebrew.enable = true` にしているため、Homebrew(未導入なら要インストール)経由で `karabiner-elements` などの cask も導入されます。
+
+### Karabiner-Elements の初期設定
+
+[`config/karabiner/`](../../config/karabiner/) のキーリマップルールは配置されるだけで自動有効化はされないため、初回のみ以下を行ってください。
+
+1. 初回起動時に表示される入力監視の権限許可を許可する
+2. Karabiner-Elements の「Complex Modifications」タブから「Add rule」を行い、配置されたルールを有効化する
 
 ## 日常操作
 

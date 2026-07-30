@@ -3,7 +3,9 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-# This repository uses repo-local hooks in .githooks/.
+# This repository uses repo-local hooks in .githooks/, not home-manager-managed
+# global hooks: these checks (gitleaks, actionlint, ...) are specific to this repo,
+# not something every repo on the machine should run.
 # Do not rely on a global hooksPath for repo-specific checks.
 current="$(git -C "$REPO_DIR" config --local core.hooksPath 2>/dev/null || true)"
 

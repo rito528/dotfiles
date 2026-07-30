@@ -81,6 +81,8 @@
               profile
               takt
               ;
+            # pkgs.stdenv.isDarwin ではなく system 文字列から計算する。
+            # imports の評価中に pkgs を参照すると無限再帰になるため。
             isDarwin = nixpkgs.lib.hasSuffix "-darwin" system;
           };
         };
@@ -115,6 +117,8 @@
                   profile
                   takt
                   ;
+                # pkgs.stdenv.isDarwin ではなく system 文字列から計算する。
+                # imports の評価中に pkgs を参照すると無限再帰になるため。
                 isDarwin = nixpkgs.lib.hasSuffix "-darwin" system;
               };
               home-manager.users.${username} = {
