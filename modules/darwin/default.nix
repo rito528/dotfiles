@@ -6,11 +6,16 @@
   # Determinate Nix installer 等、nix-darwin の外で nix 自体を管理する場合は false のままにする。
   nix.enable = false;
 
-  # まだ使わない。使う際は enable = true にして taps/brews/casks を追加する。
   # cleanup を "zap"/"uninstall" にすると宣言外のものを削除してしまうため、
   # 宣言していないものには触れないよう当面 "none" のままにする。
   homebrew = {
-    enable = false;
+    enable = true;
     onActivation.cleanup = "none";
+    casks = [
+      # システム拡張の権限付与が必要なため nix パッケージではなく cask で導入する。
+      "karabiner-elements"
+      # 仮想化・GUI 権限が必要なため cask で導入する(旧名 "docker")。
+      "docker-desktop"
+    ];
   };
 }

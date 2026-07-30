@@ -8,7 +8,7 @@
 - **コアツール**: [home-manager](https://github.com/nix-community/home-manager)
 - **メインシェル**: zsh
 - **CI/CD**: GitHub Actions
-- **ターゲット OS**: Linux、特に Ubuntu および Windows Subsystem for Linux
+- **ターゲット OS**: Linux(Ubuntu / WSL)。加えて nix-darwin による macOS(Apple Silicon)対応も行う
 
 ## 2. 正本
 - **Home Manager の設定と配備定義**: [`home.nix`](home.nix), [`modules/`](modules/)
@@ -26,6 +26,7 @@
 - **shell 関連を変える**: [`modules/shell.nix`](modules/shell.nix) と対応する [`config/`](config/) 配下を確認する
 - **Git 設定を変える**: [`modules/git.nix`](modules/git.nix) を確認する
 - **GPG / SSH 関連を変える**: [`modules/gpg.nix`](modules/gpg.nix), [`modules/ssh.nix`](modules/ssh.nix) を確認する
+- **macOS / nix-darwin 固有の設定を変える**: [`modules/darwin/`](modules/darwin/)(system 設定・Homebrew cask)、[`modules/karabiner.nix`](modules/karabiner.nix) と [`config/karabiner/`](config/karabiner/)(キーリマップ)を確認する。`home.nix` では `isDarwin` によって Linux 側と分岐している
 - **Codex / Claude / AI Agent 設定を変える**: [`modules/codex.nix`](modules/codex.nix), [`modules/claude.nix`](modules/claude.nix), [`.agents/skills/`](.agents/skills/), [`config/agents/`](config/agents/), [`config/claude/`](config/claude/) のどれが正本かを確認する
 - **Neovim 設定を変える**: [`modules/neovim/`](modules/neovim/) を確認する
 - **セットアップ処理を変える**: [`install/`](install/) を確認する。定常設定であれば Nix に寄せられないか先に検討する
