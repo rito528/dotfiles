@@ -36,6 +36,8 @@ let
     darwin = [ ./modules/karabiner.nix ];
     linux = [ ];
   };
+  # isDarwin は pkgs.stdenv.isDarwin ではなく flake.nix が system 文字列から計算して
+  # special arg として渡す（imports 評価中に pkgs を参照すると無限再帰になるため）。
   platform = if isDarwin then "darwin" else "linux";
 in
 {

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# gitleaks はここ(ローカル pre-commit)でのみ実行する。CI 側では実行しない。
+# actionlint は staged workflow ファイルを対象にここで先に検証するが、
+# .github/workflows/lint.yaml でも push/PR 時に再実行され、フックをすり抜けた変更の保険になる。
 if ! command -v gitleaks &>/dev/null; then
   echo "gitleaks is not installed. Cannot secret check."
   exit 1
