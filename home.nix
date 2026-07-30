@@ -2,13 +2,13 @@
   lib,
   username,
   homeDirectory,
+  profile,
   ...
 }:
-{
-  imports = [
+let
+  commonImports = [
     ./modules/packages.nix
     ./modules/llm-agents.nix
-    ./modules/grafana-mcp.nix
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/ssh.nix
@@ -17,14 +17,23 @@
     ./modules/yazi.nix
     ./modules/scripts
     ./modules/agents.nix
-    ./modules/codex.nix
     ./modules/claude.nix
     ./modules/gitleaks.nix
     ./modules/npm
-    ./modules/actrun.nix
     ./modules/git-wt.nix
-    ./modules/takt.nix
   ];
+  profileImports = {
+    personal = [
+      ./modules/grafana-mcp.nix
+      ./modules/codex.nix
+      ./modules/takt.nix
+      ./modules/actrun.nix
+    ];
+    work = [ ];
+  };
+in
+{
+  imports = commonImports ++ profileImports.${profile};
 
   home.username = username;
   home.homeDirectory = homeDirectory;

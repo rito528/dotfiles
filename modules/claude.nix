@@ -1,29 +1,37 @@
 {
   pkgs,
-  grafanaMcp,
+  profile,
+  grafanaMcp ? null,
   ...
 }:
 let
   jsonFormat = pkgs.formats.json { };
-  pluginManifest = jsonFormat.generate "claude-grafana-mcp-plugin.json" {
-    name = "grafana-mcp";
+  grafanaMcpPlugin =
+    let
+      pluginManifest = jsonFormat.generate "claude-grafana-mcp-plugin.json" {
+        name = "grafana-mcp";
+      };
+      mcpConfig = jsonFormat.generate "claude-grafana-mcp.json" {
+        mcpServers.grafana = {
+          inherit (grafanaMcp) command args;
+          type = "stdio";
+        };
+      };
+    in
+    pkgs.runCommand "claude-grafana-mcp-plugin" { } ''
+      install -Dm644 ${pluginManifest} "$out/grafana-mcp/.claude-plugin/plugin.json"
+      install -Dm644 ${mcpConfig} "$out/grafana-mcp/.mcp.json"
+    '';
+  extraSkillsByProfile = {
+    personal = [ grafanaMcpPlugin ];
+    work = [ ];
   };
-  mcpConfig = jsonFormat.generate "claude-grafana-mcp.json" {
-    mcpServers.grafana = {
-      inherit (grafanaMcp) command args;
-      type = "stdio";
-    };
-  };
-  grafanaMcpPlugin = pkgs.runCommand "claude-grafana-mcp-plugin" { } ''
-    install -Dm644 ${pluginManifest} "$out/grafana-mcp/.claude-plugin/plugin.json"
-    install -Dm644 ${mcpConfig} "$out/grafana-mcp/.mcp.json"
-  '';
   claudeSkills = pkgs.symlinkJoin {
     name = "claude-skills";
     paths = [
       ../config/agents/skills
-      grafanaMcpPlugin
-    ];
+    ]
+    ++ extraSkillsByProfile.${profile};
   };
 in
 {

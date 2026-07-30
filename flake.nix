@@ -194,6 +194,17 @@
           };
           profile = "personal";
         };
+        yuki-maruyama = {
+          system = "aarch64-darwin";
+          username = "yuki.maruyama";
+          homeDirectory = "/Users/yuki.maruyama";
+          identity = {
+            name = "rito528";
+            email = "39003544+rito528@users.noreply.github.com";
+            gpgKey = "";
+          };
+          profile = "work";
+        };
       };
     in
     {

@@ -1,25 +1,37 @@
-{ pkgs, ... }:
 {
-  home.packages = with pkgs; [
+  pkgs,
+  profile,
+  ...
+}:
+let
+  common = with pkgs; [
     git
     jq
-    direnv
     starship
-    nodejs_24
     nixfmt
-    doppler
     gh
     ripgrep
     shellcheck
-    actionlint
     ghq
     fzf
-    editorconfig-checker
-    markdown-link-check
-    bubblewrap
-    socat
-    yazi
-    python3
-    mdbook
+    nodejs_24
   ];
+  byProfile = {
+    personal = with pkgs; [
+      direnv
+      doppler
+      actionlint
+      editorconfig-checker
+      markdown-link-check
+      bubblewrap
+      socat
+      yazi
+      python3
+      mdbook
+    ];
+    work = [ ];
+  };
+in
+{
+  home.packages = common ++ byProfile.${profile};
 }
