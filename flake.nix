@@ -81,6 +81,7 @@
               profile
               takt
               ;
+            isDarwin = nixpkgs.lib.hasSuffix "-darwin" system;
           };
         };
       mkDarwinConfig =
@@ -114,6 +115,7 @@
                   profile
                   takt
                   ;
+                isDarwin = nixpkgs.lib.hasSuffix "-darwin" system;
               };
               home-manager.users.${username} = {
                 imports = [

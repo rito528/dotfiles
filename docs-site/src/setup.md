@@ -43,6 +43,25 @@ Nix をインストールした場合は、シェルを再起動するか以下�
 ./install/common/home-manager.sh
 ```
 
+## macOS (nix-darwin) の場合
+
+現状 [`setup.sh`](../../setup.sh) は Ubuntu/WSL 専用です。macOS では [Determinate Nix](https://determinate.systems/nix-installer/) 等で Nix 本体を別途導入したうえで、nix-darwin を直接使います。
+
+```bash
+git clone https://github.com/rito528/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+
+# 初回のみ: nix-darwin をブートストラップする
+sudo nix run nix-darwin -- switch --flake .#<エントリ名>
+
+# 2回目以降
+darwin-rebuild switch --flake .#<エントリ名>
+```
+
+`<エントリ名>` は [`flake.nix`](../../flake.nix) の `darwinMachines` に定義したキーです。新しい Mac を追加する場合は、ここに実マシンのエントリを追加してください。
+
+`modules/darwin/default.nix` で `homebrew.enable = true` にしているため、Homebrew(未導入なら要インストール)経由で `karabiner-elements` などの cask も導入されます。Karabiner-Elements は初回起動時に入力監視の権限許可が必要です。また [`config/karabiner/`](../../config/karabiner/) のキーリマップルールは配置されるだけで自動有効化はされないため、Karabiner-Elements の「Complex Modifications」タブから一度だけ「Add rule」を行ってください。
+
 ## 日常操作
 
 セットアップ後、設定を変更した際は以下のコマンドで反映・確認します。

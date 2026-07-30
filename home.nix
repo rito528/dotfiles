@@ -3,6 +3,7 @@
   username,
   homeDirectory,
   profile,
+  isDarwin,
   ...
 }:
 let
@@ -10,8 +11,6 @@ let
     ./modules/packages.nix
     ./modules/llm-agents.nix
     ./modules/git.nix
-    ./modules/gpg.nix
-    ./modules/ssh.nix
     ./modules/neovim
     ./modules/shell.nix
     ./modules/yazi.nix
@@ -24,6 +23,8 @@ let
   ];
   profileImports = {
     personal = [
+      ./modules/gpg.nix
+      ./modules/ssh.nix
       ./modules/grafana-mcp.nix
       ./modules/codex.nix
       ./modules/takt.nix
@@ -31,9 +32,14 @@ let
     ];
     work = [ ];
   };
+  platformImports = {
+    darwin = [ ./modules/karabiner.nix ];
+    linux = [ ];
+  };
+  platform = if isDarwin then "darwin" else "linux";
 in
 {
-  imports = commonImports ++ profileImports.${profile};
+  imports = commonImports ++ profileImports.${profile} ++ platformImports.${platform};
 
   home.username = username;
   home.homeDirectory = homeDirectory;
