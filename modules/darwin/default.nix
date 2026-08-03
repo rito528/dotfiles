@@ -16,6 +16,8 @@
       "karabiner-elements"
       # 仮想化・GUI 権限が必要なため cask で導入する(旧名 "docker")。
       "docker-desktop"
+      # 拡張機能の管理と自動更新を VSCode 自身に任せたいため cask で導入する。
+      "visual-studio-code"
     ];
   };
 }
