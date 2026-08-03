@@ -18,6 +18,10 @@
       "docker-desktop"
       # 拡張機能の管理と自動更新を VSCode 自身に任せたいため cask で導入する。
       "visual-studio-code"
+      # アクセシビリティ権限の付与が必要な GUI アプリのため cask で導入する。
+      "alt-tab"
+      # 入力ソースとしてシステムへの登録が必要なため cask で導入する。
+      "google-japanese-ime"
     ];
   };
 }
