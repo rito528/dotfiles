@@ -19,6 +19,7 @@ let
   ];
   profileImports = {
     personal = [
+      ./modules/direnv.nix
       ./modules/gpg.nix
       ./modules/ssh.nix
       ./modules/grafana-mcp.nix

@@ -20,6 +20,8 @@ nix flake init -t github:rito528/dotfiles#seichi-infra
 
 ## direnv との連携
 
+direnv は personal プロファイル限定です（[`modules/direnv.nix`](../../modules/direnv.nix)）。work プロファイルでは有効になりません。
+
 プロジェクトディレクトリに `.envrc` を作成することで、ディレクトリに入ると自動的に開発環境が有効になります：
 
 ```bash

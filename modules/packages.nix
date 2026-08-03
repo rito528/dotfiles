@@ -18,7 +18,6 @@ let
   ];
   byProfile = {
     personal = with pkgs; [
-      direnv
       doppler
       actionlint
       editorconfig-checker

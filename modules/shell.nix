@@ -81,12 +81,6 @@
     enableZshIntegration = true;
   };
 
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = false;
-    enableZshIntegration = true;
-  };
-
   programs.starship = {
     enable = true;
     enableBashIntegration = false;
