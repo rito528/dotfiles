@@ -7,17 +7,17 @@ let
   common = with pkgs; [
     git
     jq
-    starship
     nixfmt
     gh
-    ripgrep
     shellcheck
-    ghq
-    fzf
     nodejs_24
   ];
   byProfile = {
     personal = with pkgs; [
+      starship
+      ripgrep
+      ghq
+      fzf
       direnv
       doppler
       actionlint

@@ -13,13 +13,10 @@ let
     ./modules/git.nix
     ./modules/neovim
     ./modules/shell.nix
-    ./modules/yazi.nix
     ./modules/scripts
     ./modules/agents.nix
     ./modules/claude.nix
-    ./modules/gitleaks.nix
     ./modules/npm
-    ./modules/git-wt.nix
   ];
   profileImports = {
     personal = [
@@ -29,6 +26,9 @@ let
       ./modules/codex.nix
       ./modules/takt.nix
       ./modules/actrun.nix
+      ./modules/gitleaks.nix
+      ./modules/git-wt.nix
+      ./modules/yazi.nix
     ];
     work = [ ];
   };
