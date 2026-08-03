@@ -123,6 +123,14 @@
       "manipulators": [
         {
           "type": "basic",
+          "from": {
+            "key_code": "s",
+            "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
+          },
+          "to": [ { "key_code": "4", "modifiers": ["left_command", "left_shift"] } ]
+        },
+        {
+          "type": "basic",
           "from": { "key_code": "c", "modifiers": { "mandatory": ["control"], "optional": [] } },
           "to": [ { "key_code": "c", "modifiers": ["left_command"] } ]
         },
@@ -188,6 +196,14 @@
           "type": "basic",
           "from": { "key_code": "w", "modifiers": { "mandatory": ["control"], "optional": [] } },
           "to": [ { "key_code": "w", "modifiers": ["left_command"] } ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "s",
+            "modifiers": { "mandatory": ["control", "shift"], "optional": [] }
+          },
+          "to": [ { "key_code": "s", "modifiers": ["left_command", "left_shift"] } ]
         }
       ]
     },
