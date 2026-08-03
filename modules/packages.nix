@@ -11,13 +11,13 @@ let
     gh
     shellcheck
     nodejs_24
+    starship
+    ripgrep
+    ghq
+    fzf
   ];
   byProfile = {
     personal = with pkgs; [
-      starship
-      ripgrep
-      ghq
-      fzf
       direnv
       doppler
       actionlint

@@ -16,7 +16,6 @@ let
     ./modules/scripts
     ./modules/agents.nix
     ./modules/claude.nix
-    ./modules/npm
   ];
   profileImports = {
     personal = [
@@ -29,6 +28,7 @@ let
       ./modules/gitleaks.nix
       ./modules/git-wt.nix
       ./modules/yazi.nix
+      ./modules/npm
     ];
     work = [ ];
   };
