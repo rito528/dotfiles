@@ -33,7 +33,10 @@ let
     work = [ ];
   };
   platformImports = {
-    darwin = [ ./modules/karabiner.nix ];
+    darwin = [
+      ./modules/karabiner.nix
+      ./modules/ghostty.nix
+    ];
     linux = [ ];
   };
   # isDarwin は pkgs.stdenv.isDarwin ではなく flake.nix が system 文字列から計算して
