@@ -29,6 +29,7 @@
       alert = ''notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"'';
       delete-branches = "git fetch -p && git branch --merged | grep -v '*' | xargs -r git branch -d";
       gpull = "git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's|refs/remotes/origin/||') && git pull";
+      ns = "nix develop -c $SHELL";
     };
 
     plugins = [
