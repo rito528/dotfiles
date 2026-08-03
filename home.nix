@@ -16,10 +16,10 @@ let
     ./modules/scripts
     ./modules/agents.nix
     ./modules/claude.nix
-    ./modules/npm
   ];
   profileImports = {
     personal = [
+      ./modules/direnv.nix
       ./modules/gpg.nix
       ./modules/ssh.nix
       ./modules/grafana-mcp.nix
@@ -29,11 +29,15 @@ let
       ./modules/gitleaks.nix
       ./modules/git-wt.nix
       ./modules/yazi.nix
+      ./modules/npm
     ];
     work = [ ];
   };
   platformImports = {
-    darwin = [ ./modules/karabiner.nix ];
+    darwin = [
+      ./modules/karabiner.nix
+      ./modules/ghostty.nix
+    ];
     linux = [ ];
   };
   # isDarwin は pkgs.stdenv.isDarwin ではなく flake.nix が system 文字列から計算して

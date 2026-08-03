@@ -69,6 +69,13 @@ darwin-rebuild switch --flake .#<エントリ名>
 1. 初回起動時に表示される入力監視の権限許可を許可する
 2. Karabiner-Elements の「Complex Modifications」タブから「Add rule」を行い、配置されたルールを有効化する
 
+### Ghostty
+
+macOS ではターミナルとして Ghostty を導入します([`modules/ghostty.nix`](../../modules/ghostty.nix))。タブ・分割まわりのキーバインドは Windows Terminal に合わせてあります。
+
+- アプリ本体は `~/Applications/Home Manager Apps/Ghostty.app` に symlink されます。Spotlight や Launchpad から見つからない場合は `targets.darwin.copyApps.enable` で実体コピーに切り替えてください。
+- 設定は `~/.config/ghostty/config` に生成されます。`darwin-rebuild switch` のたびに `ghostty +validate-config` で検証されるため、キー名を間違えると切り替え時に検出されます。
+
 ## 日常操作
 
 セットアップ後、設定を変更した際は以下のコマンドで反映・確認します。

@@ -208,7 +208,7 @@
           username = "yuki.maruyama";
           homeDirectory = "/Users/yuki.maruyama";
           identity = {
-            name = "rito528";
+            name = "Yuki Maruyama";
             email = "39003544+rito528@users.noreply.github.com";
             gpgKey = "";
           };
