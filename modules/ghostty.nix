@@ -38,7 +38,10 @@
         "ctrl+alt+digit_9=last_tab"
 
         # 分割(Windows Terminal の Alt+Shift++ / Alt+Shift+- / Alt+Shift+D)
+        # equal / semicolon はどちらも物理キー名。`+` の位置が US 配列では equal、
+        # JIS 配列では semicolon なので、両方に同じ動作を割り当てる。
         "alt+shift+equal=new_split:right"
+        "alt+shift+semicolon=new_split:right"
         "alt+shift+minus=new_split:down"
         "alt+shift+d=new_split:auto"
 
