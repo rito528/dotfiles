@@ -73,7 +73,7 @@ darwin-rebuild switch --flake .#<エントリ名>
 
 macOS ではターミナルとして Ghostty を導入します([`modules/ghostty.nix`](../../modules/ghostty.nix))。タブ・分割まわりのキーバインドは Windows Terminal に合わせてあります。
 
-- アプリ本体は `~/Applications/Home Manager Apps/Ghostty.app` に symlink されます。Spotlight や Launchpad から見つからない場合は `targets.darwin.copyApps.enable` で実体コピーに切り替えてください。
+- アプリ本体は `~/Applications/Home Manager Apps/Ghostty.app` に実体コピーされます(`targets.darwin.copyApps.enable`)。symlink のままだと Spotlight がインデックスせず、Spotlight や Launchpad から見つからないためです。
 - 設定は `~/.config/ghostty/config` に生成されます。`darwin-rebuild switch` のたびに `ghostty +validate-config` で検証されるため、キー名を間違えると切り替え時に検出されます。
 
 ## 日常操作
