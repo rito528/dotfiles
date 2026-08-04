@@ -1,11 +1,16 @@
 { pkgs, ... }:
 {
+  # 既定の linkApps は .app を /nix/store への symlink として置くだけで、Spotlight は
+  # symlink 先を辿らないため Ghostty.app がインデックスされない。実体コピーに切り替えて
+  # Spotlight と Launchpad から起動できるようにする。両者は同じ
+  # ~/Applications/Home Manager Apps/ を使うため linkApps は無効にする。
+  targets.darwin.linkApps.enable = false;
+  targets.darwin.copyApps.enable = true;
+
   # macOS 標準ターミナルの代替。キーバインドは普段使いの Windows Terminal に合わせる。
   programs.ghostty = {
     enable = true;
     # pkgs.ghostty は Linux 専用のため、Mac では公式 dmg を再パッケージした ghostty-bin を使う。
-    # .app は ~/Applications/Home Manager Apps/ に symlink される。Spotlight が拾わない場合は
-    # targets.darwin.copyApps.enable で実体コピーに切り替える。
     package = pkgs.ghostty-bin;
 
     settings = {
