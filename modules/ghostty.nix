@@ -14,6 +14,20 @@
     package = pkgs.ghostty-bin;
 
     settings = {
+      # 既定では英字が内蔵 JetBrains Mono、日本語が BIZ UDGothic へ自動フォールバックし、
+      # 字形が揃わない。内蔵 JetBrains Mono は名前で指定できず(指定しても解決されず次の
+      # 候補が primary に繰り上がる)、日本語だけ差し替えることはできないため、
+      # primary も macOS 同梱の Menlo に明示する。
+      # Nerd Font のアイコンは Ghostty 内蔵の Symbols Nerd Font から供給されるので、
+      # primary を変えても崩れない。
+      # Hiragino Sans は等幅ではないが、かな・漢字の送り幅は 1em 固定で、Ghostty は
+      # 全角文字を 2 セルに収めるため桁はずれない。
+      font-family = [
+        "Menlo"
+        "Hiragino Sans"
+      ];
+      font-size = 15;
+
       # これを有効にしないと Option が特殊文字入力に使われ、alt+... のバインドが効かない。
       macos-option-as-alt = true;
 
