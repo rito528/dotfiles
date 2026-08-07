@@ -26,7 +26,7 @@
         "Menlo"
         "Hiragino Sans"
       ];
-      font-size = 15;
+      font-size = 18;
 
       # これを有効にしないと Option が特殊文字入力に使われ、alt+... のバインドが効かない。
       macos-option-as-alt = true;
