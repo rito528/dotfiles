@@ -31,7 +31,7 @@
       ]
     },
     {
-      "description": "Fixes that must stay above the Ctrl/Cmd swap: keep Ctrl+Tab as tab cycling, and map Ctrl+Y to redo. Skipped in terminals.",
+      "description": "Exceptions to the Ctrl/Cmd swap below: keep Ctrl+Tab as tab cycling, and map Ctrl+Y to redo. By the time these manipulators see the key, the swap has already turned physical Ctrl into Cmd, so they match on \"command\" (not \"control\") and translate it back. Skipped in terminals.",
       "manipulators": [
         {
           "type": "basic",
@@ -47,7 +47,7 @@
           ],
           "from": {
             "key_code": "tab",
-            "modifiers": { "mandatory": ["control"], "optional": ["shift"] }
+            "modifiers": { "mandatory": ["command"], "optional": ["shift"] }
           },
           "to": [ { "key_code": "tab", "modifiers": ["left_control"] } ]
         },
@@ -65,14 +65,14 @@
           ],
           "from": {
             "key_code": "y",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "z", "modifiers": ["left_command", "left_shift"] } ]
         }
       ]
     },
     {
-      "description": "Windows-style word/line/document navigation and selection. Skipped in terminals (Home/End and Ctrl+arrow are handled by the shell).",
+      "description": "Windows-style word/line/document navigation and selection. Skipped in terminals (Home/End and Ctrl+arrow are handled by the shell). The Ctrl-based manipulators below match on \"command\" (not \"control\") because the swap rule below has already turned physical Ctrl into Cmd by the time these keys are pressed.",
       "manipulators": [
         {
           "type": "basic",
@@ -88,7 +88,7 @@
           ],
           "from": {
             "key_code": "left_arrow",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "left_arrow", "modifiers": ["left_option"] } ]
         },
@@ -106,7 +106,7 @@
           ],
           "from": {
             "key_code": "right_arrow",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "right_arrow", "modifiers": ["left_option"] } ]
         },
@@ -124,7 +124,7 @@
           ],
           "from": {
             "key_code": "left_arrow",
-            "modifiers": { "mandatory": ["control", "shift"], "optional": [] }
+            "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
           },
           "to": [ { "key_code": "left_arrow", "modifiers": ["left_option", "left_shift"] } ]
         },
@@ -142,7 +142,7 @@
           ],
           "from": {
             "key_code": "right_arrow",
-            "modifiers": { "mandatory": ["control", "shift"], "optional": [] }
+            "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
           },
           "to": [ { "key_code": "right_arrow", "modifiers": ["left_option", "left_shift"] } ]
         },
@@ -160,7 +160,7 @@
           ],
           "from": {
             "key_code": "delete_or_backspace",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "delete_or_backspace", "modifiers": ["left_option"] } ]
         },
@@ -178,7 +178,7 @@
           ],
           "from": {
             "key_code": "delete_forward",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "delete_forward", "modifiers": ["left_option"] } ]
         },
@@ -268,7 +268,7 @@
           ],
           "from": {
             "key_code": "home",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "up_arrow", "modifiers": ["left_command"] } ]
         },
@@ -286,7 +286,7 @@
           ],
           "from": {
             "key_code": "end",
-            "modifiers": { "mandatory": ["control"], "optional": [] }
+            "modifiers": { "mandatory": ["command"], "optional": [] }
           },
           "to": [ { "key_code": "down_arrow", "modifiers": ["left_command"] } ]
         },
@@ -304,7 +304,7 @@
           ],
           "from": {
             "key_code": "home",
-            "modifiers": { "mandatory": ["control", "shift"], "optional": [] }
+            "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
           },
           "to": [ { "key_code": "up_arrow", "modifiers": ["left_command", "left_shift"] } ]
         },
@@ -322,7 +322,7 @@
           ],
           "from": {
             "key_code": "end",
-            "modifiers": { "mandatory": ["control", "shift"], "optional": [] }
+            "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
           },
           "to": [ { "key_code": "down_arrow", "modifiers": ["left_command", "left_shift"] } ]
         }
@@ -423,15 +423,43 @@
       ]
     },
     {
-      "description": "Caps Lock to Control (kept last so it stays a real Control everywhere, even where Ctrl is swapped to Cmd)",
+      "description": "Caps Lock to Control (kept last, after the Ctrl/Cmd swap rule, so its own key_code is never re-matched by it). Real Control in terminals; elsewhere it outputs Cmd directly so Caps-Lock-as-Ctrl behaves identically to the physical Ctrl key instead of silently bypassing the swap and its exceptions above.",
       "manipulators": [
         {
           "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.mitchellh\\.ghostty$",
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ],
           "from": {
             "key_code": "caps_lock",
             "modifiers": { "mandatory": [], "optional": [] }
           },
           "to": [ { "key_code": "left_control" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.mitchellh\\.ghostty$",
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": { "mandatory": [], "optional": [] }
+          },
+          "to": [ { "key_code": "left_command" } ]
         }
       ]
     }
