@@ -1,4 +1,5 @@
 {
+  "outputStyle": "Concise",
   "worktreeConfig": {
     "enabled": true
   },
