@@ -10,7 +10,6 @@ let
       pkgs.llm-agents.ccusage
       pkgs.llm-agents.copilot-cli
       pkgs.llm-agents.codex
-      pkgs.llm-agents.antigravity-cli
       pkgs.llm-agents.opencode
     ];
     work = [ ];

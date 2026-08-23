@@ -52,7 +52,6 @@
           "copilot.vim"
           "copilot-cli"
           "barbar.nvim"
-          "antigravity-cli"
         ];
       mkPkgs =
         system:
