@@ -232,14 +232,6 @@
           path = ./templates/seichi-infra;
           description = "seichi-infra development environment";
         };
-        seichi-portal-backend = {
-          path = ./templates/seichi-portal-backend;
-          description = "seichi-portal-backend development environment";
-        };
-        seichi-portal-frontend = {
-          path = ./templates/seichi-portal-frontend;
-          description = "seichi-portal-frontend development environment";
-        };
       };
     };
 }
