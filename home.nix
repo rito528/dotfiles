@@ -23,6 +23,7 @@ let
       ./modules/gpg.nix
       ./modules/ssh.nix
       ./modules/grafana-mcp.nix
+      ./modules/argocd-mcp.nix
       ./modules/codex.nix
       ./modules/takt.nix
       ./modules/actrun.nix

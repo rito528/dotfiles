@@ -2,6 +2,7 @@
   pkgs,
   profile,
   grafanaMcp ? null,
+  argocdMcp ? null,
   ...
 }:
 let
@@ -22,8 +23,27 @@ let
       install -Dm644 ${pluginManifest} "$out/grafana-mcp/.claude-plugin/plugin.json"
       install -Dm644 ${mcpConfig} "$out/grafana-mcp/.mcp.json"
     '';
+  argocdMcpPlugin =
+    let
+      pluginManifest = jsonFormat.generate "claude-argocd-mcp-plugin.json" {
+        name = "argocd-mcp";
+      };
+      mcpConfig = jsonFormat.generate "claude-argocd-mcp.json" {
+        mcpServers.argocd = {
+          inherit (argocdMcp) command args;
+          type = "stdio";
+        };
+      };
+    in
+    pkgs.runCommand "claude-argocd-mcp-plugin" { } ''
+      install -Dm644 ${pluginManifest} "$out/argocd-mcp/.claude-plugin/plugin.json"
+      install -Dm644 ${mcpConfig} "$out/argocd-mcp/.mcp.json"
+    '';
   extraSkillsByProfile = {
-    personal = [ grafanaMcpPlugin ];
+    personal = [
+      grafanaMcpPlugin
+      argocdMcpPlugin
+    ];
     work = [ ];
   };
   claudeSkills = pkgs.symlinkJoin {
