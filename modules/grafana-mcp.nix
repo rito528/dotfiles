@@ -1,14 +1,14 @@
 { pkgs, ... }:
 let
   # renovate: datasource=github-releases depName=grafana/mcp-grafana
-  version = "1.2.0";
+  version = "1.3.0";
   package = pkgs.stdenvNoCC.mkDerivation {
     pname = "mcp-grafana";
     inherit version;
 
     src = pkgs.fetchurl {
       url = "https://github.com/grafana/mcp-grafana/releases/download/v${version}/mcp-grafana_Linux_x86_64.tar.gz";
-      hash = "sha256-XuZhXfZ1FlDoo39Iq5uLz59pZaa1N0jcBnf1U4VrVbY=";
+      hash = "sha256-ufxm4GE6Te+GJTYny3GwlMo1zyE6sY+gmo2L1XjBl7E=";
     };
 
     sourceRoot = ".";
