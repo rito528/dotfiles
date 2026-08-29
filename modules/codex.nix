@@ -3,6 +3,7 @@
   lib,
   homeDirectory,
   grafanaMcp,
+  argocdMcp,
   ...
 }:
 let
@@ -99,6 +100,11 @@ let
 
     mcp_servers.grafana = {
       inherit (grafanaMcp) command args;
+      startup_timeout_sec = 120;
+    };
+
+    mcp_servers.argocd = {
+      inherit (argocdMcp) command args;
       startup_timeout_sec = 120;
     };
 
