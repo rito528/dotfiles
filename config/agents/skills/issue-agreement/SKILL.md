@@ -64,4 +64,4 @@ gh issue view <番号> --comments
 
 ### 6. 実装へ引き継ぐ
 
-合意メモを `implementation-decision-discipline` の Phase 0 の成果物として扱う。Phase 0 は合意メモの検収だけで通過し、階層の判定へ進む。
+合意メモを `implementation-decision-discipline` の入力として扱う。同スキルの階層の判定は合意メモを起点に行い、標準階層になった場合の Phase 0 は合意メモの検収だけで通過する。
