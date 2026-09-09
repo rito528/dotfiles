@@ -7,7 +7,7 @@ let
     inherit version;
     src = pkgs.fetchurl {
       url = "https://github.com/k1LoW/git-wt/releases/download/v${version}/git-wt_v${version}_linux_amd64.tar.gz";
-      hash = "sha256-NxeOvHVlmKmyjnbvZeiTEial+vl4S3KxWWvbDnwVuyM=";
+      hash = "sha256-aOMq6tRqSQ6u+ITTXafgA+UWbMgv//kTR3VtXer6kLc=";
     };
     dontUnpack = true;
     installPhase = ''
