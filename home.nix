@@ -25,7 +25,6 @@ let
       ./modules/grafana-mcp.nix
       ./modules/argocd-mcp.nix
       ./modules/codex.nix
-      ./modules/takt.nix
       ./modules/actrun.nix
       ./modules/gitleaks.nix
       ./modules/git-wt.nix
