@@ -11,15 +11,16 @@ subagent 起動用 tool でモデルや reasoning effort を指定できる環�
 
 基準は 1 つ。出力を後段の仕組みが実物と照合する作業は下げてよく、見落としが黙って通る判断は下げない。同じ基準を、subagent を起動するかどうかにも適用する(SKILL.md の「subagent の使いどころ」)。照合される作業はメインが行ってもよく、黙って通る判断は独立した subagent に残す。
 
-モデルの格は「fast / affordable 級」「workhorse 級(標準的な agentic coding モデル)」「最上位級」「小型(mini・Haiku 級)」で数える。環境で使えるモデルをこのどれかに当てはめて読む。
+モデルの格は「fast / affordable 級」「中間級(速度と判断力を両立するモデル)」「workhorse 級(標準的な agentic coding モデル)」「最上位級」で数える。環境で使えるモデルをこのどれかに当てはめて読む。
 
 ## 役割別の指定
 
 | 役割 | モデル | effort | 理由 |
 |---|---|---|---|
 | メイン(統括) | workhorse 級以上 | high(検収中心なら medium) | 解釈・階層判定・スコープ・subagent の提案の採否は、後段が照合できない判断。過去の失敗はすべてここで起きた |
-| 調査(参照検索・列挙・指定ファイルの読み取り) | fast/affordable 級または小型 | low〜medium | 出力は事実の列挙で、メインが実物と突き合わせる。トークン量が多いので最も下げる |
-| 実装(設計判断が残っていないもの) | fast/affordable 級(メインが workhorse 級なら 1 段下) | medium〜high | Phase 1 で設計が固定され、変更が計画をコードへ写す作業になっている。差分は Phase 4 で照合される |
+| 調査(参照検索・列挙・指定ファイルの読み取り) | fast/affordable 級または中間級 | low〜medium | 出力は事実の列挙で、メインが実物と突き合わせる。トークン量が多いので最も下げる |
+| 実装(明確で狭く、反復可能なもの) | fast/affordable 級 | medium〜high | 機械的な変更や既存パターンの適用で、判断が現れにくい。差分は Phase 4 で照合される |
+| 実装(設計判断が残っていない通常のもの) | 中間級。利用できなければメイン同等 | high | Phase 1 で設計が固定されていても、既存コードとの整合やエラー処理など、局所的な判断が実装中に現れうる。fast/affordable 級へ一律に下げない |
 | 実装(型・境界・責務の判断が残るもの) | メイン同等 | high | 判断が残る実装は下げない |
 | テスト設計 | 実装と同じ | high | 「テストを追加しない」判断が中心になる依頼では、再検討・レビューと同じ格にする。追加しない判断の誤りは後段の照合に現れない |
 | 再検討(Phase 1)・完了前レビュー(Phase 5、軽量の条件付きレビュー) | メイン同等以上。高影響領域や domain model に触れるなら最上位級 | high〜xhigh | 反証探しとレビューの質はモデルに強く依存し、低い格が返す「問題なし」は誤った安心感を生む。実装側を下げた場合も、レビュー側はメイン以上を保つ |
@@ -40,7 +41,9 @@ Codex(`spawn_agent` は `model` と `reasoning_effort` を個別に指定でき�
 |---|---|---|
 | メイン | gpt-5.6-sol | high |
 | 調査 | gpt-5.6-luna または gpt-reserve | low〜medium |
-| 実装(設計固定済み) | gpt-5.6-luna | high(または gpt-5.6-sol medium) |
+| 実装(明確で狭く、反復可能) | gpt-5.6-luna | medium〜high |
+| 実装(設計固定済みの通常作業) | gpt-5.6-terra | high(または gpt-5.6-sol medium) |
+| 実装(型・境界・責務の判断が残る) | gpt-5.6-sol | high |
 | 再検討・レビュー | gpt-5.6-sol 以上。高影響領域や domain model なら gpt-6-astra | high〜xhigh |
 
 Claude Code(Agent tool は `model` だけ指定でき、effort は指定できない):
