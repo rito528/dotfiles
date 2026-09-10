@@ -27,10 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     llm-agents.url = "github:numtide/llm-agents.nix";
-    takt = {
-      url = "github:nrslib/takt";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -40,7 +36,6 @@
       nixvim,
       nix-darwin,
       llm-agents,
-      takt,
       ...
     }:
     let
@@ -78,7 +73,6 @@
               homeDirectory
               identity
               profile
-              takt
               ;
             # pkgs.stdenv.isDarwin ではなく system 文字列から計算する。
             # imports の評価中に pkgs を参照すると無限再帰になるため。
@@ -117,7 +111,6 @@
                   homeDirectory
                   identity
                   profile
-                  takt
                   ;
                 # pkgs.stdenv.isDarwin ではなく system 文字列から計算する。
                 # imports の評価中に pkgs を参照すると無限再帰になるため。
