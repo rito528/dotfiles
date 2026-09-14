@@ -8,7 +8,7 @@ let
 
     src = pkgs.fetchurl {
       url = "https://github.com/grafana/mcp-grafana/releases/download/v${version}/mcp-grafana_Linux_x86_64.tar.gz";
-      hash = "sha256-+w3i61OYP0uP5fwSBHHFrtl2Fqy7mZ2urUfErvuBmD8=";
+      hash = "sha256-IeOw6rGvCKeVBwLlsRRxXiaCGpbQqdr2z7Tk48HPiOA=";
     };
 
     sourceRoot = ".";
