@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   # renovate: datasource=github-releases depName=mizchi/actrun
-  version = "0.29.0";
+  version = "0.32.0";
   actrun = pkgs.stdenv.mkDerivation {
     pname = "actrun";
     inherit version;
