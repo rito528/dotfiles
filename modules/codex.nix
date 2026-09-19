@@ -8,79 +8,11 @@
 }:
 let
   tomlFormat = pkgs.formats.toml { };
-  shellUtilityPrefixes = [
-    "rg"
-    "grep"
-    "ls"
-    "tree"
-    "pwd"
-    "mkdir"
-    "cat"
-  ];
-  gitReadPrefixes = [
-    "git status"
-    "git diff"
-    "git log"
-    "git branch"
-    "git branch --show-current"
-    "git fetch"
-    "git switch"
-    "git switch -c"
-    "git pull"
-  ];
-  gitLocalWritePrefixes = [
-    "git add"
-    "git commit"
-    "git commit --no-gpg-sign"
-  ];
-  buildPrefixes = [
-    "shellcheck"
-    "nixfmt"
-    "home-manager build"
-    "nix"
-    "nix-build"
-    "cargo"
-    "sbt"
-    "sbtn"
-  ];
-  dockerLocalPrefixes = [
-    "docker build"
-    "docker buildx build"
-    "docker ps"
-    "docker images"
-  ];
-  tempFilePrefixes = [
-    "mktemp"
-    "printf"
-  ];
-  githubReadPrefixes = [
-    "gh issue view"
-    "gh issue list"
-    "gh pr list"
-    "gh pr view"
-    "gh run view"
-    "gh run list"
-  ];
-  allowCommandPrefixes =
-    shellUtilityPrefixes
-    ++ gitReadPrefixes
-    ++ gitLocalWritePrefixes
-    ++ buildPrefixes
-    ++ dockerLocalPrefixes
-    ++ tempFilePrefixes
-    ++ githubReadPrefixes;
-  renderPrefixRule =
-    prefix:
-    let
-      pattern = pkgs.lib.splitString " " prefix;
-    in
-    ''prefix_rule(pattern=${builtins.toJSON pattern}, decision="allow")'';
-  codexRules = pkgs.writeText "codex-default.rules" (
-    builtins.concatStringsSep "\n" (map renderPrefixRule allowCommandPrefixes) + "\n"
-  );
   codexConfig = {
+    model = "gpt-5.6-sol";
     model_reasoning_effort = "medium";
     suppress_unstable_features_warning = true;
+    approval_policy = "on-request";
     approvals_reviewer = "auto_review";
     sandbox_mode = "workspace-write";
     sandbox_workspace_write = {
@@ -90,15 +22,22 @@ let
 
     projects."${homeDirectory}".trust_level = "trusted";
 
-    tui.status_line = [
-      "model-with-reasoning"
-      "context-remaining"
-      "current-dir"
-      "five-hour-limit"
-      "weekly-limit"
-    ];
+    tui = {
+      notifications = [
+        "agent-turn-complete"
+        "approval-requested"
+      ];
+      notification_condition = "unfocused";
+      status_line = [
+        "model-with-reasoning"
+        "context-remaining"
+        "git-branch"
+        "current-dir"
+        "five-hour-limit"
+        "weekly-limit"
+      ];
+    };
 
-    plugins."google-calendar@openai-curated".enabled = true;
     plugins."github@openai-curated".enabled = true;
 
     mcp_servers.grafana = {
@@ -112,7 +51,6 @@ let
     };
 
     features = {
-      codex_git_commit = true;
       network_proxy = {
         enabled = true;
         domains = {
@@ -132,8 +70,4 @@ in
     $DRY_RUN_CMD install -m 644 ${codexConfigFile} "${homeDirectory}/.codex/config.toml"
   '';
 
-  home.file.".codex/rules/default.rules" = {
-    force = true;
-    source = codexRules;
-  };
 }
