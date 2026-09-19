@@ -30,8 +30,10 @@
 
 ## 4. AI Agent に対する許可 / 拒否コマンドの原則
 
-[`config/claude/settings.json`](claude/settings.json) の `permissions` セクションで、Claude Code を含む AI Agent のコマンド実行境界を制御します。  
-以下の原則に従って `allow` / `ask` / `deny` を分類し、実際に有効なルール一覧は [`config/claude/settings.json`](claude/settings.json) を正とします。
+[`config/claude/settings.json`](claude/settings.json) の `permissions` セクションで、Claude Code のコマンド実行境界を制御します。
+以下の原則に従って `allow` / `ask` / `deny` を分類し、Claude Code で実際に有効なルール一覧は [`config/claude/settings.json`](claude/settings.json) を正とします。
+
+Codex のコマンド実行境界は [`modules/codex.nix`](../modules/codex.nix) で管理します。Codex ではコマンド単位の包括的な許可リストを持たず、sandbox と自動承認レビューによって個々の操作を判断します。
 
 ### 4.1. 許可 (allow) の基準
 
@@ -87,6 +89,7 @@ AI Agent がツール経由で任意の Doppler コマンドを実行する経�
 
 - AI Agent のコマンド許可判断の原則はこの [`config/AGENTS.md`](AGENTS.md) に記述する
 - Claude の実際の挙動は [`config/claude/settings.json`](claude/settings.json) を正とする
+- Codex の実際の挙動は [`modules/codex.nix`](../modules/codex.nix) を正とする
 - 説明文と実設定がずれやすいため、permission を変更した場合は関連ドキュメントも同時に見直す
 
 ## 6. ドキュメント追加基準
