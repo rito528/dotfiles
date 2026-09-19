@@ -11,7 +11,7 @@ jobs:
   update-hashes:
     # Renovate が開いた PR のみ対象・GitHub App による push は無限ループ防止のためスキップ
     if: startsWith(github.head_ref, 'renovate/') && github.actor != 'github-actions[bot]'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
     steps:

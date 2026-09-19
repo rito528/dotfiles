@@ -9,7 +9,7 @@ on:
 jobs:
   changes:
     name: Detect changes
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       ci: ${{ steps.changes.outputs.ci }}
       devshell: ${{ steps.changes.outputs.devshell }}
@@ -150,7 +150,7 @@ jobs:
       - devshell
       - docs
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Check required CI jobs
         env:
