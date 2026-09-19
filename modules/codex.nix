@@ -83,7 +83,10 @@ let
     suppress_unstable_features_warning = true;
     approvals_reviewer = "auto_review";
     sandbox_mode = "workspace-write";
-    sandbox_workspace_write.writable_roots = [ "/tmp" ];
+    sandbox_workspace_write = {
+      writable_roots = [ "/tmp" ];
+      network_access = true;
+    };
 
     projects."${homeDirectory}".trust_level = "trusted";
 
@@ -108,7 +111,16 @@ let
       startup_timeout_sec = 120;
     };
 
-    features.codex_git_commit = true;
+    features = {
+      codex_git_commit = true;
+      network_proxy = {
+        enabled = true;
+        domains = {
+          "**.github.com" = "allow";
+          "**.githubusercontent.com" = "allow";
+        };
+      };
+    };
   };
   codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;
 in
