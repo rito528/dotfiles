@@ -9,8 +9,6 @@
 
 - `settings.json`
   - Claude Code の hooks、permission、plugin 有効化、status line などを定義します
-- `CLAUDE.md`
-  - グローバル AI Agent 向けの応答方針として、`~/.claude/CLAUDE.md` へ配備されます
 - `hooks/`
   - Claude が特定イベント時に実行する補助スクリプトです
 - `statusline.py`
