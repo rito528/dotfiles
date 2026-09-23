@@ -9,7 +9,7 @@
 let
   tomlFormat = pkgs.formats.toml { };
   codexConfig = {
-    model = "gpt-5.6-sol";
+    model = "gpt-6-sol";
     model_reasoning_effort = "medium";
     suppress_unstable_features_warning = true;
     approval_policy = "on-request";
