@@ -2,7 +2,7 @@
   "title": "Windows-style navigation and shortcuts (for PC keyboards used in Windows mode)",
   "rules": [
     {
-      "description": "Windows keys with no macOS equivalent (Win+L lock / Win+Shift+S screenshot / Alt+Tab). Always on, including terminals.",
+      "description": "Windows keys with no macOS equivalent (Win+L lock / Win+Shift+S screenshot). Alt+Tab is left untouched so it reaches AltTab's default Option+Tab shortcut. Always on, including terminals.",
       "manipulators": [
         {
           "type": "basic",
@@ -19,14 +19,6 @@
             "modifiers": { "mandatory": ["command", "shift"], "optional": [] }
           },
           "to": [ { "key_code": "4", "modifiers": ["left_command", "left_shift"] } ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "tab",
-            "modifiers": { "mandatory": ["option"], "optional": ["any"] }
-          },
-          "to": [ { "key_code": "tab", "modifiers": ["left_command"] } ]
         }
       ]
     },
