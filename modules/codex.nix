@@ -9,7 +9,7 @@
 let
   tomlFormat = pkgs.formats.toml { };
   codexConfig = {
-    model = "gpt-6-sol";
+    model = "gpt-6.1-sol";
     model_reasoning_effort = "medium";
     suppress_unstable_features_warning = true;
     approval_policy = "on-request";
@@ -51,6 +51,8 @@ let
     };
 
     features = {
+      # 現在の CLI パッケージでは daemon 起動時にエラーになるため、一時的に無効化する。
+      daemon_auto_start = false;
       network_proxy = {
         enabled = true;
         domains = {
