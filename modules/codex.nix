@@ -51,8 +51,6 @@ let
     };
 
     features = {
-      # 現在の CLI パッケージでは daemon 起動時にエラーになるため、一時的に無効化する。
-      daemon_auto_start = false;
       network_proxy = {
         enabled = true;
         domains = {
