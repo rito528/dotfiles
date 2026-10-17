@@ -20,7 +20,8 @@
   - Claude Code の設定、hooks、status line など、実際の挙動を決める設定です
   - 詳細は [`config/claude/README.md`](claude/README.md) を参照してください
 - [`config/agents/AGENTS.md`](agents/AGENTS.md)
-  - `~/.agents/AGENTS.md` に配備される、グローバル AI Agent 向けの応答方針です
+  - `~/.agents/AGENTS.md` と `~/.codex/AGENTS.md` に配備される、グローバル AI Agent 向けの応答方針です
+  - Codex がグローバル指示として読み込む `~/.codex/AGENTS.md` は、[`modules/codex.nix`](../modules/codex.nix) で配備します
 - [`config/AGENTS.md`](AGENTS.md)
   - [`config/`](./) 配下を編集するときの運用ルールです
   - 権限境界やグローバル反映に関わる注意点をまとめています

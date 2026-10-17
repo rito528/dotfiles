@@ -63,6 +63,8 @@ let
   codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;
 in
 {
+  home.file.".codex/AGENTS.md".source = ../config/agents/AGENTS.md;
+
   # config.toml は Codex がトラスト設定などを書き込むため、symlink ではなく
   # mutable なコピーとして配置する。home-manager switch のたびに上書きされる。
   home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

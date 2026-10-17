@@ -20,7 +20,7 @@
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
   - 詳細は [`config/agents/skills/README.md`](agents/skills/README.md) を参照する
 - [`config/agents/`](agents/)
-  - [`config/agents/AGENTS.md`](agents/AGENTS.md) は `~/.agents/AGENTS.md` に配備される応答方針の正本として扱う
+  - [`config/agents/AGENTS.md`](agents/AGENTS.md) は `~/.agents/AGENTS.md` と `~/.codex/AGENTS.md` に配備される応答方針の正本として扱う
 
 ## 3. AI Agent 関連の注意点
 
