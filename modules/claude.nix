@@ -55,6 +55,8 @@ let
   };
 in
 {
+  home.file.".claude/CLAUDE.md".source = ../config/agents/AGENTS.md;
+
   home.file.".claude/settings.json".source = ../config/claude/settings.json;
 
   home.file.".claude/skills" = {
