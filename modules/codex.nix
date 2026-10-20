@@ -23,6 +23,7 @@ let
     projects."${homeDirectory}".trust_level = "trusted";
 
     tui = {
+      fullscreen_transcript = false;
       notifications = [
         "agent-turn-complete"
         "approval-requested"
