@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - parallel:
-          - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-          - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+          - uses: actions/checkout@v7.0.1
+          - uses: DeterminateSystems/nix-installer-action@v23
 
       - name: Check markdown links
         run: |

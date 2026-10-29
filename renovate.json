@@ -16,26 +16,11 @@
       "matchDepTypes": [
         "action"
       ],
-      "pinDigests": true,
+      "pinDigests": false,
       "minimumReleaseAge": "7 days",
       "minimumReleaseAgeBehaviour": "timestamp-required",
       "internalChecksFilter": "strict",
       "rebaseWhen": "conflicted",
-      "automergeSchedule": [
-        "on sunday"
-      ]
-    },
-    {
-      "matchDepTypes": [
-        "action"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "pinDigest"
-      ],
-      "minimumReleaseAge": null,
-      "minimumReleaseAgeBehaviour": "timestamp-optional",
-      "internalChecksFilter": "none",
       "automergeSchedule": [
         "on sunday"
       ]
