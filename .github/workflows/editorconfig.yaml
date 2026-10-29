@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - parallel:
-          - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+          - uses: actions/checkout@v7.0.1
 
           - name: Set up editorconfig-checker
-            uses: editorconfig-checker/action-editorconfig-checker@7e30171fc973d78099d7dfc78e27c07d3c4a639f # main
+            uses: editorconfig-checker/action-editorconfig-checker@main
 
       - name: Check editorconfig
         run: editorconfig-checker

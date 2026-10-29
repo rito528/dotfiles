@@ -18,7 +18,7 @@ jobs:
       nix: ${{ steps.changes.outputs.nix }}
       shell: ${{ steps.changes.outputs.shell }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
@@ -101,6 +101,10 @@ jobs:
     name: EditorConfig
     uses: ./.github/workflows/editorconfig.yaml
 
+  actions-lock:
+    name: Actions Lockfile
+    uses: ./.github/workflows/actions-lock.yaml
+
   markdown-link-check:
     name: Markdown Link Check
     uses: ./.github/workflows/markdown-link-check.yaml
@@ -143,6 +147,7 @@ jobs:
     needs:
       - changes
       - editorconfig
+      - actions-lock
       - markdown-link-check
       - lint
       - nix
