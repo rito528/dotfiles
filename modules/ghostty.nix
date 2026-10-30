@@ -75,6 +75,12 @@
         "ctrl+shift+c=copy_to_clipboard"
         "ctrl+shift+v=paste_from_clipboard"
 
+        # 改行(Claude Code などの入力欄で、送信せずに改行する)
+        # ESC + CR(Alt+Enter 相当)を送る。CLI 側が kitty keyboard protocol を有効にして
+        # いなくても改行として扱われ、zsh でもコマンドを実行せずに改行が入る。
+        # Ghostty 標準の Shift+Enter もそのまま使える。
+        "ctrl+shift+enter=text:\\x1b\\r"
+
         # フォントサイズ
         "ctrl+equal=increase_font_size:1"
         "ctrl+minus=decrease_font_size:1"
