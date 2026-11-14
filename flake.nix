@@ -39,7 +39,15 @@
       ...
     }:
     let
-      nixpkgsOverlays = [ llm-agents.overlays.shared-nixpkgs ];
+      nixpkgsOverlays = [
+        llm-agents.overlays.shared-nixpkgs
+        # Codex は上流の nixpkgs に固定し、こちらの nixpkgs 更新で再ビルドしない。
+        (_final: prev: {
+          llm-agents = prev.llm-agents // {
+            codex = llm-agents.packages.${prev.stdenv.hostPlatform.system}.codex;
+          };
+        })
+      ];
       nixpkgsAllowUnfreePredicate =
         pkg:
         builtins.elem (nixpkgs.lib.getName pkg) [
