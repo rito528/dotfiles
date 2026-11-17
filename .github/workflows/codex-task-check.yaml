@@ -35,4 +35,5 @@ jobs:
       - name: Test task checks, hook integration, and judge tool isolation
         env:
           CODEX_TASK_CHECK_CODEX: ${{ github.workspace }}/result/home-path/bin/codex
+          CODEX_TASK_CHECK_ACTIVATION: ${{ github.workspace }}/result/activate
         run: python3 -B -m unittest discover -s tests/codex-task-check -v

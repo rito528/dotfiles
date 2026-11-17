@@ -22,6 +22,43 @@ let
       exec ${pkgs.python3}/bin/python3 ${taskCheckAssets}/libexec/codex-task-check/task_check.py --codex ${pkgs.codex}/bin/codex "$@"
     '';
   };
+  taskCheckHook = kind: timeout: {
+    type = "command";
+    command = "${taskCheck}/bin/codex-task-check ${kind}";
+    inherit timeout;
+    async = false;
+  };
+  taskCheckHooks = {
+    UserPromptSubmit = [ { hooks = [ (taskCheckHook "record" 5) ]; } ];
+    PreToolUse = [
+      {
+        matcher = "^request_user_input(_async)?$";
+        hooks = [ (taskCheckHook "question" 40) ];
+      }
+    ];
+    Stop = [ { hooks = [ (taskCheckHook "stop" 40) ]; } ];
+  };
+  # Codex hashes compact, recursively sorted JSON after normalizing hook defaults.
+  # Only these Home Manager-owned definitions receive persisted trust.
+  taskCheckHookState =
+    lib.mapAttrs'
+      (
+        event: event_name:
+        let
+          identity = {
+            inherit event_name;
+          }
+          // builtins.head taskCheckHooks.${event};
+        in
+        lib.nameValuePair "${homeDirectory}/.codex/config.toml:${event_name}:0:0" {
+          trusted_hash = "sha256:${builtins.hashString "sha256" (builtins.toJSON identity)}";
+        }
+      )
+      {
+        UserPromptSubmit = "user_prompt_submit";
+        PreToolUse = "pre_tool_use";
+        Stop = "stop";
+      };
   codexConfig = {
     model = "gpt-6.1-sol";
     model_reasoning_effort = "medium";
@@ -55,41 +92,8 @@ let
 
     plugins."github@openai-curated".enabled = true;
 
-    hooks = {
-      UserPromptSubmit = [
-        {
-          hooks = [
-            {
-              type = "command";
-              command = "${taskCheck}/bin/codex-task-check record";
-              timeout = 5;
-            }
-          ];
-        }
-      ];
-      PreToolUse = [
-        {
-          matcher = "^request_user_input(_async)?$";
-          hooks = [
-            {
-              type = "command";
-              command = "${taskCheck}/bin/codex-task-check question";
-              timeout = 40;
-            }
-          ];
-        }
-      ];
-      Stop = [
-        {
-          hooks = [
-            {
-              type = "command";
-              command = "${taskCheck}/bin/codex-task-check stop";
-              timeout = 40;
-            }
-          ];
-        }
-      ];
+    hooks = taskCheckHooks // {
+      state = taskCheckHookState;
     };
 
     mcp_servers.grafana = {

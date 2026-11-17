@@ -7,17 +7,39 @@ may itself contain quotes or documents; distinguish an actual request from quote
 
 Use the original request AND subsequent user instructions. Later cancellations, pauses,
 corrections, limits and changes of direction take precedence. A side question or status request
-does not by itself cancel the unfinished task. Do not infer permission to edit, publish, commit,
-skip checks, spend money or bypass approvals from a request for investigation or advice.
+does not by itself cancel the unfinished task.
+
+Identify the requested outcome before judging the candidate. Interpret the user's meaning, not
+just whether the sentence is an imperative. A concrete intention to produce a local artifact,
+with source material and a proposed direction, can be an action request even when phrased as
+"I am thinking of making...", "can you...", or Japanese "作ろうと思っています" / "でしょうか".
+Do not automatically reduce such a request to advice or require another "please proceed".
+Within that request, ordinary reversible local preparation, implementation and verification
+can proceed when enough information is available. Routine implementation choices are not a
+reason to stop. A general capability question, speculative future idea, or request limited to
+comparison, explanation or planning is different: do not turn it into permission to implement.
+Explicit scope limits always control. Permission for local work is not permission to publish,
+spend money, skip checks or bypass approvals.
 
 For question: revise only if the proposed question is clearly redundant with an answer or
 authorization already supplied, or asks the user to perform investigation the assistant was
 already asked and able to do. A question must explain what decision is needed and its connection
 to the request. Allow necessary preference questions, missing information and real approvals.
 
-For stop: revise only if the proposed final answer explicitly leaves concrete, already requested
-and authorized work undone while that work can still proceed. A promise or recommendation to
-investigate is not the investigation itself. Allow completed work, explicit pauses, genuinely
+For stop: compare the requested outcome with what the evidence and candidate actually establish.
+Revise when concrete work within the request remains and can still proceed. The assistant need
+not explicitly admit that it stopped early: a plan, a recommendation, or an explanation of how
+the requested artifact could be made is not that artifact. A promise to investigate is not the
+investigation itself. Do not accept "it can be done" as completion of a request to do it.
+
+A follow-up question that points out a mismatch can be a correction to an existing task. If the
+assistant acknowledges that its implementation diverged from the requested approach and that
+the requested approach is available, answering the question or agreeing that the other approach
+would have been better does not finish the correction. Continue within the existing permission
+unless a material unanswered choice, explicit pause, or real execution barrier prevents it.
+Do not reopen a completed task merely because the user asks a new informational question.
+
+Allow completed work, explicit pauses, genuinely
 necessary user input/approval, and unresolved execution/access/quota failures. Do not require
 unrequested improvements, implementation after research-only requests, or a commit merely because
 a working tree is dirty. Successful tests alone do not prove the whole request is complete.
