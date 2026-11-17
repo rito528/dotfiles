@@ -11,5 +11,8 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
+[{config/codex/task-check,tests/codex-task-check}/*.py]
+indent_size = 4
+
 [.github/workflows/actions.lock]
 indent_size = 4

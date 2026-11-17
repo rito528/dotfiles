@@ -1,0 +1,38 @@
+name: Codex Task Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - config/codex/**
+      - tests/codex-task-check/**
+      - modules/codex.nix
+      - flake.lock
+      - .github/workflows/codex-task-check.yaml
+  pull_request:
+    branches: [main]
+    paths:
+      - config/codex/**
+      - tests/codex-task-check/**
+      - modules/codex.nix
+      - flake.lock
+      - .github/workflows/codex-task-check.yaml
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: cachix/install-nix-action@v31.11.3
+        with:
+          extra_nix_config: |
+            accept-flake-config = true
+      - name: Build Home Manager configuration
+        run: nix run nixpkgs#home-manager -- build --flake .#testuser
+      - name: Test task checks, hook integration, and judge tool isolation
+        env:
+          CODEX_TASK_CHECK_CODEX: ${{ github.workspace }}/result/home-path/bin/codex
+        run: python3 -B -m unittest discover -s tests/codex-task-check -v
