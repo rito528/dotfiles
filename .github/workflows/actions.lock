@@ -7,6 +7,9 @@ workflows:
         - 'actions/checkout@v7.0.1'
     '.github/workflows/ci.yaml':
         - 'actions/checkout@v7.0.1'
+    '.github/workflows/codex-task-check.yaml':
+        - 'actions/checkout@v7.0.1'
+        - 'cachix/install-nix-action@v31.11.3'
     '.github/workflows/deploy-docs.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/deploy-pages@v5.0.1'

@@ -1,0 +1,29 @@
+{
+  "models": [{
+    "slug": "gpt-6.1-sol",
+    "display_name": "gpt-6.1-sol",
+    "description": null,
+    "supported_reasoning_levels": [],
+    "shell_type": "disabled",
+    "visibility": "list",
+    "supported_in_api": true,
+    "priority": 1,
+    "upgrade": null,
+    "model_messages": null,
+    "base_instructions": "Evaluate the supplied task evidence. Do not use tools. Return only the requested judgement JSON.",
+    "default_reasoning_summary": "auto",
+    "support_verbosity": false,
+    "default_verbosity": null,
+    "apply_patch_tool_type": null,
+    "truncation_policy": {"mode": "bytes", "limit": 10000},
+    "context_window": 128000,
+    "auto_compact_token_limit": null,
+    "effective_context_window_percent": 95,
+    "experimental_supported_tools": [],
+    "input_modalities": ["text"],
+    "supports_search_tool": false,
+    "tool_mode": "direct",
+    "multi_agent_version": "disabled",
+    "node_repl_disabled": true
+  }]
+}

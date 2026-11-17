@@ -8,6 +8,20 @@
 }:
 let
   tomlFormat = pkgs.formats.toml { };
+  taskCheckAssets = pkgs.runCommand "codex-task-check-assets" { } ''
+    mkdir -p "$out/libexec/codex-task-check"
+    cp ${../config/codex/task-check}/task_check.py \
+      ${../config/codex/task-check}/judge_prompt.txt \
+      ${../config/codex/task-check}/judge_schema.json \
+      ${../config/codex/task-check}/judge_models.json \
+      "$out/libexec/codex-task-check/"
+  '';
+  taskCheck = pkgs.writeShellApplication {
+    name = "codex-task-check";
+    text = ''
+      exec ${pkgs.python3}/bin/python3 ${taskCheckAssets}/libexec/codex-task-check/task_check.py --codex ${pkgs.codex}/bin/codex "$@"
+    '';
+  };
   codexConfig = {
     model = "gpt-6.1-sol";
     model_reasoning_effort = "medium";
@@ -41,6 +55,43 @@ let
 
     plugins."github@openai-curated".enabled = true;
 
+    hooks = {
+      UserPromptSubmit = [
+        {
+          hooks = [
+            {
+              type = "command";
+              command = "${taskCheck}/bin/codex-task-check record";
+              timeout = 5;
+            }
+          ];
+        }
+      ];
+      PreToolUse = [
+        {
+          matcher = "^request_user_input(_async)?$";
+          hooks = [
+            {
+              type = "command";
+              command = "${taskCheck}/bin/codex-task-check question";
+              timeout = 40;
+            }
+          ];
+        }
+      ];
+      Stop = [
+        {
+          hooks = [
+            {
+              type = "command";
+              command = "${taskCheck}/bin/codex-task-check stop";
+              timeout = 40;
+            }
+          ];
+        }
+      ];
+    };
+
     mcp_servers.grafana = {
       inherit (grafanaMcp) command args;
       startup_timeout_sec = 120;
@@ -64,6 +115,7 @@ let
   codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;
 in
 {
+  home.packages = [ taskCheck ];
   home.file.".codex/AGENTS.md".source = ../config/agents/AGENTS.md;
 
   # config.toml は Codex がトラスト設定などを書き込むため、symlink ではなく

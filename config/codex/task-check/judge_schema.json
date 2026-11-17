@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision", "reason", "user_quote", "candidate_quote"],
+  "properties": {
+    "decision": {"type": "string", "enum": ["allow", "revise", "unknown"]},
+    "reason": {"type": "string"},
+    "user_quote": {"type": "string"},
+    "candidate_quote": {"type": "string"}
+  }
+}
