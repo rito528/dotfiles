@@ -122,7 +122,7 @@ class CliIsolationTest(unittest.TestCase):
             )
             settings = [
                 'model_provider="task_check_test"',
-                'model="gpt-6.1-sol"',
+                'model="gpt-6.2-sol"',
                 'model_providers.task_check_test.name="Local test"',
                 f'model_providers.task_check_test.base_url="http://127.0.0.1:{server.server_port}/v1"',
                 'model_providers.task_check_test.wire_api="responses"',

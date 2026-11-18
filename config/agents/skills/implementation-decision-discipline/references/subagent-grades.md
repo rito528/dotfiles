@@ -31,7 +31,7 @@ subagent 起動用 tool でモデルや reasoning effort を指定できる環�
 - 起動 tool がモデルや effort の指定を文脈の複製なし(Codex なら `fork_turns: "none"`)に限っている場合、グレードを指定する起動はすべて複製なしにする。渡す文脈は依頼文に書き切る。
 - メインのモデルは skill からは変えられない。標準階層に入る時点でメインが fast/affordable 級で動いているなら、SKILL.md の Phase 0 の入る条件に従い、上位モデルへの切り替えをユーザーに提案する。
 
-## 環境別の例(2026-09 時点)
+## 環境別の例(2026-11-18 時点)
 
 モデル名は短い周期で変わる。起動前に環境のモデル一覧(Codex なら `/model`、Claude Code なら Agent tool の `model` の選択肢)で現物を確認し、格に当てはめて読み替える。
 
@@ -39,12 +39,12 @@ Codex(`spawn_agent` は `model` と `reasoning_effort` を個別に指定でき�
 
 | 役割 | model | reasoning_effort |
 |---|---|---|
-| メイン | gpt-5.6-sol | high |
-| 調査 | gpt-5.6-luna または gpt-reserve | low〜medium |
-| 実装(明確で狭く、反復可能) | gpt-5.6-luna | medium〜high |
-| 実装(設計固定済みの通常作業) | gpt-5.6-terra | high(または gpt-5.6-sol medium) |
-| 実装(型・境界・責務の判断が残る) | gpt-5.6-sol | high |
-| 再検討・レビュー | gpt-5.6-sol 以上。高影響領域や domain model なら gpt-6-astra | high〜xhigh |
+| メイン | gpt-6.2-sol | high |
+| 調査 | gpt-6-luna または gpt-reserve | low〜medium |
+| 実装(明確で狭く、反復可能) | gpt-6-luna | medium〜high |
+| 実装(設計固定済みの通常作業) | gpt-6.1-terra | high(または gpt-6.2-sol medium) |
+| 実装(型・境界・責務の判断が残る) | gpt-6.2-sol | high |
+| 再検討・レビュー | gpt-6.2-sol 以上。高影響領域や domain model なら gpt-6.2-astra | high〜xhigh |
 
 Claude Code(Agent tool は `model` だけ指定でき、effort は指定できない):
 

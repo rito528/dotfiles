@@ -1,7 +1,7 @@
 {
   "models": [{
-    "slug": "gpt-6.1-sol",
-    "display_name": "gpt-6.1-sol",
+    "slug": "gpt-6.2-sol",
+    "display_name": "gpt-6.2-sol",
     "description": null,
     "supported_reasoning_levels": [],
     "shell_type": "disabled",

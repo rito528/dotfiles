@@ -60,7 +60,7 @@ let
         Stop = "stop";
       };
   codexConfig = {
-    model = "gpt-6.1-sol";
+    model = "gpt-6.2-sol";
     model_reasoning_effort = "medium";
     suppress_unstable_features_warning = true;
     approval_policy = "on-request";
