@@ -273,7 +273,7 @@ def judge_command(codex, directory, extra_config=()):
     settings = (
         [
             'model_provider="openai"',
-            'model="gpt-6.1-sol"',
+            'model="gpt-6.2-sol"',
             'model_reasoning_effort="medium"',
             'approval_policy="never"',
             'web_search="disabled"',
