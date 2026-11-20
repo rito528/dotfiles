@@ -30,13 +30,15 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("before_agent_start", (event, ctx) => {
     const task = currentTask(ctx.cwd);
-    if (!task) return;
-    return {
-      systemPrompt: [
-        event.systemPrompt,
-        `Current task: ${JSON.stringify(task.name)}`,
-        `Keep task artifacts that the user may reopen (previews, reports, and validation logs) in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
-      ].join("\n\n"),
-    };
+    const guidelines = event.systemPromptOptions.promptGuidelines ?? [];
+    event.systemPromptOptions.promptGuidelines = [
+      ...guidelines,
+      "Use rg (ripgrep) to search text from the shell. Pi's grep tool also uses ripgrep.",
+    ];
+    if (task) {
+      event.systemPromptOptions.promptGuidelines.push(
+        `Current task: ${JSON.stringify(task.name)}. Keep previews, reports, and validation logs in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
+      );
+    }
   });
 }
