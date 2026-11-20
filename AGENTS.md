@@ -56,10 +56,16 @@
     - [`config/agents/skills/`](config/agents/skills/) は home-manager 配備対象の定義です。
     - [`config/claude/`](config/claude/) は Claude Code の配備内容で、[`modules/claude.nix`](modules/claude.nix) がその配置を管理します。
 
+7. **GitHub Actions の実行コミットは lockfile で固定する**:
+    - 外部 Action の `uses:` には原則としてバージョンタグを書き、実行コミットと推移的な依存関係は [`actions.lock`](.github/workflows/actions.lock) に固定します。同じリポジトリ内の再利用ワークフローは相対参照のままにします。
+    - ワークフローの追加や `uses:` の変更時は lockfile を再生成し、ワークフローと一緒にコミットします。lockfile は手で編集せず、検証方法は [CI](.github/workflows/actions-lock.yaml) を参照してください。
+    - ブランチ参照の固定先を更新するときは、上流の差分と lockfile 全体を確認します。`--relock` は他の可変参照も更新するためです。Renovate でも [`pinDigests`](renovate.json) は有効にせず、コミットの固定は lockfile に任せます。
+
 ## 5. ドキュメント方針
 - 完全なディレクトリツリーはこの文書に記載しない
 - ファイル一覧やサブディレクトリ一覧を手書きで維持しない
-- README には概要、手順、運用上の注意点を残す。設定値や機能一覧はコードを参照し、変更履歴や個別の検証結果は PR に記録する
+- 手順や運用上の注意点に加え、何を選ぶか、なぜそうするか、変更時に何を確認するかが分かる判断基準は残す。重複する場合は既存の文書にまとめる
+- 設定値や機能一覧はコードを参照し、変更履歴や個別の検証結果は PR に記録する
 - この文書には、方針、責務、正本、変更判断基準のみを記載する
 
 ## 6. 検証要件
