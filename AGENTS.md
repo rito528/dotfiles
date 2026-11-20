@@ -33,7 +33,7 @@
 - **npm/pnpm パッケージ管理を変える**: [`modules/npm/default.nix`](modules/npm/default.nix) と [`modules/npm/packages/`](modules/npm/packages/) を確認する
 - **カスタム package を変える**: [`modules/packages.nix`](modules/packages.nix) を確認する
 - **カスタム script を追加・変更する**: [`modules/scripts/default.nix`](modules/scripts/default.nix) と [`modules/scripts/`](modules/scripts/) を確認する
-- **CI を変える**: [`.github/workflows/`](.github/workflows/) と [Actions の lockfile 更新手順](.github/workflows/actions-lock.md) を確認する
+- **CI を変える**: [`.github/workflows/`](.github/workflows/) を確認する
 - **ドキュメントサイトの内容を変える**: [`docs-site/src/`](docs-site/src/) を確認する
 
 ## 4. 変更ルール
