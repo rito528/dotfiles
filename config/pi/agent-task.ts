@@ -22,6 +22,16 @@ function currentTask(cwd: string) {
 }
 
 export default function (pi: ExtensionAPI) {
+  pi.on("before_agent_start", (event, ctx) => {
+    const goal = currentTask(ctx.cwd)?.goal;
+    if (goal) {
+      event.systemPromptOptions.promptGuidelines = [
+        ...(event.systemPromptOptions.promptGuidelines ?? []),
+        `User-provided completion criteria for this task: ${JSON.stringify(goal)}. Check completed work against these criteria when reporting progress.`,
+      ];
+    }
+  });
+
   pi.on("session_start", (_event, ctx) => {
     const task = currentTask(ctx.cwd);
     if (ctx.hasUI) {
@@ -32,17 +42,13 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("before_agent_start", (event, ctx) => {
     const task = currentTask(ctx.cwd);
-    const guidelines = event.systemPromptOptions.promptGuidelines ?? [];
-    if (task) {
-      event.systemPromptOptions.promptGuidelines = [
-        ...guidelines,
-        `Current task: ${JSON.stringify(task.name)}. Keep previews, reports, and validation logs in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
-      ];
-      if (task.goal) {
-        event.systemPromptOptions.promptGuidelines.push(
-          `User-provided completion criteria for this task: ${JSON.stringify(task.goal)}. Check completed work against these criteria when reporting progress.`,
-        );
-      }
-    }
+    if (!task) return;
+    return {
+      systemPrompt: [
+        event.systemPrompt,
+        `Current task: ${JSON.stringify(task.name)}`,
+        `Keep task artifacts that the user may reopen (previews, reports, and validation logs) in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
+      ].join("\n\n"),
+    };
   });
 }

@@ -15,16 +15,16 @@ test("Pi sees the registered goal only in its assigned checkout", () => {
   };
   try {
     const handlers = new Map();
-    install({ on: (name, handler) => handlers.set(name, handler) });
+    install({ on: (name, handler) => handlers.set(name, [...(handlers.get(name) ?? []), handler]) });
     const labels = [];
-    handlers.get("session_start")({}, {
+    handlers.get("session_start")[0]({}, {
       cwd: root, hasUI: true, ui: { setStatus: (_name, label) => labels.push(label) },
     });
     assert.deepEqual(labels, ["Task: api-change (goal set)"]);
 
     const prompt = (cwd) => {
-      const event = { systemPromptOptions: {} };
-      handlers.get("before_agent_start")(event, { cwd });
+      const event = { systemPrompt: "", systemPromptOptions: {} };
+      for (const handler of handlers.get("before_agent_start")) handler(event, { cwd });
       return (event.systemPromptOptions.promptGuidelines ?? []).join("\n");
     };
     assert.match(prompt(root), /Keep the old client working/);
