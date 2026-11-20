@@ -56,10 +56,16 @@
     - [`config/agents/skills/`](config/agents/skills/) は home-manager 配備対象の定義です。
     - [`config/claude/`](config/claude/) は Claude Code の配備内容で、[`modules/claude.nix`](modules/claude.nix) がその配置を管理します。
 
+7. **GitHub Actions の実行コミットは lockfile で固定する**:
+    - 外部 Action の `uses:` には原則としてバージョンタグを書き、実行コミットと推移的な依存関係は [`actions.lock`](.github/workflows/actions.lock) に固定します。同じリポジトリ内の再利用ワークフローは相対参照のままにします。
+    - ワークフローの追加や `uses:` の変更時は lockfile を再生成し、ワークフローと一緒にコミットします。lockfile は手で編集せず、検証方法は [CI](.github/workflows/actions-lock.yaml) を参照してください。
+    - ブランチ参照の固定先を更新するときは、上流の差分と lockfile 全体を確認します。`--relock` は他の可変参照も更新するためです。Renovate でも [`pinDigests`](renovate.json) は有効にせず、コミットの固定は lockfile に任せます。
+
 ## 5. ドキュメント方針
 - 完全なディレクトリツリーはこの文書に記載しない
 - ファイル一覧やサブディレクトリ一覧を手書きで維持しない
-- 頻繁に変わる詳細は、各ディレクトリ README または生成可能な一覧に委ねる
+- 手順や運用上の注意点に加え、何を選ぶか、なぜそうするか、変更時に何を確認するかが分かる判断基準は残す。重複する場合は既存の文書にまとめる
+- 設定値や機能一覧はコードを参照し、変更履歴や個別の検証結果は PR に記録する
 - この文書には、方針、責務、正本、変更判断基準のみを記載する
 
 ## 6. 検証要件
@@ -71,8 +77,7 @@
 
 ## 7. ディレクトリ別の参照先
 - `config/` 配下の詳細な編集ルールは [`config/AGENTS.md`](config/AGENTS.md) を参照してください
-- Claude 関連の詳細は [`config/claude/README.md`](config/claude/README.md) を参照してください
-- agents 配下の詳細は [`config/agents/AGENTS.md`](config/agents/AGENTS.md), [`config/agents/skills/README.md`](config/agents/skills/README.md) を参照してください
+- 配備する AI Agent の応答方針は [`config/agents/AGENTS.md`](config/agents/AGENTS.md) を参照してください
 - Neovim 設定の詳細は [`modules/neovim/AGENTS.md`](modules/neovim/AGENTS.md) を参照してください
 - ドキュメントサイトのプレビュー方法は [`docs-site/README.md`](docs-site/README.md) を参照してください
 - 実装の全体像や詳細一覧が必要な場合は、まずコードと生成物を確認してください

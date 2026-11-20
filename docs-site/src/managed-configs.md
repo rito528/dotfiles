@@ -1,6 +1,5 @@
 # 管理対象と構成
 
-具体的なディレクトリ構成やファイル一覧は変更頻度が高く、この文書と二重管理すると必ず乖離します。
-最新の構造は、ルートの [`AGENTS.md`](../../AGENTS.md) と各ディレクトリの README・AGENTS.md を正本としてください。
+設定ファイルは [`config/`](../../config/) にあり、Home Manager での配備先は [`modules/`](../../modules/) に定義しています。
 
-詳細な配置ルールは [`config/AGENTS.md`](../../config/AGENTS.md) と [`config/README.md`](../../config/README.md) を参照してください。
+設定を編集するときは [`config/AGENTS.md`](../../config/AGENTS.md) を参照してください。

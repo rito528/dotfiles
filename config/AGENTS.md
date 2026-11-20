@@ -7,26 +7,25 @@
 
 - [`config/`](./) 配下の変更は、配備先と影響範囲を意識して行う
 - リポジトリ全体の原則はルート [`AGENTS.md`](../AGENTS.md) に従う
-- [`config/`](./) 配下の詳細な運用ルールや背景説明は各 README に分離する
+- 配備先や実際の挙動は Nix モジュールと設定ファイルを参照する。設定や機能の一覧は README に転記しない
 
 ## 2. ディレクトリごとの扱い
 
 - [`config/claude/`](claude/)
   - Claude Code の hooks、permissions、status line などを管理する
   - 特に [`settings.json`](claude/settings.json) は実効権限を定義するため、単なる設定変更として扱わない
-  - 詳細は [`config/claude/README.md`](claude/README.md) を参照する
+  - hooks や status line の変更時は、CI や非対話環境で動作するか確認する
 - [`config/agents/skills/`](agents/skills/)
   - home-manager 配備対象の Claude Code 向けスキル定義の正規配置
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
-  - 詳細は [`config/agents/skills/README.md`](agents/skills/README.md) を参照する
 - [`config/agents/`](agents/)
   - [`config/agents/AGENTS.md`](agents/AGENTS.md) は `~/.agents/AGENTS.md` と `~/.codex/AGENTS.md` に配備される応答方針の正本として扱う
 
 ## 3. AI Agent 関連の注意点
 
-- [`config/agents/skills/`](agents/skills/) に追加するスキルは、グローバル配備して問題ないものに限定する
-- 個人用の一時的な手順や、特定リポジトリ専用のスキルは原則として置かない
-- 権限判断や危険操作に関わる説明を含む場合は、ルート [`AGENTS.md`](../AGENTS.md) の原則と矛盾させない
+- [`config/agents/skills/`](agents/skills/) に置くのは、複数のリポジトリやタスクで再利用でき、継続して使うスキルに限る。特定リポジトリ専用で共有するものは [`.agents/skills/`](../.agents/skills/) に置き、一時的な検証や個人メモは配備しない
+- 追加・変更時は、別のリポジトリでも使え、説明だけで想定する挙動が分かるか確認する。秘密情報やローカル固有のパスに強く依存するものはグローバルに配備しない
+- 権限昇格、破壊的操作、秘密情報へのアクセスを不用意に促さない。権限判断や危険操作に関わる説明は、ルート [`AGENTS.md`](../AGENTS.md) の原則と矛盾させない
 
 ## 4. AI Agent に対する許可 / 拒否コマンドの原則
 
@@ -94,13 +93,13 @@ AI Agent がツール経由で任意の Doppler コマンドを実行する経�
 
 ## 6. ドキュメント追加基準
 
-[`config/`](./) 配下に新しい設定を追加するときは、次のいずれかに当てはまる場合に README か AGENTS.md を追加してください。
+次の場合は、判断基準や注意点を既存の文書に残してください。適切な文書がない場合だけ、短い文書を追加します。
 
-- 挙動や権限境界を変える
-- グローバル反映されるため、ローカル設定だと誤解されやすい
-- 配備先や役割が名前だけでは分かりにくい
-- 変更時に特有のレビュー観点や禁止事項がある
+- 設定がツールの挙動や権限境界を変える
+- グローバルに適用されるが、リポジトリ内だけの設定と誤解されやすい
+- 設定の役割や配備先が名前から分かりにくい
+- 変更時に固有の確認事項や禁止事項がある
 
-単純な静的設定は、無理に個別ドキュメントを増やさず、Nix モジュールと簡潔な README 参照で十分です。
+役割が明らかな静的設定のために、README を追加する必要はありません。
 
 README 以外の文書を [`config/`](./) 配下へ置く場合は、原則として実際に home-manager で配備されるものに限定してください。
