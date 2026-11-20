@@ -33,7 +33,7 @@
 - **npm/pnpm パッケージ管理を変える**: [`modules/npm/default.nix`](modules/npm/default.nix) と [`modules/npm/packages/`](modules/npm/packages/) を確認する
 - **カスタム package を変える**: [`modules/packages.nix`](modules/packages.nix) を確認する
 - **カスタム script を追加・変更する**: [`modules/scripts/default.nix`](modules/scripts/default.nix) と [`modules/scripts/`](modules/scripts/) を確認する
-- **CI を変える**: [`.github/workflows/`](.github/workflows/) を確認する
+- **CI を変える**: [`.github/workflows/`](.github/workflows/) と [Actions の lockfile 更新手順](.github/workflows/actions-lock.md) を確認する
 - **ドキュメントサイトの内容を変える**: [`docs-site/src/`](docs-site/src/) を確認する
 
 ## 4. 変更ルール
@@ -59,7 +59,7 @@
 ## 5. ドキュメント方針
 - 完全なディレクトリツリーはこの文書に記載しない
 - ファイル一覧やサブディレクトリ一覧を手書きで維持しない
-- 頻繁に変わる詳細は、各ディレクトリ README または生成可能な一覧に委ねる
+- README には概要、手順、運用上の注意点を残す。設定値や機能一覧はコードを参照し、変更履歴や個別の検証結果は PR に記録する
 - この文書には、方針、責務、正本、変更判断基準のみを記載する
 
 ## 6. 検証要件
@@ -71,8 +71,7 @@
 
 ## 7. ディレクトリ別の参照先
 - `config/` 配下の詳細な編集ルールは [`config/AGENTS.md`](config/AGENTS.md) を参照してください
-- Claude 関連の詳細は [`config/claude/README.md`](config/claude/README.md) を参照してください
-- agents 配下の詳細は [`config/agents/AGENTS.md`](config/agents/AGENTS.md), [`config/agents/skills/README.md`](config/agents/skills/README.md) を参照してください
+- 配備する AI Agent の応答方針は [`config/agents/AGENTS.md`](config/agents/AGENTS.md) を参照してください
 - Neovim 設定の詳細は [`modules/neovim/AGENTS.md`](modules/neovim/AGENTS.md) を参照してください
 - ドキュメントサイトのプレビュー方法は [`docs-site/README.md`](docs-site/README.md) を参照してください
 - 実装の全体像や詳細一覧が必要な場合は、まずコードと生成物を確認してください

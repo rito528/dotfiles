@@ -7,18 +7,16 @@
 
 - [`config/`](./) 配下の変更は、配備先と影響範囲を意識して行う
 - リポジトリ全体の原則はルート [`AGENTS.md`](../AGENTS.md) に従う
-- [`config/`](./) 配下の詳細な運用ルールや背景説明は各 README に分離する
+- 配備先や実際の挙動は Nix モジュールと設定ファイルを参照する。設定や機能の一覧は README に転記しない
 
 ## 2. ディレクトリごとの扱い
 
 - [`config/claude/`](claude/)
   - Claude Code の hooks、permissions、status line などを管理する
   - 特に [`settings.json`](claude/settings.json) は実効権限を定義するため、単なる設定変更として扱わない
-  - 詳細は [`config/claude/README.md`](claude/README.md) を参照する
 - [`config/agents/skills/`](agents/skills/)
   - home-manager 配備対象の Claude Code 向けスキル定義の正規配置
   - ここにあるスキルは `~/.claude/skills` と `~/.agents/skills` に反映される前提で扱う
-  - 詳細は [`config/agents/skills/README.md`](agents/skills/README.md) を参照する
 - [`config/agents/`](agents/)
   - [`config/agents/AGENTS.md`](agents/AGENTS.md) は `~/.agents/AGENTS.md` と `~/.codex/AGENTS.md` に配備される応答方針の正本として扱う
 
@@ -94,13 +92,6 @@ AI Agent がツール経由で任意の Doppler コマンドを実行する経�
 
 ## 6. ドキュメント追加基準
 
-[`config/`](./) 配下に新しい設定を追加するときは、次のいずれかに当てはまる場合に README か AGENTS.md を追加してください。
-
-- 挙動や権限境界を変える
-- グローバル反映されるため、ローカル設定だと誤解されやすい
-- 配備先や役割が名前だけでは分かりにくい
-- 変更時に特有のレビュー観点や禁止事項がある
-
-単純な静的設定は、無理に個別ドキュメントを増やさず、Nix モジュールと簡潔な README 参照で十分です。
+設定を追加するたびに README を作る必要はありません。利用手順や、配備・権限に関する注意点が必要な場合だけ、既存の文書を更新するか、短い文書を追加してください。
 
 README 以外の文書を [`config/`](./) 配下へ置く場合は、原則として実際に home-manager で配備されるものに限定してください。
