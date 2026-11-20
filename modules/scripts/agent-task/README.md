@@ -22,3 +22,5 @@ agent-task run api-change -- codex --add-dir "$(agent-task artifacts api-change)
 VS Code に正しいチェックアウトを開いたあと、定義ジャンプが効かない場合は、言語サーバーのプロジェクト設定を確認してください。たとえば複数の Cargo プロジェクトがある場合、使う `Cargo.toml` を `.code-workspace` の `rust-analyzer.linkedProjects` に指定できます。
 
 新規作成時に Git の `post-checkout` フックが失敗した場合、チェックアウトが作られていればタスクを登録し、フックのエラーを表示します。フックの失敗原因を直してから、同じタスク名で作業先を開き直せます。
+
+Pi で同じ作業先と会話を開き直す手順は、[Pi と共有スキル](../../../config/pi/README.md)を参照してください。
