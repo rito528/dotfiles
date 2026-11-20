@@ -119,6 +119,7 @@ let
   codexConfigFile = tomlFormat.generate "codex-config.toml" codexConfig;
 in
 {
+  _module.args.codexTaskChecker = taskCheck;
   home.packages = [ taskCheck ];
   home.file.".codex/AGENTS.md".source = ../config/agents/AGENTS.md;
 

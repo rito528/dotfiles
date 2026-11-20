@@ -46,6 +46,8 @@ Codex(`spawn_agent` は `model` と `reasoning_effort` を個別に指定でき�
 | 実装(型・境界・責務の判断が残る) | gpt-6.2-sol | high |
 | 再検討・レビュー | gpt-6.2-sol 以上。高影響領域や domain model なら gpt-6.2-astra | high〜xhigh |
 
+Pi の `subagent` は、親が選択している OpenAI モデルを使う読み取り専用のツールです。調査や独立レビューを任せるときは、必要な文脈を依頼文に含めます。モデルや推論量を個別に指定する欄はありません。
+
 Claude Code(Agent tool は `model` だけ指定でき、effort は指定できない):
 
 | 役割 | model |

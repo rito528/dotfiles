@@ -131,53 +131,79 @@ def normalize_item(item):
     return None
 
 
-def read_transcript(path):
+def collect_transcript(items):
     requests, events, limitations = [], deque(), []
-    event_size, request_size, total = 0, 0, 0
+    event_size, request_size = 0, 0
+    for item in items:
+        if item.get("type") == "compacted":
+            limitations.append("compaction_present")
+        event = normalize_item(item)
+        if event is None:
+            continue
+        if event["type"] == "user":
+            request_size += len(event["text"])
+            if request_size > MAX_REQUESTS:
+                return [], [], ["request_history_too_large"], True
+            requests.append(event["text"])
+            continue
+        encoded = json.dumps(event, ensure_ascii=False)
+        if len(encoded) > 6000:
+            event = {
+                "type": event["type"],
+                "call_id": event.get("call_id"),
+                "truncated_record": encoded[:6000],
+            }
+            limitations.append("tool_or_message_truncated")
+        size = len(json.dumps(event, ensure_ascii=False))
+        events.append((event, size))
+        event_size += size
+        while event_size > MAX_EVENTS:
+            _, removed_size = events.popleft()
+            event_size -= removed_size
+            limitations.append("older_actions_omitted")
+    return requests, [x for x, _ in events], sorted(set(limitations)), not requests
+
+
+def read_transcript(path):
     if not path:
-        return requests, [], ["transcript_unavailable"], True
+        return [], [], ["transcript_unavailable"], True
     with open(path, "rb") as source:
         if not stat.S_ISREG(os.fstat(source.fileno()).st_mode):
             raise ValueError("not a regular transcript")
         if os.fstat(source.fileno()).st_size > MAX_TRANSCRIPT:
             return [], [], ["transcript_too_large"], True
-        for raw in source:
-            total += len(raw)
-            if total > MAX_TRANSCRIPT:
-                return [], [], ["transcript_too_large"], True
-            item = json.loads(raw)
-            if item.get("type") == "compacted":
-                limitations.append("compaction_present")
-            event = normalize_item(item)
-            if event is None:
-                continue
-            if event["type"] == "user":
-                request_size += len(event["text"])
-                if request_size > MAX_REQUESTS:
-                    return [], [], ["request_history_too_large"], True
-                requests.append(event["text"])
-                continue
-            encoded = json.dumps(event, ensure_ascii=False)
-            if len(encoded) > 6000:
-                event = {
-                    "type": event["type"],
-                    "call_id": event.get("call_id"),
-                    "truncated_record": encoded[:6000],
-                }
-                limitations.append("tool_or_message_truncated")
-            size = len(json.dumps(event, ensure_ascii=False))
-            events.append((event, size))
-            event_size += size
-            while event_size > MAX_EVENTS:
-                _, removed_size = events.popleft()
-                event_size -= removed_size
-                limitations.append("older_actions_omitted")
-    return requests, [x for x, _ in events], sorted(set(limitations)), not requests
+        def items():
+            remaining = MAX_TRANSCRIPT
+            while line := source.readline(remaining + 1):
+                remaining -= len(line)
+                if remaining < 0:
+                    raise OverflowError("transcript too large")
+                yield json.loads(line)
+
+        try:
+            return collect_transcript(items())
+        except OverflowError:
+            return [], [], ["transcript_too_large"], True
 
 
-def build_evidence(kind, event, state):
-    requests, actions, limitations, incomplete = read_transcript(
-        event.get("transcript_path")
+def read_pi_transcript(event):
+    items = event.get("transcript_items")
+    if not isinstance(items, list):
+        return [], [], ["transcript_unavailable"], True
+    requests, actions, limitations, incomplete = collect_transcript(items)
+    user_items = sum(
+        item.get("type") == "response_item"
+        and item.get("payload", {}).get("role") == "user"
+        for item in items
+    )
+    if user_items != len(requests):
+        return requests, actions, limitations + ["user_input_omitted"], True
+    return requests, actions, limitations + ["tool_details_omitted"], incomplete
+
+
+def build_evidence(kind, event, state, read_items=None):
+    requests, actions, limitations, incomplete = (
+        read_items(event) if read_items else read_transcript(event.get("transcript_path"))
     )
     # Match occurrences in order. Identical instructions may recur after a reversal.
     cursor = 0
@@ -403,7 +429,7 @@ def audit(state, kind, outcome, elapsed):
     )[-100:]
 
 
-def process_event(kind, event, root, mode, codex, judge=run_judge):
+def process_event(kind, event, root, mode, codex, judge=run_judge, read_items=None):
     expected = {"record": "UserPromptSubmit", "question": "PreToolUse", "stop": "Stop"}
     if event.get("hook_event_name") != expected[kind]:
         return {}
@@ -427,7 +453,7 @@ def process_event(kind, event, root, mode, codex, judge=run_judge):
             return {}
         reply = {}
         try:
-            evidence = build_evidence(kind, event, state)
+            evidence = build_evidence(kind, event, state, read_items)
             if evidence["requests_incomplete"]:
                 outcome = "incomplete_history"
             else:
@@ -459,15 +485,17 @@ def main():
         "--mode", choices=["enforce", "observe", "off"], default="enforce"
     )
     parser.add_argument("--codex", default="codex")
+    parser.add_argument("--pi-observe", action="store_true")
     parser.add_argument(
         "--state-dir",
         type=Path,
-        default=Path(
-            os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state"))
-        )
-        / "codex-task-check",
     )
     args = parser.parse_args()
+    default_root = Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state")))
+    state_dir = args.state_dir or default_root / (
+        "pi-task-check" if args.pi_observe else "codex-task-check"
+    )
+    mode = "observe" if args.pi_observe and args.mode != "off" else args.mode
     reply = {}
     try:
         if args.mode != "off" and not os.environ.get("CODEX_TASK_CHECK_JUDGE"):
@@ -476,7 +504,8 @@ def main():
                 raise ValueError("hook input too large")
             event = json.loads(raw)
             reply = process_event(
-                args.kind, event, args.state_dir, args.mode, args.codex
+                args.kind, event, state_dir, mode, args.codex,
+                read_items=read_pi_transcript if args.pi_observe else None,
             )
     except Exception:
         # Never expose transcript/model errors to stdout or turn a check failure into a block.
