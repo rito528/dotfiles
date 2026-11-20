@@ -52,6 +52,14 @@ in
 
   home.file.".pi/agent/extensions/agent-task.ts".source = ../config/pi/agent-task.ts;
   home.file.".pi/agent/extensions/subagent".source = ../config/pi/subagent;
+  home.file.".pi/agent/extensions/subscription-usage.ts".text = ''
+    import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+    import { installSubscriptionUsage } from "${../config/pi/subscription-usage.ts}";
+
+    export default function (pi: ExtensionAPI) {
+      installSubscriptionUsage(pi, "${lib.getExe pkgs.codex}");
+    }
+  '';
   home.file.".pi/agent/extensions/task-check.ts".text = ''
     import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
     import { installObserver } from "${../config/pi/task-check}/observe.ts";
