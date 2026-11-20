@@ -142,6 +142,24 @@ class AgentTaskTest(unittest.TestCase):
         self.assertIn("finish the Git operation", self.command("close", "alpha").stderr)
         self.assertTrue((git_dir / "CHERRY_PICK_HEAD").is_file())
 
+    def test_goal_persists_on_reopen_and_can_seed_native_codex_goal(self):
+        self.task("start", "alpha", "--worktree")
+        objective = "Add an endpoint.\nVerify the  old client."
+        self.task("goal", "alpha", "--set", objective)
+        self.assertEqual(self.task("goal", "alpha"), objective)
+        self.assertEqual(
+            self.task("goal", "alpha", "--codex-command"),
+            "/goal Add an endpoint. Verify the  old client.",
+        )
+        self.assertNotEqual(self.command("goal", "alpha", "--set", "").returncode, 0)
+        self.task("close", "alpha")
+        self.task("start", "alpha")
+        probe = "import os; print(os.environ['AGENT_TASK_GOAL'])"
+        self.assertEqual(self.task("run", "alpha", "--", sys.executable, "-c", probe), objective)
+        self.task("goal", "alpha", "--clear")
+        self.assertNotEqual(self.command("goal", "alpha").returncode, 0)
+        self.assertEqual(self.task("run", "alpha", "--", sys.executable, "-c", probe), "")
+
     def test_concurrent_start_creates_one_checkout(self):
         command = [sys.executable, "-B", CLI, "start", "parallel", "--worktree"]
         with subprocess.Popen(command, cwd=self.repo, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as first:

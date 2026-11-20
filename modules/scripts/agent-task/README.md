@@ -24,3 +24,15 @@ VS Code に正しいチェックアウトを開いたあと、定義ジャンプ
 新規作成時に Git の `post-checkout` フックが失敗した場合、チェックアウトが作られていればタスクを登録し、フックのエラーを表示します。フックの失敗原因を直してから、同じタスク名で作業先を開き直せます。
 
 Pi で同じ作業先と会話を開き直す手順は、[Pi と共有スキル](../../../config/pi/README.md)を参照してください。
+
+## 完了条件を残す
+
+複数回の確認や再開が必要な仕事では、タスクの成果物と、その完成をどう確かめるかを登録できます。
+
+```sh
+agent-task goal api-change --set '新しいAPIを追加し、既存クライアントが動くことをテストで確認する'
+agent-task goal api-change
+agent-task goal api-change --codex-command
+```
+
+`--codex-command` が表示する `/goal ...` を Codex に入力すると、Codex の Goal モードを開始できます。`agent-task run` で起動する Pi では完了条件が自動で伝わります。登録は作業先を閉じても残り、`agent-task goal api-change --clear` で削除できます。

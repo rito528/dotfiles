@@ -61,6 +61,9 @@ class Repository:
                         ref TEXT NOT NULL, isolated INTEGER NOT NULL, closed INTEGER NOT NULL
                     )"""
                 )
+                db.execute(
+                    "CREATE TABLE IF NOT EXISTS task_goals (name TEXT PRIMARY KEY, objective TEXT NOT NULL)"
+                )
                 yield db
         finally:
             db.close()
@@ -228,6 +231,33 @@ def list_tasks(repo, db):
         print(f"{task['name']}\t{state}\t{ref}\t{task['checkout']}\t{repo.artifacts(task['name'])}")
 
 
+def get_goal(db, name):
+    goal = db.execute("SELECT objective FROM task_goals WHERE name = ?", (name,)).fetchone()
+    return goal["objective"] if goal is not None else ""
+
+
+def manage_goal(db, args):
+    if args.set is not None:
+        objective = args.set.strip()
+        if not objective or len(objective) > 4_000 or "\0" in objective:
+            raise TaskError("the goal must contain between 1 and 4000 characters")
+        db.execute(
+            """INSERT INTO task_goals (name, objective) VALUES (?, ?)
+            ON CONFLICT(name) DO UPDATE SET objective = excluded.objective""",
+            (args.name, objective),
+        )
+    elif args.clear:
+        db.execute("DELETE FROM task_goals WHERE name = ?", (args.name,))
+    else:
+        objective = get_goal(db, args.name)
+        if not objective:
+            raise TaskError(f"task has no goal: {args.name}")
+        if args.codex_command:
+            print("/goal " + " ".join(objective.splitlines()))
+        else:
+            print(objective)
+
+
 def task_name(value):
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,62}", value):
         raise argparse.ArgumentTypeError("use 1–63 lowercase letters, digits or hyphens")
@@ -240,13 +270,18 @@ def parse_args():
     )
     commands = parser.add_subparsers(dest="action", required=True)
     commands.add_parser("list", help="list registered tasks and checkouts")
-    for action in ("start", "path", "artifacts", "open", "run", "close"):
+    for action in ("start", "path", "artifacts", "open", "run", "close", "goal"):
         command = commands.add_parser(action)
         command.add_argument("name", type=task_name)
         if action == "start":
             command.add_argument("--worktree", action="store_true", help="use a dedicated Git worktree")
         if action == "run":
             command.add_argument("command", nargs=argparse.REMAINDER)
+        if action == "goal":
+            mode = command.add_mutually_exclusive_group()
+            mode.add_argument("--set", metavar="OBJECTIVE")
+            mode.add_argument("--clear", action="store_true")
+            mode.add_argument("--codex-command", action="store_true")
     return parser.parse_args()
 
 
@@ -272,12 +307,16 @@ def main():
                     return 0
 
                 task = lookup(db, args.name)
+                if args.action == "goal":
+                    manage_goal(db, args)
+                    return 0
                 if args.action == "artifacts":
                     print(repo.artifacts(args.name))
                     return 0
                 path = repo.require_checkout(task)
                 if args.action == "run":
                     lock = stack.enter_context(repo.task_lock(args.name))
+                    goal = get_goal(db, args.name)
 
             if args.action == "path":
                 print(path)
@@ -293,6 +332,7 @@ def main():
                     "AGENT_TASK_NAME": args.name,
                     "AGENT_TASK_ROOT": str(path),
                     "AGENT_TASK_ARTIFACTS": str(repo.artifacts(args.name)),
+                    "AGENT_TASK_GOAL": goal,
                 }
                 return subprocess.call(command, cwd=path, env=env, pass_fds=(lock.fileno(),))
         return 0
