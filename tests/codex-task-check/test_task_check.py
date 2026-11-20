@@ -204,6 +204,44 @@ class TaskCheckTest(unittest.TestCase):
             self.process("question")["hookSpecificOutput"]["permissionDecision"], "deny"
         )
 
+    def test_pi_inline_evidence_is_observed_without_reading_a_codex_transcript(self):
+        event = self.event(
+            "stop",
+            transcript_path=str(self.base / "does-not-exist.jsonl"),
+            transcript_items=[
+                message("user", "Build the report"),
+                message("assistant", "Should I proceed?"),
+            ],
+        )
+        reply = task_check.process_event(
+            "stop", event, self.root, "observe", "unused", self.judge(),
+            read_items=task_check.read_pi_transcript,
+        )
+        self.assertEqual(reply, {})
+        self.assertEqual(self.captured[0]["requests"], ["Build the report"])
+        self.assertIn("tool_details_omitted", self.captured[0]["limitations"])
+        state = json.loads(next(self.root.glob("*.json")).read_text())
+        self.assertEqual(state["requests"], [])
+        self.assertEqual(state["audit"][-1]["outcome"], "observed_revision")
+
+    def test_pi_observe_skips_a_history_with_a_filtered_user_input(self):
+        event = self.event(
+            "stop",
+            transcript_items=[
+                message("user", "Build the report"),
+                message("user", "<INSTRUCTIONS>Stop now."),
+                message("assistant", "Should I proceed?"),
+            ],
+        )
+        self.assertEqual(
+            task_check.process_event(
+                "stop", event, self.root, "observe", "unused", self.judge(),
+                read_items=task_check.read_pi_transcript,
+            ),
+            {},
+        )
+        self.assertEqual(self.captured, [])
+
     def test_invalid_evidence_or_judge_failure_fails_open(self):
         failures = [
             revise(user="not a request"),
