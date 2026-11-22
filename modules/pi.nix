@@ -7,11 +7,16 @@
   ...
 }:
 let
-  codexCompactionVersion = "0.2.6";
-  codexCompaction = pkgs.fetchzip {
-    url = "https://registry.npmjs.org/pi-codex-compaction/-/pi-codex-compaction-${codexCompactionVersion}.tgz";
-    hash = "sha256-XzIR/PTA+Cae+sM/BR/5eLEV4aHUfiJTEmfByP+OqcI=";
+  # renovate: datasource=npm depName=pi-codex-compaction
+  version = "0.2.6";
+  codexCompactionArchive = pkgs.fetchurl {
+    url = "https://registry.npmjs.org/pi-codex-compaction/-/pi-codex-compaction-${version}.tgz";
+    hash = "sha256-6/HmjCHqpt33HIxzjVmDZTStJVezuiqPWqKt1DFrpy4=";
   };
+  codexCompaction = pkgs.runCommand "pi-codex-compaction-${version}" { } ''
+    mkdir -p "$out"
+    tar -xzf ${codexCompactionArchive} --strip-components=1 -C "$out"
+  '';
   grafanaConfig = builtins.toJSON (
     grafanaMcp
     // {
