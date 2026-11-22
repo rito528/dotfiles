@@ -98,6 +98,21 @@ test("extension-authored messages invalidate the current observation", () => {
   assert.equal(calls.length, 0);
 });
 
+test("a new human turn resumes observation without exposing replies after a context edit", () => {
+  const { calls, branch, emit, input, message } = fixture();
+  input("first", "Prepare the report.");
+  branch.push({ id: "edit", type: "context_edit" });
+  message("private", "assistant", [{ type: "text", text: "Reply to edited context." }], { stopReason: "stop" });
+  emit("agent_settled");
+  assert.equal(calls.length, 0);
+
+  input("next", "Now summarize the report.", "rpc");
+  message("answer", "assistant", [{ type: "text", text: "Here is a summary." }], { stopReason: "stop" });
+  emit("agent_settled");
+  assert.equal(calls[0].payload.turn_id, "next");
+  assert.doesNotMatch(JSON.stringify(calls[0].payload), /Reply to edited context/);
+});
+
 test("finish is queued behind a question and neither hook waits for the checker", () => {
   const completions = [];
   const { calls, emit, input, message } = fixture((done) => completions.push(done));

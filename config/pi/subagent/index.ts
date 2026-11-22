@@ -5,20 +5,17 @@ import { Type } from "typebox";
 const readOnlyExtension = fileURLToPath(new URL("./read-only.ts", import.meta.url));
 
 function finalAnswer(output: string): string {
-  let answer = "";
-  for (const line of output.split("\n")) {
-    if (!line.trim()) continue;
-    const event = JSON.parse(line);
-    const message = event.message;
-    if (event.type === "message_end" && message?.role === "assistant") {
-      answer = message.stopReason === "stop"
-        ? message.content
-            .filter((block: { type: string }) => block.type === "text")
-            .map((block: { text: string }) => block.text)
-            .join("\n")
-        : "";
-    }
-  }
+  const lastAssistant = output.split("\n")
+    .filter((line) => line.trim())
+    .map((line) => JSON.parse(line))
+    .findLast((event) => event.type === "message_end" && event.message?.role === "assistant")
+    ?.message;
+  const answer = lastAssistant?.stopReason === "stop"
+    ? lastAssistant.content
+        .filter((block: { type: string }) => block.type === "text")
+        .map((block: { text: string }) => block.text)
+        .join("\n")
+    : "";
   if (!answer.trim()) throw new Error("Subagent did not return a final answer.");
   return answer;
 }
