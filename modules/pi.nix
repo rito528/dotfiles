@@ -7,6 +7,16 @@
   ...
 }:
 let
+  # renovate: datasource=npm depName=pi-codex-compaction
+  version = "0.2.6";
+  codexCompactionArchive = pkgs.fetchurl {
+    url = "https://registry.npmjs.org/pi-codex-compaction/-/pi-codex-compaction-${version}.tgz";
+    hash = "sha256-6/HmjCHqpt33HIxzjVmDZTStJVezuiqPWqKt1DFrpy4=";
+  };
+  codexCompaction = pkgs.runCommand "pi-codex-compaction-${version}" { } ''
+    mkdir -p "$out"
+    tar -xzf ${codexCompactionArchive} --strip-components=1 -C "$out"
+  '';
   grafanaConfig = builtins.toJSON (
     grafanaMcp
     // {
@@ -50,6 +60,10 @@ in
     run ${setDefaultModel} "${homeDirectory}/.pi/agent/settings.json"
   '';
 
+  # パッケージの公開 API を使い、既定の入口が行うインストール通知は呼び出さない。
+  home.file.".pi/agent/extensions/pi-codex-compaction.ts".text = ''
+    export { registerAutomaticCompaction as default } from "${codexCompaction}/src/index.ts";
+  '';
   home.file.".pi/agent/extensions/agent-task.ts".source = ../config/pi/agent-task.ts;
   home.file.".pi/agent/extensions/subagent".source = ../config/pi/subagent;
   home.file.".pi/agent/extensions/subscription-usage.ts".text = ''

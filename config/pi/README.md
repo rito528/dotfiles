@@ -2,6 +2,12 @@
 
 Pi は Home Manager の個人プロファイルで使えます。`/login openai` で ChatGPT アカウントにサインインし、`/model` でモデルを選びます。共有スキルは `/skill:<スキル名>` で呼び出せます。
 
+## サーバー側で会話を圧縮する
+
+`pi-codex-compaction` を使うには、`/login openai` でサインインし、`/model` で公式 OpenAI Responses API を使う `openai` の GPT-5 または GPT-6 モデルを選びます。既定の `openai-codex` では動作しません。OpenAI API キーで使う場合は、ChatGPT の利用枠ではなく API の料金が適用されます。
+
+対応モデルでは自動で有効になります。`/server-compaction status` で状態を確認し、必要なら `/server-compaction off` で新しいサーバー側の圧縮を止められます。Pi 標準の `/compact` は引き続き使えます。
+
 ## タスクの作業先と会話を再開する
 
 ```sh
