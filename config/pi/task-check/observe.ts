@@ -1,9 +1,11 @@
 import { spawn } from "node:child_process";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 type Branch = ReturnType<ExtensionContext["sessionManager"]["getBranch"]>;
 type Check = "question" | "stop";
 type Payload = Record<string, unknown>;
+type CandidateInput = { raw: string; previousUser?: string };
 
 const questionTools = new Set(["request_user_input", "request_user_input_async"]);
 
@@ -20,13 +22,46 @@ function lastUser(branch: Branch) {
   return branch.findLast((node) => node.type === "message" && node.message.role === "user");
 }
 
+function candidateInput(event: {
+  source: string;
+  text: string;
+  images?: readonly unknown[];
+  streamingBehavior?: string;
+}, branch: Branch): CandidateInput | undefined {
+  if (
+    (event.source !== "interactive" && event.source !== "rpc") ||
+    event.streamingBehavior || event.images?.length || !event.text.trim() ||
+    /^\s*\//.test(event.text)
+  ) return;
+  return { raw: event.text, previousUser: lastUser(branch)?.id };
+}
+
+function matchingUser(branch: Branch, active: CandidateInput | undefined) {
+  const user = lastUser(branch);
+  if (
+    active && user?.type === "message" && user.message.role === "user" &&
+    user.id !== active.previousUser && text(user.message.content) === active.raw
+  ) return { id: user.id, raw: active.raw };
+}
+
 function response(payload: Payload) {
   return { type: "response_item", payload };
 }
 
-function branchItems(branch: Branch, humanInputs: Map<string, string>) {
+function assistantItems(content: AssistantMessage["content"]) {
+  const output = text(content);
+  return [
+    ...(output ? [response({ type: "message", role: "assistant", content: output })] : []),
+    ...content.flatMap((block) => block.type === "toolCall"
+      ? [response({ type: "function_call", call_id: block.id, name: block.name })]
+      : []),
+  ];
+}
+
+function branchItems(branch: Branch, humanInputs: ReadonlyMap<string, string>) {
   const items: Payload[] = [];
   let includeResponses = false;
+  // Provenance depends on entry order; reject the whole branch at the first unattested user message.
   for (const node of branch) {
     if (node.type === "custom_message" || node.type === "context_edit") {
       includeResponses = false;
@@ -42,13 +77,7 @@ function branchItems(branch: Branch, humanInputs: Map<string, string>) {
       items.push(response({ type: "message", role: "user", content: input }));
       includeResponses = true;
     } else if (includeResponses && message.role === "assistant") {
-      const output = text(message.content);
-      if (output) items.push(response({ type: "message", role: "assistant", content: output }));
-      for (const block of message.content) {
-        if (block.type === "toolCall") {
-          items.push(response({ type: "function_call", call_id: block.id, name: block.name }));
-        }
-      }
+      for (const item of assistantItems(message.content)) items.push(item);
     } else if (includeResponses && message.role === "toolResult") {
       items.push(response({ type: "function_call_output", call_id: message.toolCallId, output: {
         isError: message.isError,
@@ -56,6 +85,13 @@ function branchItems(branch: Branch, humanInputs: Map<string, string>) {
     }
   }
   return includeResponses ? items : undefined;
+}
+
+function finalAnswer(branch: Branch): string | undefined {
+  const last = branch.findLast((node) => node.type === "message");
+  if (last?.type === "message" && last.message.role === "assistant" && last.message.stopReason === "stop") {
+    return text(last.message.content);
+  }
 }
 
 function submit(command: string, kind: Check, payload: Payload, onClose: () => void) {
@@ -81,8 +117,8 @@ export function installObserver(pi: ExtensionAPI, checker: string, dispatch = su
   if (process.env.PI_TASK_CHECK === "off") return;
 
   const humanInputs = new Map<string, string>();
-  let pending: { raw: string; previousUser?: string } | undefined;
-  let active: typeof pending;
+  let pending: CandidateInput | undefined;
+  let active: CandidateInput | undefined;
   const observed = new Set<Check>();
   const queue: Array<{ kind: Check; payload: Payload }> = [];
   let inFlight = false;
@@ -104,12 +140,8 @@ export function installObserver(pi: ExtensionAPI, checker: string, dispatch = su
   }
 
   function attestInput(branch: Branch) {
-    const user = lastUser(branch);
-    if (
-      !active || !user || user.type !== "message" || user.message.role !== "user" ||
-      user.id === active.previousUser || text(user.message.content) !== active.raw
-    ) return;
-    humanInputs.set(user.id, active.raw);
+    const user = matchingUser(branch, active);
+    if (user) humanInputs.set(user.id, user.raw);
     return user;
   }
 
@@ -128,15 +160,8 @@ export function installObserver(pi: ExtensionAPI, checker: string, dispatch = su
   pi.on("input", (event, ctx) => {
     const branch = ctx.sessionManager.getBranch();
     attestInput(branch);
-    pending = undefined;
     active = undefined;
-    if (
-      (event.source !== "interactive" && event.source !== "rpc") ||
-      event.streamingBehavior || event.images?.length || !event.text.trim() ||
-      /^\s*\//.test(event.text)
-    ) return;
-
-    pending = { raw: event.text, previousUser: lastUser(branch)?.id };
+    pending = candidateInput(event, branch);
   });
 
   pi.on("before_agent_start", (event) => {
@@ -184,15 +209,8 @@ export function installObserver(pi: ExtensionAPI, checker: string, dispatch = su
   pi.on("agent_settled", (event, ctx) => {
     const branch = ctx.sessionManager.getBranch();
     attestInput(branch);
-    if (!event.aborted) {
-      const lastMessage = branch.findLast((node) => node.type === "message");
-      if (lastMessage?.type === "message" && lastMessage.message.role === "assistant") {
-        const answer = text(lastMessage.message.content);
-        if (answer && lastMessage.message.stopReason === "stop") {
-          observe("stop", { hook_event_name: "Stop", last_assistant_message: answer }, ctx, branch);
-        }
-      }
-    }
+    const answer = event.aborted ? undefined : finalAnswer(branch);
+    if (answer) observe("stop", { hook_event_name: "Stop", last_assistant_message: answer }, ctx, branch);
     active = undefined;
   });
 }

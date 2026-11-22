@@ -21,15 +21,24 @@ function currentTask(cwd: string) {
   }
 }
 
+function taskGuidelines(task: ReturnType<typeof currentTask>): string[] {
+  return [
+    ...(task?.goal ? [
+      `User-provided completion criteria for this task: ${JSON.stringify(task.goal)}. Check completed work against these criteria when reporting progress.`,
+    ] : []),
+    "Use rg (ripgrep) to search text from the shell. Pi's grep tool also uses ripgrep.",
+    ...(task ? [
+      `Current task: ${JSON.stringify(task.name)}. Keep previews, reports, and validation logs in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
+    ] : []),
+  ];
+}
+
 export default function (pi: ExtensionAPI) {
   pi.on("before_agent_start", (event, ctx) => {
-    const goal = currentTask(ctx.cwd)?.goal;
-    if (goal) {
-      event.systemPromptOptions.promptGuidelines = [
-        ...(event.systemPromptOptions.promptGuidelines ?? []),
-        `User-provided completion criteria for this task: ${JSON.stringify(goal)}. Check completed work against these criteria when reporting progress.`,
-      ];
-    }
+    event.systemPromptOptions.promptGuidelines = [
+      ...(event.systemPromptOptions.promptGuidelines ?? []),
+      ...taskGuidelines(currentTask(ctx.cwd)),
+    ];
   });
 
   pi.on("session_start", (_event, ctx) => {
@@ -37,20 +46,6 @@ export default function (pi: ExtensionAPI) {
     if (ctx.hasUI) {
       const label = task ? `Task: ${task.name}${task.goal ? " (goal set)" : ""}` : undefined;
       ctx.ui.setStatus("agent-task", label);
-    }
-  });
-
-  pi.on("before_agent_start", (event, ctx) => {
-    const task = currentTask(ctx.cwd);
-    const guidelines = event.systemPromptOptions.promptGuidelines ?? [];
-    event.systemPromptOptions.promptGuidelines = [
-      ...guidelines,
-      "Use rg (ripgrep) to search text from the shell. Pi's grep tool also uses ripgrep.",
-    ];
-    if (task) {
-      event.systemPromptOptions.promptGuidelines.push(
-        `Current task: ${JSON.stringify(task.name)}. Keep previews, reports, and validation logs in ${JSON.stringify(task.artifacts)}. Use file names that describe the contents.`,
-      );
     }
   });
 }

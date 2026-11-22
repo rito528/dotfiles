@@ -10,13 +10,18 @@ type UsageWindow = {
 };
 type UsageLimits = { primary?: UsageWindow | null; secondary?: UsageWindow | null };
 
+function windowLabel(minutes: number | null, fallback: string): string {
+  if (!minutes) return fallback;
+  if (minutes % 1440 === 0) return `${minutes / 1440}d`;
+  if (minutes % 60 === 0) return `${minutes / 60}h`;
+  return `${minutes}m`;
+}
+
 export function formatUsage(limits: UsageLimits, formatReset: (date: Date) => string): string {
-  const windows = [limits.primary, limits.secondary].flatMap((window, index) => {
+  const windows = (["primary", "secondary"] as const).flatMap((fallback) => {
+    const window = limits[fallback];
     if (!window || !Number.isFinite(window.usedPercent)) return [];
-    const minutes = window.windowDurationMins;
-    const label = !minutes ? (index === 0 ? "primary" : "secondary")
-      : minutes % 1440 === 0 ? `${minutes / 1440}d`
-      : minutes % 60 === 0 ? `${minutes / 60}h` : `${minutes}m`;
+    const label = windowLabel(window.windowDurationMins, fallback);
     const remaining = Math.max(0, Math.min(100, 100 - window.usedPercent));
     const reset = typeof window.resetsAt === "number" ? new Date(window.resetsAt * 1000) : null;
     return [`${label} ${remaining}% left${reset && Number.isFinite(reset.getTime()) ? ` (resets ${formatReset(reset)})` : ""}`];
