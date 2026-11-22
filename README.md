@@ -11,5 +11,3 @@ git clone https://github.com/rito528/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
 ```
-
-AI エージェントの作業先をタスク名で管理するには、[agent-task の使い方](modules/scripts/agent-task/README.md)を参照してください。

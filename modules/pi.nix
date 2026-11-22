@@ -64,7 +64,6 @@ in
   home.file.".pi/agent/extensions/pi-codex-compaction.ts".text = ''
     export { registerAutomaticCompaction as default } from "${codexCompaction}/src/index.ts";
   '';
-  home.file.".pi/agent/extensions/agent-task.ts".source = ../config/pi/agent-task.ts;
   home.file.".pi/agent/extensions/subagent".source = ../config/pi/subagent;
   home.file.".pi/agent/extensions/subscription-usage.ts".text = ''
     import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
