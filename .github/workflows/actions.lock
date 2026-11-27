@@ -9,7 +9,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
     '.github/workflows/codex-task-check.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'cachix/install-nix-action@v31.11.5'
+        - 'cachix/install-nix-action@v32.0.0'
     '.github/workflows/deploy-docs.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/deploy-pages@v5.0.1'
@@ -18,21 +18,21 @@ workflows:
     '.github/workflows/devshell.yaml':
         - 'actions/checkout@v7.0.1'
         - 'cachix/cachix-action@v17'
-        - 'cachix/install-nix-action@v31.11.5'
+        - 'cachix/install-nix-action@v32.0.0'
     '.github/workflows/docs.yaml':
         - 'actions/checkout@v7.0.1'
         - 'determinatesystems/nix-installer-action@v23'
     '.github/workflows/e2e-setup-test.yaml':
         - 'actions/checkout@v7.0.1'
         - 'cachix/cachix-action@v17'
-        - 'cachix/install-nix-action@v31.11.5'
+        - 'cachix/install-nix-action@v32.0.0'
     '.github/workflows/editorconfig.yaml':
         - 'actions/checkout@v7.0.1'
         - 'editorconfig-checker/action-editorconfig-checker@main'
     '.github/workflows/integration-test.yaml':
         - 'actions/checkout@v7.0.1'
         - 'cachix/cachix-action@v17'
-        - 'cachix/install-nix-action@v31.11.5'
+        - 'cachix/install-nix-action@v32.0.0'
     '.github/workflows/lint.yaml':
         - 'actions/checkout@v7.0.1'
         - 'gitleaks/gitleaks-action@v3.0.0'
@@ -86,9 +86,9 @@ dependencies:
         commit: 'sha1-38b082610b782e7e93e209c35fd730d399dee866'
         owner_id: 36824654
         repo_id: 211717886
-    'cachix/install-nix-action@v31.11.5':
-        ref: 'v31.11.5'
-        commit: 'sha1-3dc140bfc76c49fbd4dd958429132e3746bcb086'
+    'cachix/install-nix-action@v32.0.0':
+        ref: 'v32.0.0'
+        commit: 'sha1-bb0495a1086c46893eee56f32fd192dfe4a15bb9'
         owner_id: 36824654
         repo_id: 212301524
     'determinatesystems/nix-installer-action@v23':
